@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f8fc">
+  <meta name="description" content="Maahad An-Najah Batam, pendidikan Islam khusus putri berlandaskan Al-Quran dan Sunnah dalam lingkungan aman, terarah, dan beradab.">
+  <meta name="keywords" content="maahad putri Batam, pesantren putri sunnah, tahfidz putri, sekolah Islam putri, An-Najah Batam">
+  <meta property="og:title" content="Maahad An-Najah Putri Batam">
+  <meta property="og:description" content="Teguh di atas Sunnah. Mulia dalam adab. Pendidikan Islam khusus santriwati.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/maahad-putri-hero-niqab.webp">
+  <link rel="icon" href="assets/logo-annajah.webp" type="image/webp">
+  <title>Maahad An-Najah Putri Batam | Pendidikan Berlandaskan Sunnah</title>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      root.classList.add('has-js');
+      try {
+        root.dataset.theme = localStorage.getItem('annajah-theme-v3') === 'dark' ? 'dark' : 'light';
+      } catch { root.dataset.theme = 'light'; }
+      // Play once on each document load, never on in-page navigation.
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        root.classList.add('splash-active');
+      }
+      // Fail open even if the main script or an image fails to load.
+      window.setTimeout(() => {
+        root.classList.remove('splash-active', 'splash-leaving');
+        if (!root.classList.contains('page-ready')) root.classList.remove('has-js');
+        document.getElementById('siteContent')?.removeAttribute('inert');
+      }, 4200);
+    })();
+  </script>
+  <link rel="preload" as="image" href="assets/logo-annajah.webp" type="image/webp">
+  <link rel="preload" as="image" href="assets/maahad-putri-hero-niqab.webp" type="image/webp">
+  <link rel="stylesheet" href="assets/an-najah-v2.css">
+</head>
+<body>
+  <div class="splash" id="splashScreen" role="status" aria-label="Memuat profil Maahad An-Najah">
+    <div class="splash-identity">
+      <div class="splash-logo"><img src="assets/logo-annajah.webp" alt="Logo Maahad An-Najah" width="112" height="112" fetchpriority="high"></div>
+      <strong>Maahad An-Najah</strong>
+      <p>Ilmu. Adab. Sunnah.</p>
+      <span class="splash-line" aria-hidden="true"></span>
+    </div>
+  </div>
+  <div id="siteContent">
+  <a class="skip-link" href="#konten-utama">Lewati ke konten utama</a>
+
+  <header class="site-header" id="siteHeader">
+    <nav class="nav shell" aria-label="Navigasi utama">
+      <a class="brand" href="#beranda" aria-label="Maahad An-Najah, kembali ke beranda">
+        <span class="brand-mark"><img src="assets/logo-annajah.webp" width="48" height="48" alt=""></span>
+        <span><strong>Maahad An-Najah</strong><small>PENDIDIKAN KHUSUS PUTRI</small></span>
+      </a>
+
+      <div class="desktop-nav">
+        <a href="#tentang">Tentang</a>
+        <a href="#program">Pendidikan</a>
+        <a href="#fasilitas">Fasilitas</a>
+        <a href="#galeri">Galeri</a>
+        <a href="#kegiatan">Kegiatan</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="nav-actions">
+      <button class="theme-button" id="themeToggle" type="button" aria-label="Aktifkan mode gelap" aria-pressed="false" title="Aktifkan mode gelap" onclick="void 0">
+        <!-- Tabler Icons, MIT license. Original paths, outline family. -->
+        <svg class="theme-moon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008"/></svg>
+        <svg class="theme-sun" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/><path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"/></svg>
+      </button>
+      <a class="nav-cta" href="#kontak">Hubungi Kami <span aria-hidden="true">↗</span></a>
+      <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Buka menu" onclick="void 0">
+        <span></span><span></span>
+      </button>
+      </div>
+      <div class="mobile-menu" id="mobileMenu" hidden>
+        <a href="#tentang">Tentang</a><a href="#program">Pendidikan</a><a href="#fasilitas">Fasilitas</a><a href="#galeri">Galeri</a><a href="#kegiatan">Kegiatan Terbaru</a><a href="#faq">FAQ</a><a href="#media-sosial">Media Sosial</a>
+        <a class="mobile-cta" href="#kontak">Hubungi Kami</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="konten-utama">
+    <section class="hero" id="beranda">
+      <span class="header-sentinel" id="headerSentinel" aria-hidden="true"></span>
+      <div class="hero-media" aria-hidden="true">
+        <img src="assets/maahad-putri-hero-niqab.webp" alt="" width="1672" height="941" fetchpriority="high">
+      </div>
+      <div class="hero-scrim" aria-hidden="true"></div>
+      <div class="hero-orbit orbit-one" aria-hidden="true"></div>
+      <div class="hero-content shell">
+        <div class="hero-copy">
+          <p class="eyebrow">Maahad Sunnah Khusus Putri</p>
+          <h1>Teguh di atas Sunnah.<br><span>Mulia dalam adab.</span></h1>
+          <p class="hero-lede">Pendidikan khusus santriwati, berlandaskan Al-Quran dan Sunnah, dengan ilmu agama, pelajaran umum, dan adab yang dibiasakan.</p>
+          <div class="hero-actions">
+            <a class="button button-gold" href="#tentang">Mengenal Maahad <span aria-hidden="true">↗</span></a>
+            <button class="button button-glass" type="button" data-video-open onclick="void 0"><span class="play-mark" aria-hidden="true">▶</span> Video Profil</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="identity-strip" aria-label="Keunggulan utama">
+      <div class="shell identity-grid">
+        <div><strong>Khusus Putri</strong><span>Lingkungan belajar yang terjaga</span></div>
+        <div><strong>Diniyah dan Umum</strong><span>Ilmu agama dan wawasan akademik</span></div>
+        <div><strong>Al-Quran dan Sunnah</strong><span>Fondasi setiap proses pendidikan</span></div>
+        <div><strong>Ilmu dan Kemandirian</strong><span>Siap melangkah dengan arah</span></div>
+      </div>
+    </section>
+
+    <section class="intro section" id="tentang">
+      <div class="shell intro-grid">
+        <div class="intro-visual reveal">
+          <div class="intro-frame parallax-view"><img src="assets/maahad-putri-campus-niqab.webp" alt="Ilustrasi santriwati bercadar berjalan bersama di lingkungan maahad" width="1635" height="962" loading="lazy"></div>
+        </div>
+        <div class="intro-copy reveal">
+          <h2>Ilmu sebagai bekal. Sunnah sebagai tuntunan.</h2>
+          <p>Di Maahad An-Najah, pendidikan putri berakar pada Al-Quran dan Sunnah. Santriwati dibimbing untuk menjaga akidah, menutup aurat, memuliakan adab, dan mencintai ilmu.</p>
+          <div class="principles">
+            <article><div><h3>Berpegang pada Al-Quran dan Sunnah</h3><p>Akidah, ibadah, dan ilmu menjadi fondasi setiap langkah pendidikan.</p></div></article>
+            <article><div><h3>Menjaga aurat, memuliakan adab</h3><p>Kesantunan dibiasakan melalui keteladanan dalam ibadah dan keseharian.</p></div></article>
+            <article><div><h3>Ruang tumbuh khusus muslimah</h3><p>Santriwati belajar dan bertumbuh bersama dalam pendampingan ustadzah.</p></div></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="program-section section" id="program">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <h2>Ilmu agama yang mengakar. Wawasan yang luas.</h2>
+          <p>Santriwati tidak hanya belajar diniyah. Pelajaran umum dan keterampilan hidup turut membekali mereka untuk memahami dunia dan memberi manfaat.</p>
+        </div>
+        <div class="program-stage reveal">
+          <div class="program-tabs" role="tablist" aria-label="Program pendidikan">
+            <button class="program-tab" role="tab" type="button" id="program-tab-1" aria-selected="true" aria-controls="program-panel-1" onclick="void 0">Diniyah dan Al-Quran <span aria-hidden="true">↗</span></button>
+            <button class="program-tab" role="tab" type="button" id="program-tab-2" aria-selected="false" aria-controls="program-panel-2" tabindex="-1" onclick="void 0">Pelajaran Umum <span aria-hidden="true">↗</span></button>
+            <button class="program-tab" role="tab" type="button" id="program-tab-3" aria-selected="false" aria-controls="program-panel-3" tabindex="-1" onclick="void 0">Pengembangan Diri <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="program-panels">
+            <article class="program-panel" id="program-panel-1" role="tabpanel" aria-labelledby="program-tab-1">
+              <div><p>Diniyah dan Al-Quran</p><h3>Mengenal agama. Mengamalkan ilmunya.</h3></div>
+              <ul><li>Tahsin, tahfidz, dan murajaah</li><li>Akidah dan ibadah sesuai Sunnah</li><li>Bahasa Arab dan pemahaman dasar</li><li>Adab penuntut ilmu</li></ul>
+            </article>
+            <article class="program-panel" id="program-panel-2" role="tabpanel" aria-labelledby="program-tab-2" hidden>
+              <div><p>Pelajaran Umum</p><h3>Berpikir jernih. Memahami dunia.</h3></div>
+              <ul><li>Matematika dan ilmu pengetahuan alam</li><li>Bahasa Indonesia dan bahasa Inggris</li><li>Ilmu sosial dan wawasan kebangsaan</li><li>Literasi digital serta teknologi</li></ul>
+            </article>
+            <article class="program-panel" id="program-panel-3" role="tabpanel" aria-labelledby="program-tab-3" hidden>
+              <div><p>Pengembangan Diri</p><h3>Mandiri dalam keseharian. Santun dalam pergaulan.</h3></div>
+              <ul><li>Keterampilan hidup dan tanggung jawab</li><li>Komunikasi serta kerja sama</li><li>Olahraga dan kebugaran</li><li>Pembiasaan disiplin dan kepedulian</li></ul>
+            </article>
+          </div>
+        </div>
+        <p class="section-note">Rincian pelajaran dan kegiatan disesuaikan dengan jenjang serta kurikulum maahad.</p>
+      </div>
+    </section>
+
+    <section class="facilities-section section" id="fasilitas">
+      <div class="shell">
+        <div class="section-heading reveal"><h2>Ruang yang mendukung setiap langkah.</h2><p>Dari ruang belajar hingga tempat beristirahat, lingkungan maahad mendukung ilmu, ibadah, dan kemandirian santriwati.</p></div>
+        <div class="facilities-grid">
+          <figure class="facility-photo reveal"><div class="facility-photo-frame parallax-view"><img src="assets/maahad-putri-campus-niqab.webp" alt="Ilustrasi lingkungan maahad khusus santriwati bercadar" width="1635" height="962" loading="lazy"></div><figcaption>Lingkungan khusus putri, untuk belajar dan bertumbuh bersama.</figcaption></figure>
+          <div class="facility-list">
+            <article class="reveal"><h3>Asrama putri</h3><p>Ruang tinggal untuk membangun kemandirian, keteraturan, dan kebersamaan.</p></article>
+            <article class="reveal"><h3>Ruang kelas dan laboratorium</h3><p>Mendukung pelajaran umum, literasi digital, dan eksplorasi ilmu pengetahuan.</p></article>
+            <article class="reveal"><h3>Perpustakaan</h3><p>Bacaan keislaman dan pengetahuan umum untuk menumbuhkan kecintaan pada ilmu.</p></article>
+            <article class="reveal"><h3>Ruang ibadah dan olahraga</h3><p>Tempat untuk menjaga ibadah, kebugaran, serta kebiasaan hidup yang baik.</p></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="video-section section-tight" aria-labelledby="video-title">
+      <div class="video-backdrop parallax-view" aria-hidden="true"><img src="assets/maahad-putri-halaqah-niqab.webp" alt="" width="1538" height="1022" loading="lazy"></div>
+      <div class="video-overlay" aria-hidden="true"></div>
+      <div class="video-content shell reveal">
+        <p class="eyebrow">Video Profil</p>
+        <h2 id="video-title">Lebih dekat dengan kehidupan di atas Sunnah.</h2>
+        <button class="video-play" type="button" data-video-open aria-label="Buka video profil Maahad An-Najah" onclick="void 0"><span aria-hidden="true">▶</span><strong>Lihat profil</strong></button>
+      </div>
+    </section>
+
+    <section class="gallery-section section" id="galeri">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <h2>Galeri kehidupan di maahad.</h2>
+          <p>Belajar, menghafal, bereksperimen, dan bertumbuh bersama dalam lingkungan khusus santriwati.</p>
+        </div>
+        <div class="gallery-grid">
+          <button class="gallery-item gallery-wide reveal" type="button" data-gallery-src="assets/maahad-putri-halaqah-niqab.webp" data-gallery-alt="Ilustrasi halaqah Al-Quran bersama santriwati dan ustadzah bercadar" onclick="void 0"><img class="parallax-view" src="assets/maahad-putri-halaqah-niqab.webp" alt="Ilustrasi halaqah Al-Quran bersama santriwati dan ustadzah bercadar" width="1538" height="1022" loading="lazy"><span>Halaqah Al-Quran</span></button>
+          <button class="gallery-item gallery-tall reveal" type="button" data-gallery-src="assets/maahad-putri-lab-niqab.webp" data-gallery-alt="Ilustrasi santriwati bercadar belajar sains menggunakan mikroskop" onclick="void 0"><img class="parallax-view" src="assets/maahad-putri-lab-niqab.webp" alt="Ilustrasi santriwati bercadar belajar sains menggunakan mikroskop" width="1024" height="1536" loading="lazy"><span>Sains dan Eksplorasi</span></button>
+          <button class="gallery-item gallery-small reveal" type="button" data-gallery-src="assets/maahad-putri-campus-niqab.webp" data-gallery-alt="Ilustrasi kebersamaan santriwati bercadar di lingkungan maahad" onclick="void 0"><img class="parallax-view" src="assets/maahad-putri-campus-niqab.webp" alt="Ilustrasi kebersamaan santriwati bercadar di lingkungan maahad" width="1635" height="962" loading="lazy"><span>Ukhuwah dan Kemandirian</span></button>
+          <button class="gallery-item gallery-small reveal" type="button" data-gallery-src="assets/maahad-putri-hero-niqab.webp" data-gallery-alt="Ilustrasi santriwati bercadar belajar Al-Quran di halaman maahad" onclick="void 0"><img class="parallax-view" src="assets/maahad-putri-hero-niqab.webp" alt="Ilustrasi santriwati bercadar belajar Al-Quran di halaman maahad" width="1672" height="941" loading="lazy"><span>Belajar di Setiap Ruang</span></button>
+        </div>
+        <p class="gallery-note">Visual ilustrasi AI untuk konsep desain. Dokumentasi resmi maahad akan menggantikannya sebelum publikasi.</p>
+      </div>
+    </section>
+
+    <section class="news-section section" id="kegiatan">
+      <div class="shell">
+        <div class="section-heading reveal"><p class="eyebrow">Kegiatan Terbaru</p><h2>Cerita kecil. Bekal yang berarti.</h2><p>Catatan belajar, kebersamaan, dan kegiatan santriwati dari keseharian di maahad.</p></div>
+        <div class="news-grid">
+          <article class="news-feature reveal">
+            <div class="news-image"><img src="assets/maahad-putri-halaqah-niqab.webp" alt="Ilustrasi halaqah Al-Quran santriwati bercadar" width="1538" height="1022" loading="lazy"></div>
+            <div class="news-body"><div class="news-meta"><span>Al-Quran</span><time datetime="2026-09-02">2 September 2026</time></div><h3>Menjaga hafalan, menguatkan kebersamaan.</h3><p>Halaqah dan murajaah menjadi ruang saling menyemangati dalam mempelajari Al-Quran.</p><button class="text-link" type="button" data-story-open="halaqah" onclick="void 0">Baca Cerita <span aria-hidden="true">↗</span></button></div>
+          </article>
+          <div class="news-secondary">
+            <article class="news-compact reveal"><div class="news-image"><img src="assets/maahad-putri-lab-niqab.webp" alt="Ilustrasi praktik sains santriwati bercadar" width="1024" height="1536" loading="lazy"></div><div class="news-body"><div class="news-meta"><span>Pembelajaran</span><time datetime="2026-08-28">28 Agustus 2026</time></div><h3>Sains yang dekat dengan keseharian.</h3><button class="text-link" type="button" data-story-open="sains" onclick="void 0">Baca Cerita <span aria-hidden="true">↗</span></button></div></article>
+            <article class="news-compact reveal"><div class="news-image"><img src="assets/maahad-putri-campus-niqab.webp" alt="Ilustrasi kebersamaan santriwati bercadar" width="1635" height="962" loading="lazy"></div><div class="news-body"><div class="news-meta"><span>Kehidupan Putri</span><time datetime="2026-08-25">25 Agustus 2026</time></div><h3>Belajar adab melalui kebersamaan.</h3><button class="text-link" type="button" data-story-open="adab" onclick="void 0">Baca Cerita <span aria-hidden="true">↗</span></button></div></article>
+          </div>
+        </div>
+        <p class="section-note">Konten contoh: judul, tanggal, dan foto kegiatan di atas adalah dummy untuk pratinjau desain.</p>
+      </div>
+    </section>
+
+    <section class="life-section section" id="kehidupan">
+      <div class="shell life-grid">
+        <div class="life-copy reveal">
+          <h2>Ritme harian yang menumbuhkan karakter.</h2>
+          <p>Setiap waktu memiliki tujuan: mendekat kepada Allah, menuntut ilmu, menjaga tubuh, dan belajar bertanggung jawab.</p>
+        </div>
+        <div class="life-steps">
+          <article class="reveal"><span>Fajar</span><h3>Ibadah dan Al-Quran</h3><p>Hari dimulai dengan ketenangan, dzikir, dan murajaah.</p></article>
+          <article class="reveal"><span>Pagi</span><h3>Ilmu dan Eksplorasi</h3><p>Kelas diniyah serta akademik berlangsung aktif dan terarah.</p></article>
+          <article class="reveal"><span>Sore</span><h3>Keterampilan dan Gerak</h3><p>Olahraga, organisasi, bahasa, dan kecakapan hidup.</p></article>
+          <article class="reveal"><span>Malam</span><h3>Refleksi dan Kemandirian</h3><p>Belajar mandiri, evaluasi, dan istirahat yang teratur.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section section" id="faq">
+      <div class="shell faq-grid">
+        <div class="faq-copy reveal"><h2>Mengenal lebih dekat.</h2><p>Beberapa hal yang sering ingin diketahui tentang pendidikan dan kehidupan di Maahad An-Najah.</p><a class="text-link" href="#kontak">Hubungi Kami <span aria-hidden="true">↗</span></a></div>
+        <div class="faq-list reveal">
+          <details name="maahad-faq" open><summary>Apakah maahad ini khusus perempuan?</summary><div class="faq-answer"><p>Ya. Maahad An-Najah berfokus pada pendidikan santriwati, dengan lingkungan belajar dan pembinaan khusus putri.</p></div></details>
+          <details name="maahad-faq"><summary>Apa landasan pendidikan di maahad?</summary><div class="faq-answer"><p>Pendidikan berlandaskan Al-Quran dan Sunnah. Pembinaan menekankan akidah, ibadah, adab, dan penerapan ilmu dalam kehidupan sehari-hari.</p></div></details>
+          <details name="maahad-faq"><summary>Apakah ada mata pelajaran umum?</summary><div class="faq-answer"><p>Ada. Selain diniyah dan Al-Quran, pembelajaran mencakup pelajaran umum seperti matematika, sains, bahasa, ilmu sosial, serta literasi digital. Rinciannya menyesuaikan jenjang dan kurikulum.</p></div></details>
+          <details name="maahad-faq"><summary>Bagaimana keseharian santriwati?</summary><div class="faq-answer"><p>Keseharian memadukan ibadah, halaqah Al-Quran, kelas diniyah dan umum, keterampilan, olahraga, serta pembiasaan hidup mandiri.</p></div></details>
+          <details name="maahad-faq"><summary>Bagaimana jika ingin berkunjung?</summary><div class="faq-answer"><p>Silakan menghubungi pengelola terlebih dahulu untuk menanyakan agenda kunjungan dan ketentuan yang berlaku. Kunjungan mengikuti pengaturan maahad demi kenyamanan santriwati.</p></div></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="social-section section-tight" id="media-sosial">
+      <div class="shell">
+        <div class="social-heading reveal"><h2>Tetap dekat, di mana pun.</h2><p>Ikuti cerita keseharian, kabar kegiatan, dan video dari maahad melalui media sosial.</p></div>
+        <div class="social-links reveal">
+          <a class="social-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"><span><strong>Instagram</strong><small>@maahad.annajah.putri</small></span><span aria-hidden="true">↗</span></a>
+          <a class="social-link" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer"><span><strong>YouTube</strong><small>Maahad An-Najah Putri</small></span><span aria-hidden="true">↗</span></a>
+          <a class="social-link" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer"><span><strong>Facebook</strong><small>Maahad An-Najah Putri</small></span><span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="section-note">Akun di atas adalah contoh. Tautan sementara membuka beranda platform, bukan akun resmi maahad.</p>
+      </div>
+    </section>
+
+    <section class="contact section" id="kontak">
+      <div class="shell contact-grid">
+        <div class="contact-copy reveal">
+          <p class="eyebrow">Silaturahmi dan Kunjungan</p>
+          <h2>Mari berkenalan lebih dekat.</h2>
+          <p>Terbuka untuk pertanyaan tentang maahad, agenda kunjungan, dan peluang kolaborasi dalam pendidikan.</p>
+          <a class="button button-gold" href="mailto:info@annajahbatam.sch.id">Kirim Email <span aria-hidden="true">↗</span></a>
+        </div>
+        <address class="contact-list reveal">
+          <div><span>Alamat</span><p>Batam, Kepulauan Riau, Indonesia</p></div>
+          <div><span>Email</span><a href="mailto:info@annajahbatam.sch.id">info@annajahbatam.sch.id</a></div>
+          <div><span>Telepon</span><p>Nomor resmi akan dilengkapi.</p></div>
+          <a class="button button-outline" href="https://www.google.com/maps/search/?api=1&amp;query=Maahad+An-Najah+Batam" target="_blank" rel="noopener noreferrer">Cari Lokasi di Peta</a>
+        </address>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <div><a class="brand footer-brand" href="#beranda"><span class="brand-mark"><img src="assets/logo-annajah.webp" width="48" height="48" alt=""></span><span><strong>Maahad An-Najah</strong><small>PENDIDIKAN KHUSUS PUTRI</small></span></a><p>Mendampingi muslimah tumbuh dalam ilmu, adab, dan keteguhan di atas Sunnah.</p></div>
+      <div><strong>Jelajahi</strong><a href="#tentang">Tentang</a><a href="#program">Pendidikan</a><a href="#fasilitas">Fasilitas</a><a href="#galeri">Galeri</a><a href="#kehidupan">Kehidupan Maahad</a></div>
+      <div><strong>Informasi</strong><a href="#kegiatan">Kegiatan Terbaru</a><a href="#faq">FAQ</a><a href="#media-sosial">Media Sosial</a><a href="#kontak">Hubungi Kami</a></div>
+    </div>
+    <div class="shell footer-bottom"><span>© <span id="year"></span> Maahad An-Najah Batam</span><span>Pendidikan berlandaskan Al-Quran dan Sunnah</span></div>
+  </footer>
+  </div>
+
+  <dialog class="story-dialog media-dialog" id="storyDialog" aria-labelledby="storyDialogTitle">
+    <div class="dialog-shell"><div class="dialog-head"><span>Contoh berita kegiatan</span><button type="button" data-story-close aria-label="Tutup cerita" onclick="void 0">Tutup</button></div><img id="storyDialogImage" src="assets/maahad-putri-halaqah-niqab.webp" alt="Ilustrasi kegiatan santriwati bercadar" width="1538" height="1022"><div class="story-copy"><p class="news-meta" id="storyDialogDate"></p><h2 id="storyDialogTitle">Cerita dari maahad</h2><p id="storyDialogBody"></p><p class="section-note">Ini adalah naskah dan dokumentasi dummy untuk pratinjau. Ganti dengan berita resmi sebelum publikasi.</p></div></div>
+  </dialog>
+
+  <dialog class="media-dialog" id="videoDialog" aria-labelledby="videoDialogTitle">
+    <div class="dialog-shell">
+      <div class="dialog-head"><h2 id="videoDialogTitle">Video Profil Maahad An-Najah</h2><button type="button" data-video-close aria-label="Tutup video" onclick="void 0">Tutup</button></div>
+      <!-- Add the official MP4 URL to data-video-src. No stock footage is presented as the school's documentary. -->
+      <video id="profileVideo" controls playsinline preload="none" data-video-src="" poster="assets/maahad-putri-halaqah-niqab.webp" hidden>
+        Browser Anda tidak mendukung pemutar video HTML5.
+      </video>
+      <div class="video-status" id="videoStatus" role="status" aria-live="polite">
+        <img src="assets/maahad-putri-halaqah-niqab.webp" alt="Ilustrasi halaqah santriwati bercadar" width="1538" height="1022">
+        <div class="video-status-copy"><h3 id="videoStatusTitle">Video profil belum tersedia.</h3><p id="videoStatusText">Sambil menunggu film profil resmi maahad, kenali program pendidikan dan keseharian santriwati melalui halaman ini.</p><a class="button button-gold" href="#program" data-video-explore>Kenali Program</a></div>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="gallery-dialog" id="galleryDialog" aria-labelledby="galleryDialogCaption">
+    <div class="gallery-dialog-shell">
+      <button class="gallery-close" type="button" data-gallery-close aria-label="Tutup galeri" onclick="void 0">Tutup</button>
+      <img id="galleryDialogImage" src="assets/maahad-putri-halaqah-niqab.webp" alt="">
+      <div class="gallery-dialog-footer"><p id="galleryDialogCaption">Galeri kehidupan santriwati</p><div class="gallery-controls"><button type="button" data-gallery-prev aria-label="Foto sebelumnya" onclick="void 0">←</button><span id="galleryCount" aria-label="Posisi foto" aria-live="polite">1 / 4</span><button type="button" data-gallery-next aria-label="Foto berikutnya" onclick="void 0">→</button></div></div>
+    </div>
+  </dialog>
+
+  <script src="assets/an-najah-v2.js" defer></script>
+</body>
+</html>
