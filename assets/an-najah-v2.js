@@ -59,15 +59,15 @@ function finishSplash() {
   }
   root.classList.add('splash-leaving');
   // Keep the page inert until the full-screen layer has finished fading out.
-  window.setTimeout(revealPage, 650);
+  window.setTimeout(revealPage, 740);
 }
 
 if (root.classList.contains('splash-active') && !reduceMotion) {
   siteContent.inert = true;
   const heroPhoto = document.querySelector('.hero-media img');
   const photoReady = heroPhoto.decode ? heroPhoto.decode().catch(() => {}) : Promise.resolve();
-  const minimumIntro = new Promise((resolve) => window.setTimeout(resolve, 2200));
-  const maximumIntro = new Promise((resolve) => window.setTimeout(resolve, 2800));
+  const minimumIntro = new Promise((resolve) => window.setTimeout(resolve, 2700));
+  const maximumIntro = new Promise((resolve) => window.setTimeout(resolve, 3100));
   Promise.race([Promise.all([photoReady, minimumIntro]), maximumIntro]).then(finishSplash);
 } else {
   finishSplash();
@@ -286,7 +286,7 @@ galleryDialog.addEventListener('cancel', (event) => {
 
 const storyDialog = document.getElementById('storyDialog');
 const storyCopy = {
-  halaqah: 'Dalam contoh kegiatan ini, santriwati mengikuti halaqah bersama ustadzah untuk memperbaiki bacaan dan mengulang hafalan. Kegiatan menekankan ketelitian, adab menyimak, serta semangat saling mendukung dalam mempelajari Al-Quran.',
+  halaqah: 'Dalam contoh kegiatan ini, santriwati mengikuti halaqah bersama asatidzah untuk memperbaiki bacaan dan mengulang hafalan. Kegiatan menekankan ketelitian, adab menyimak, serta semangat saling mendukung dalam mempelajari Al-Quran.',
   sains: 'Contoh kegiatan pembelajaran umum ini mengajak santriwati melakukan pengamatan sederhana dan berdiskusi tentang hasilnya. Proses belajar melatih rasa ingin tahu, ketelitian, kemampuan mencatat, dan kerja sama dengan tetap menjaga adab di kelas.',
   adab: 'Contoh cerita keseharian ini menampilkan pembiasaan saling menghormati, menjaga kebersihan, dan menyelesaikan tanggung jawab bersama. Nilai adab dipelajari melalui praktik kecil yang dilakukan secara konsisten dalam lingkungan khusus putri.'
 };
