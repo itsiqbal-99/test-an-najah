@@ -5,9 +5,10 @@ import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
 
 const project = new URL('../', import.meta.url);
-const html = readFileSync(new URL('an-najah-3.html', project), 'utf8');
+const html = readFileSync(new URL('an-najah-4.html', project), 'utf8');
 const bootstrap = html.match(/<script>\s*([\s\S]*?)<\/script>/)[1];
 const script = readFileSync(new URL('assets/an-najah-v2.js', project), 'utf8');
+const css = readFileSync(new URL('assets/an-najah-v2.css', project), 'utf8');
 const headerSetup = script.match(/const header = [\s\S]*?(?=\/\/ Pointer depth)/)[0];
 const splashSetup = script.match(/const siteContent = [\s\S]*?(?=\nfunction setMenu)/)[0];
 
@@ -53,9 +54,9 @@ test('blocked browser storage cannot prevent rendering', () => {
   assert.equal(boot({ blockedStorage: true }).root.dataset.theme, 'light');
 });
 
-test('splash watchdog releases the screen within 4200 ms', () => {
+test('splash watchdog releases the screen within 4600 ms', () => {
   const state = boot();
-  assert.equal(state.timers[0].delay, 4200);
+  assert.equal(state.timers[0].delay, 4600);
   state.timers[0].callback();
   assert.equal(state.classes.has('splash-active'), false);
   assert.equal(state.classes.has('has-js'), false);
@@ -74,14 +75,14 @@ test('company-profile sections exist and registration is absent', () => {
 test('internal links resolve and local visual assets exist', () => {
   const ids = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]));
   for (const [, anchor] of html.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.has(anchor), anchor);
-  for (const [, path] of html.matchAll(/(?:src|href)="(assets\/[^"#]+)"/g)) {
+  for (const [, path] of html.matchAll(/(?:src|href)="(assets\/[^"?#]+)(?:\?[^"#]+)?"/g)) {
     assert.ok(existsSync(fileURLToPath(new URL(path, project))), path);
   }
 });
 
-test('dummy content is disclosed and all new windows are protected', () => {
+test('dummy activities are disclosed and all new windows are protected', () => {
   assert.match(html, /dummy untuk pratinjau desain/);
-  assert.match(html, /bukan akun resmi maahad/);
+  assert.doesNotMatch(html, /bukan akun resmi maahad/);
   for (const [link] of html.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)) {
     assert.match(link, /rel="noopener noreferrer"/);
   }
@@ -128,18 +129,20 @@ test('older browsers receive a readable solid navigation fallback', () => {
   assert.equal(bootHeader(false).classes.has('is-scrolled'), true);
 });
 
-function bootSplash({ photo = 'ready', reduced = false } = {}) {
+function bootSplash({ photo = 'ready', reduced = false, legacyMediaQuery = false, missingImage = false } = {}) {
   const state = boot({ reduced });
   const timers = [];
   let now = 0;
-  const motion = { matches: reduced, addEventListener: (_name, callback) => { state.changeMotion = callback; } };
+  const motion = legacyMediaQuery
+    ? { matches: reduced, addListener: (callback) => { state.changeMotion = callback; } }
+    : { matches: reduced, addEventListener: (_name, callback) => { state.changeMotion = callback; } };
   const image = { decode: () => {
     if (photo === 'pending') return new Promise(() => {});
     return photo === 'failed' ? Promise.reject(new Error('Image failed')) : Promise.resolve();
   } };
   vm.runInNewContext(splashSetup, {
     root: state.root,
-    document: { getElementById: () => state.content, querySelector: () => image },
+    document: { getElementById: () => state.content, querySelector: () => missingImage ? null : image },
     window: { setTimeout: (callback, delay) => { timers.push({ callback, at: now + delay }); } },
     motionPreference: motion,
     reduceMotion: reduced,
@@ -164,16 +167,16 @@ function bootSplash({ photo = 'ready', reduced = false } = {}) {
   return state;
 }
 
-test('splash holds for 2200 ms and unlocks only after its 650 ms exit', async () => {
+test('splash holds for 2700 ms and unlocks only after its 740 ms exit', async () => {
   const state = bootSplash();
-  await state.advance(2199);
+  await state.advance(2699);
   assert.equal(state.content.inert, true);
   assert.equal(state.classes.has('splash-leaving'), false);
   await state.advance(1);
   assert.ok(state.classes.has('splash-leaving'));
   assert.equal(state.content.inert, true);
   assert.equal(state.classes.has('page-ready'), false);
-  await state.advance(649);
+  await state.advance(739);
   assert.equal(state.content.inert, true);
   await state.advance(1);
   assert.equal(state.content.inert, false);
@@ -183,18 +186,45 @@ test('splash holds for 2200 ms and unlocks only after its 650 ms exit', async ()
 
 test('failed hero decoding does not block the normal splash exit', async () => {
   const state = bootSplash({ photo: 'failed' });
-  await state.advance(2850);
+  await state.advance(3440);
   assert.equal(state.content.inert, false);
   assert.ok(state.classes.has('page-ready'));
 });
 
 test('a stalled image still releases the page after the bounded intro', async () => {
   const state = bootSplash({ photo: 'pending' });
-  await state.advance(2799);
+  await state.advance(3099);
   assert.equal(state.classes.has('splash-leaving'), false);
-  await state.advance(651);
+  await state.advance(741);
   assert.equal(state.content.inert, false);
   assert.equal(state.classes.has('splash-active'), false);
+});
+
+test('official location, caretaker, and social channels are present', () => {
+  assert.match(html, /Halaman SDN 019, Tembesi, Kec\. Sagulung, Kota Batam, Kepulauan Riau 29424/);
+  assert.match(html, /Ust\. Said Salamah, S\.Pd\. M\.Pd/);
+  assert.match(html, /google\.com\/maps\/embed\?pb=/);
+  assert.match(html, /instagram\.com\/ppannajahbatam\//);
+  assert.match(html, /whatsapp\.com\/channel\/0029VbB4FSZGpLHUtwvs5p0P/);
+  assert.match(html, /facebook\.com\/p\/PP-An-Najah-Batam-100076337484506\//);
+  assert.doesNotMatch(html, /youtube\.com/);
+});
+
+test('mobile splash has viewport fallbacks and visible frame motion', () => {
+  assert.match(css, /min-height:\s*100vh;\s*min-height:\s*100svh/);
+  assert.match(css, /height:\s*min\(80vh, 660px\);\s*height:\s*min\(80dvh, 660px\)/);
+  assert.match(css, /botanical-frame-left/);
+  assert.match(css, /botanical-frame-right/);
+  assert.match(script, /heroPhoto\?\.decode/);
+  assert.match(script, /motionPreference\.addListener/);
+});
+
+test('mobile splash survives a missing hero image and legacy media-query listeners', async () => {
+  const state = bootSplash({ missingImage: true, legacyMediaQuery: true });
+  await state.advance(3440);
+  assert.equal(state.content.inert, false);
+  assert.ok(state.classes.has('page-ready'));
+  assert.equal(typeof state.changeMotion, 'function');
 });
 
 test('reduced motion opens the page immediately', () => {

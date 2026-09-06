@@ -65,7 +65,7 @@ function finishSplash() {
 if (root.classList.contains('splash-active') && !reduceMotion) {
   siteContent.inert = true;
   const heroPhoto = document.querySelector('.hero-media img');
-  const photoReady = heroPhoto.decode ? heroPhoto.decode().catch(() => {}) : Promise.resolve();
+  const photoReady = heroPhoto?.decode ? heroPhoto.decode().catch(() => {}) : Promise.resolve();
   const minimumIntro = new Promise((resolve) => window.setTimeout(resolve, 2700));
   const maximumIntro = new Promise((resolve) => window.setTimeout(resolve, 3100));
   Promise.race([Promise.all([photoReady, minimumIntro]), maximumIntro]).then(finishSplash);
@@ -73,13 +73,15 @@ if (root.classList.contains('splash-active') && !reduceMotion) {
   finishSplash();
 }
 
-motionPreference.addEventListener('change', (event) => {
+const onMotionPreferenceChange = (event) => {
   if (event.matches) {
     finishSplash();
     // Also unlock immediately if reduced motion is enabled during the exit.
     revealPage();
   }
-});
+};
+if (motionPreference.addEventListener) motionPreference.addEventListener('change', onMotionPreferenceChange);
+else if (motionPreference.addListener) motionPreference.addListener(onMotionPreferenceChange);
 
 function setMenu(open) {
   menuButton.setAttribute('aria-expanded', String(open));
@@ -93,9 +95,12 @@ mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click'
 document.addEventListener('click', (event) => {
   if (!mobileMenu.hidden && !event.target.closest('.nav')) setMenu(false);
 });
-window.matchMedia('(min-width: 1081px)').addEventListener('change', (event) => {
+const desktopPreference = window.matchMedia('(min-width: 1081px)');
+const onDesktopPreferenceChange = (event) => {
   if (event.matches) setMenu(false);
-});
+};
+if (desktopPreference.addEventListener) desktopPreference.addEventListener('change', onDesktopPreferenceChange);
+else if (desktopPreference.addListener) desktopPreference.addListener(onDesktopPreferenceChange);
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' && !mobileMenu.hidden) {
     setMenu(false);
@@ -140,8 +145,10 @@ hero.addEventListener('pointermove', (event) => {
   });
 }, { passive: true });
 hero.addEventListener('pointerleave', resetHeroPointer);
-motionPreference.addEventListener('change', resetHeroPointer);
-finePointer.addEventListener('change', resetHeroPointer);
+if (motionPreference.addEventListener) motionPreference.addEventListener('change', resetHeroPointer);
+else if (motionPreference.addListener) motionPreference.addListener(resetHeroPointer);
+if (finePointer.addEventListener) finePointer.addEventListener('change', resetHeroPointer);
+else if (finePointer.addListener) finePointer.addListener(resetHeroPointer);
 
 function bindTabs(tabSelector, panelSelector) {
   const tabs = [...document.querySelectorAll(tabSelector)];
