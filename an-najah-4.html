@@ -81,20 +81,50 @@
       .section-heading .eyebrow { color: var(--gold); font-size: .76rem; font-weight: 850; letter-spacing: .19em; }
       .life-steps article { min-height: 190px; padding: clamp(26px, 3vw, 36px); }
       .life-steps h3 { margin-top: 18px; }
-      .identity-strip { background: #e9f0f7; border-color: rgba(137, 96, 28, .22); color: #071a3d; }
-      .identity-grid > article { min-height: 136px; border-right: 1px solid rgba(7, 26, 61, .12); padding: 28px 24px; }
-      .identity-grid > article:first-child { border-left: 1px solid rgba(7, 26, 61, .12); }
-      .identity-grid > article:hover { background: rgba(255, 255, 255, .48); }
-      .identity-grid .feature-icon { width: 30px; height: 30px; margin-bottom: 14px; color: #99702c; }
-      .identity-grid .feature-icon svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; }
-      .identity-grid strong { color: #071a3d; }
-      .identity-grid span:not(.feature-icon) { color: #50627c; }
-      html[data-theme="dark"] .identity-strip { background: #1c3558; border-color: rgba(240, 207, 131, .24); color: #f5f7fb; }
-      html[data-theme="dark"] .identity-grid > article { border-color: rgba(240, 207, 131, .18); }
-      html[data-theme="dark"] .identity-grid > article:hover { background: rgba(255, 255, 255, .055); }
-      html[data-theme="dark"] .identity-grid .feature-icon { color: #f0cf83; }
-      html[data-theme="dark"] .identity-grid strong { color: #f5f7fb; }
-      html[data-theme="dark"] .identity-grid span:not(.feature-icon) { color: #cdd9e9; }
+      .identity-strip { background: #e9f0f7; border-color: rgba(137, 96, 28, .22); }
+      .identity-layout { display: grid; grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr); gap: clamp(44px, 7vw, 110px); align-items: center; padding-block: clamp(54px, 6vw, 82px); }
+      .identity-intro { padding-left: 25px; border-left: 2px solid #b99048; }
+      .identity-intro .eyebrow { margin-bottom: 16px; color: #89601c; }
+      .identity-intro h2 { max-width: 14ch; margin: 0; color: #071a3d; font-size: clamp(2.25rem, 3.65vw, 3.5rem); line-height: 1.1; }
+      .identity-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(24px, 3vw, 48px); }
+      .identity-list article { display: grid; grid-template-columns: 30px minmax(0, 1fr); column-gap: 16px; align-content: start; min-width: 0; border-top: 1px solid rgba(7, 26, 61, .18); padding-block: 23px 25px; }
+      .identity-list .feature-icon { grid-row: span 2; width: 28px; height: 28px; color: #99702c; transition: transform 300ms ease; }
+      .identity-list article:hover .feature-icon { transform: translateY(-3px); }
+      .identity-list .feature-icon svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; }
+      .identity-list h3 { margin: 0 0 5px; color: #071a3d; font-size: 1rem; line-height: 1.35; }
+      .identity-list p { grid-column: 2; margin: 0; color: #50627c; font-size: .87rem; line-height: 1.55; }
+      html[data-theme="dark"] .identity-strip { background: #1c3558; border-color: rgba(240, 207, 131, .24); }
+      html[data-theme="dark"] .identity-intro h2, html[data-theme="dark"] .identity-list h3 { color: #f5f7fb; }
+      html[data-theme="dark"] .identity-intro .eyebrow, html[data-theme="dark"] .identity-list .feature-icon { color: #f0cf83; }
+      html[data-theme="dark"] .identity-list article { border-color: rgba(240, 207, 131, .22); }
+      html[data-theme="dark"] .identity-list p { color: #cdd9e9; }
+      .mobile-menu[hidden] { display: none !important; }
+      @media (max-width: 1180px) {
+        .desktop-nav { display: none; }
+        .menu-button { display: flex; }
+        .nav-actions .nav-cta { display: none; }
+        .site-header:has(.mobile-menu:not([hidden])) { --nav-ink: var(--ink); --nav-accent: var(--gold); --nav-line: var(--line); --nav-hover: var(--surface-soft); }
+        .site-header:has(.mobile-menu:not([hidden]))::before { opacity: 1; transform: none; }
+        .nav { gap: 10px; }
+        .nav-actions { gap: 9px; }
+        .menu-button { position: relative; display: flex; width: 82px; justify-content: flex-start; border-radius: 15px 3px 15px 3px; padding: 0 13px; }
+        .menu-button::before { content: "Menu"; font-size: .74rem; font-weight: 800; letter-spacing: .02em; }
+        .menu-button[aria-expanded="true"]::before { content: "Tutup"; }
+        .menu-button span { right: 12px; width: 15px; }
+        .mobile-menu { top: calc(100% + 7px); max-height: calc(100dvh - var(--nav-height) - 24px); gap: 0; overflow: auto; border: 1px solid var(--line-gold); border-radius: 26px 4px 26px 4px; background: var(--surface); padding: 0; box-shadow: 0 22px 70px rgba(7, 26, 61, .18); animation: menu-unfold 320ms cubic-bezier(.2,.75,.2,1) both; }
+        .mobile-menu-head { display: flex; justify-content: space-between; align-items: center; gap: 14px; border-bottom: 1px solid var(--line); background: var(--surface-soft); padding: 18px 22px; }
+        .mobile-menu-head strong { color: var(--ink); font-size: .93rem; }
+        .mobile-menu-head span { color: var(--gold); font-size: .65rem; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
+        .mobile-menu-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 8px 16px; }
+        .mobile-menu .mobile-menu-links a { display: flex; justify-content: space-between; align-items: center; gap: 8px; min-width: 0; min-height: 57px; border-bottom: 1px solid var(--line); border-radius: 0; padding: 12px 10px; font-size: .86rem; font-weight: 700; transition: color 180ms ease, background-color 180ms ease, padding-left 180ms ease; }
+        .mobile-menu .mobile-menu-links a:nth-child(odd) { border-right: 1px solid var(--line); }
+        .mobile-menu .mobile-menu-links a:hover, .mobile-menu .mobile-menu-links a[aria-current="location"] { background: var(--surface-soft); color: var(--gold); padding-left: 15px; }
+        .mobile-link-arrow { flex-shrink: 0; color: var(--gold); font-size: 1rem; font-weight: 400; }
+        .mobile-menu-footer { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 22px 18px; }
+        .mobile-menu-footer > span { color: var(--ink-soft); font-size: .77rem; }
+        .mobile-menu .mobile-menu-footer .mobile-cta { display: inline-flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 43px; border-radius: 999px; padding: 9px 16px; font-size: .79rem; white-space: nowrap; }
+        @keyframes menu-unfold { from { opacity: 0; transform: translateY(-8px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+      }
       .vision-section { border-block: 1px solid var(--line); background: var(--page-deep); }
       .vision-rule { border-top: 1px solid var(--line-gold); }
       .pondok-program { border-bottom: 1px solid var(--line); background: var(--surface); }
@@ -120,17 +150,18 @@
       .faq-refined .faq-indicator svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
       .faq-refined details[open] .faq-indicator { transform: rotate(180deg); background: var(--gold-bright); color: #071a3d; }
       .faq-refined .faq-answer { padding: 0 74px 26px 66px; }
-      @media (max-width: 1080px) {
-        .identity-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      }
       @media (max-width: 900px) {
+        .identity-layout { grid-template-columns: 1fr; gap: 35px; }
+        .identity-intro h2 { max-width: 22ch; }
         .facility-showcase { grid-template-columns: 1fr; }
         .pondok-program-grid { grid-template-columns: 1fr; gap: 30px; }
         .pondok-program-intro h2 { max-width: none; }
       }
       @media (max-width: 760px) {
         .section, .section-tight { padding-block: 64px; }
-        .identity-grid > article { min-height: 126px; border-bottom: 1px solid rgba(7, 26, 61, .12); padding: 22px 18px; }
+        .identity-layout { padding-block: 54px; }
+        .identity-intro h2 { font-size: clamp(2rem, 8vw, 2.7rem); }
+        .identity-list article { padding-block: 20px 21px; }
         .pondok-program-list li { padding: 17px 0; }
         .facility-entry { grid-template-columns: minmax(115px, .7fr) minmax(0, 1fr); gap: 16px; }
         .facility-thumb { height: 142px; }
@@ -138,13 +169,34 @@
         .faq-refined .faq-answer { padding: 0 54px 22px 43px; }
       }
       @media (max-width: 440px) {
-        .identity-grid { grid-template-columns: 1fr; }
-        .identity-grid > article, .identity-grid > article:first-child { border-left: 0; border-right: 0; }
+        .nav .brand { gap: 8px; }
+        .nav .brand-mark { width: 40px; height: 40px; border-radius: 12px; }
+        .nav .brand strong { font-size: .82rem; }
+        .nav .brand small { margin-top: 4px; font-size: .48rem; letter-spacing: .12em; }
+        .nav-actions .theme-button { width: 38px; height: 38px; }
+        .menu-button { width: 71px; height: 38px; padding-inline: 10px; }
+        .menu-button span { right: 9px; width: 12px; }
+        .identity-list { grid-template-columns: 1fr; }
+        .identity-list article { padding-block: 17px 18px; }
+        .mobile-menu .mobile-menu-links a { font-size: .81rem; }
         .pondok-program-list li { grid-template-columns: 34px minmax(0, 1fr); gap: 12px; }
         .facility-thumb { height: 126px; }
       }
+      @media (max-width: 360px) {
+        .nav { gap: 4px; }
+        .nav .brand-mark { width: 36px; height: 36px; }
+        .nav .brand strong { font-size: .74rem; }
+        .nav .brand small { display: none; }
+        .nav-actions { gap: 5px; }
+        .nav-actions .theme-button { width: 34px; height: 34px; }
+        .menu-button { width: 63px; height: 34px; padding-inline: 8px; }
+        .menu-button span { right: 7px; }
+        .mobile-menu-footer > span { display: none; }
+        .mobile-menu-footer { justify-content: flex-end; }
+      }
       @media (prefers-reduced-motion: reduce) {
-        .facility-thumb img, .faq-refined details, .faq-refined .faq-indicator { transition: none; }
+        .facility-thumb img, .faq-refined details, .faq-refined .faq-indicator, .identity-list .feature-icon, .mobile-menu .mobile-menu-links a { transition: none; }
+        .mobile-menu { animation: none; }
       }
     </style>
   </head>
@@ -480,7 +532,8 @@
           <div class="desktop-nav">
             <a href="#tentang">Tentang</a>
             <a href="#visi-misi">Visi &amp; Misi</a>
-            <a href="#program-pondok">Pendidikan</a>
+            <a href="#program-pondok">Program</a>
+            <a href="#program">Pendidikan</a>
             <a href="#fasilitas">Fasilitas</a>
             <a href="#galeri">Galeri</a>
             <a href="#kegiatan">Kegiatan</a>
@@ -547,11 +600,20 @@
             </button>
           </div>
           <div class="mobile-menu" id="mobileMenu" hidden>
-            <a href="#tentang">Tentang</a><a href="#visi-misi">Visi &amp; Misi</a><a href="#program-pondok">Pendidikan</a
-            ><a href="#fasilitas">Fasilitas</a><a href="#galeri">Galeri</a
-            ><a href="#kegiatan">Kegiatan Terbaru</a><a href="#faq">FAQ</a
-            ><a href="#media-sosial">Media Sosial</a>
-            <a class="mobile-cta" href="#kontak">Hubungi Kami</a>
+            <div class="mobile-menu-head"><strong>Jelajahi Ma'ahad</strong><span>Menu</span></div>
+            <div class="mobile-menu-links">
+              <a href="#beranda"><span>Beranda</span><span class="mobile-link-arrow" aria-hidden="true">↗</span></a>
+              <a href="#tentang"><span>Tentang</span><span class="mobile-link-arrow" aria-hidden="true">↗</span></a>
+              <a href="#visi-misi"><span>Visi &amp; Misi</span><span class="mobile-link-arrow" aria-hidden="true">↗</span></a>
+              <a href="#program-pondok"><span>Program</span><span class="mobile-link-arrow" aria-hidden="true">↗</span></a>
+              <a href="#program"><span>Pendidikan</span><span class="mobile-link-arrow" aria-hidden="true">↗</span></a>
+              <a href="#fasilitas"><span>Fasilitas</span><span class="mobile-link-arrow" aria-hidden="true">↗</span></a>
+              <a href="#galeri"><span>Galeri</span><span class="mobile-link-arrow" aria-hidden="true">↗</span></a>
+              <a href="#kegiatan"><span>Kegiatan</span><span class="mobile-link-arrow" aria-hidden="true">↗</span></a>
+              <a href="#faq"><span>FAQ</span><span class="mobile-link-arrow" aria-hidden="true">↗</span></a>
+              <a href="#media-sosial"><span>Media Sosial</span><span class="mobile-link-arrow" aria-hidden="true">↗</span></a>
+            </div>
+            <div class="mobile-menu-footer"><span>Punya pertanyaan?</span><a class="mobile-cta" href="#kontak">Hubungi Kami <span aria-hidden="true">↗</span></a></div>
           </div>
         </nav>
       </header>
@@ -597,24 +659,30 @@
           </div>
         </section>
 
-        <section class="identity-strip" aria-label="Hal yang dijaga di Ma'ahad">
-          <div class="shell identity-grid">
-            <article class="group flex flex-col justify-center transition-colors duration-300">
-              <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3 27 8v7c0 7-4.7 11.7-11 14C9.7 26.7 5 22 5 15V8L16 3Z"/><path d="m11.5 16 3 3 6-7"/></svg></span>
-              <strong>Khusus Putri</strong><span>Ruang belajar yang diperuntukkan bagi santriwati.</span>
-            </article>
-            <article class="group flex flex-col justify-center transition-colors duration-300">
-              <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 26c-3.1-2-6.2-3-11-3V6c4.8 0 7.9 1 11 3 3.1-2 6.2-3 11-3v17c-4.8 0-7.9 1-11 3Z"/><path d="M16 9v17M8 11c2 .1 3.6.5 5 1.3M19 12.3c1.4-.8 3-1.2 5-1.3"/></svg></span>
-              <strong>Diniyah dan Umum</strong><span>Ilmu agama dipelajari bersama pelajaran umum.</span>
-            </article>
-            <article class="group flex flex-col justify-center transition-colors duration-300">
-              <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7 26h18M9 26V13l7-7 7 7v13M12 26v-7h8v7M13 13h6"/><path d="M16 3v3"/></svg></span>
-              <strong>Al-Qur'an dan Sunnah</strong><span>Menjadi landasan belajar dan pembinaan adab.</span>
-            </article>
-            <article class="group flex flex-col justify-center transition-colors duration-300">
-              <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M6 26h20M9 26V11h14v15M12 11V6h8v5M13 16h2m4 0h2m-8 4h2m4 0h2"/></svg></span>
-              <strong>Jenjang SMP &amp; SMA</strong><span>Pendidikan putri pada dua jenjang belajar.</span>
-            </article>
+        <section class="identity-strip" aria-labelledby="identity-title">
+          <div class="shell identity-layout">
+            <div class="identity-intro reveal">
+              <p class="eyebrow">Keunggulan Utama</p>
+              <h2 id="identity-title">Ilmu, adab, dan lingkungan yang terjaga.</h2>
+            </div>
+            <div class="identity-list reveal">
+              <article>
+                <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3 27 8v7c0 7-4.7 11.7-11 14C9.7 26.7 5 22 5 15V8L16 3Z"/><path d="m11.5 16 3 3 6-7"/></svg></span>
+                <h3>Khusus Putri</h3><p>Ruang belajar yang diperuntukkan bagi santriwati.</p>
+              </article>
+              <article>
+                <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 26c-3.1-2-6.2-3-11-3V6c4.8 0 7.9 1 11 3 3.1-2 6.2-3 11-3v17c-4.8 0-7.9 1-11 3Z"/><path d="M16 9v17M8 11c2 .1 3.6.5 5 1.3M19 12.3c1.4-.8 3-1.2 5-1.3"/></svg></span>
+                <h3>Diniyah dan Umum</h3><p>Ilmu agama dipelajari bersama pelajaran umum.</p>
+              </article>
+              <article>
+                <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7 26h18M9 26V13l7-7 7 7v13M12 26v-7h8v7M13 13h6"/><path d="M16 3v3"/></svg></span>
+                <h3>Al-Qur'an dan Sunnah</h3><p>Menjadi landasan belajar dan pembinaan adab.</p>
+              </article>
+              <article>
+                <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M6 26h20M9 26V11h14v15M12 11V6h8v5M13 16h2m4 0h2m-8 4h2m4 0h2"/></svg></span>
+                <h3>Jenjang SMP &amp; SMA</h3><p>Pendidikan putri pada dua jenjang belajar.</p>
+              </article>
+            </div>
           </div>
         </section>
 
@@ -1325,7 +1393,7 @@
           </div>
           <div>
             <strong>Jelajahi</strong><a href="#tentang">Tentang</a><a href="#visi-misi">Visi &amp; Misi</a
-            ><a href="#program-pondok">Pendidikan</a><a href="#fasilitas">Fasilitas</a
+            ><a href="#program-pondok">Program</a><a href="#program">Pendidikan</a><a href="#fasilitas">Fasilitas</a
             ><a href="#galeri">Galeri</a
             ><a href="#kehidupan">Kehidupan Ma'ahad</a>
           </div>
@@ -1478,6 +1546,33 @@
     <script>
       // Keep the existing dialog behavior while using natural, undated copy in this HTML-only revision.
       document.addEventListener("DOMContentLoaded", () => {
+        const mobileSectionLinks = [...document.querySelectorAll(".mobile-menu-links a[href^='#']")];
+        const setActiveMobileLink = (sectionId) => {
+          mobileSectionLinks.forEach((link) => {
+            if (link.hash === `#${sectionId}`) link.setAttribute("aria-current", "location");
+            else link.removeAttribute("aria-current");
+          });
+        };
+        setActiveMobileLink(location.hash.slice(1) || "beranda");
+        mobileSectionLinks.forEach((link) => link.addEventListener("click", () => setActiveMobileLink(link.hash.slice(1))));
+        if ("IntersectionObserver" in window) {
+          const menuObserver = new IntersectionObserver((entries) => {
+            const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+            if (visible.length) setActiveMobileLink(visible[0].target.id);
+          }, { rootMargin: "-18% 0px -72% 0px", threshold: 0 });
+          mobileSectionLinks.forEach((link) => {
+            const section = document.getElementById(link.hash.slice(1));
+            if (section) menuObserver.observe(section);
+          });
+        }
+        const wideNavigation = window.matchMedia("(min-width: 1181px)");
+        if (wideNavigation.addEventListener) {
+          wideNavigation.addEventListener("change", (event) => {
+            if (event.matches && document.getElementById("menuButton").getAttribute("aria-expanded") === "true") {
+              document.getElementById("menuButton").click();
+            }
+          });
+        }
         const storyText = {
           halaqah: "Halaqah menjadi waktu bagi santriwati untuk memperbaiki bacaan, mengulang hafalan, dan menyimak dengan adab. Mereka belajar saling menguatkan dalam mempelajari Al-Qur'an.",
           sains: "Dalam pelajaran sains, santriwati berlatih mengamati, mencatat, dan mendiskusikan hasil bersama. Rasa ingin tahu berjalan seiring dengan ketelitian dan adab di kelas.",
