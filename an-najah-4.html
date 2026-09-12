@@ -150,12 +150,51 @@
       .faq-refined .faq-indicator svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
       .faq-refined details[open] .faq-indicator { transform: rotate(180deg); background: var(--gold-bright); color: #071a3d; }
       .faq-refined .faq-answer { padding: 0 74px 26px 66px; }
+      .instagram-section { border-block: 1px solid var(--line); background: var(--page-deep); }
+      .instagram-layout { display: grid; grid-template-columns: minmax(0, .68fr) minmax(0, 1.32fr); gap: clamp(42px, 7vw, 108px); align-items: center; }
+      .instagram-copy h2 { max-width: 13ch; margin: 0 0 22px; font-size: clamp(2.3rem, 4vw, 3.7rem); line-height: 1.12; }
+      .instagram-copy > p:not(.eyebrow) { max-width: 42ch; margin: 0 0 28px; color: var(--ink-soft); }
+      .instagram-handle { display: flex; align-items: center; gap: 14px; width: fit-content; border-block: 1px solid var(--line-gold); padding-block: 17px; }
+      .instagram-handle img { width: 45px; height: 45px; border: 1px solid var(--line-gold); border-radius: 13px 2px 13px 2px; object-fit: cover; }
+      .instagram-handle span { display: grid; gap: 1px; }
+      .instagram-handle strong { color: var(--ink); font-size: .96rem; line-height: 1.25; }
+      .instagram-handle small { color: var(--ink-soft); font-size: .78rem; }
+      .instagram-copy .text-link { margin-top: 23px; }
+      .instagram-frame { min-width: 0; overflow: hidden; border: 1px solid var(--line-gold); border-radius: 35px 3px 35px 3px; background: var(--surface); box-shadow: 0 18px 52px rgba(7, 26, 61, .08); }
+      .instagram-switch { display: flex; align-items: center; gap: 5px; border-bottom: 1px solid var(--line); padding: 12px 16px; }
+      .instagram-switch button { min-height: 39px; border: 0; border-radius: 11px 2px 11px 2px; background: transparent; padding: 7px 14px; color: var(--ink-soft); cursor: pointer; font-size: .78rem; font-weight: 800; transition: background-color 180ms ease, color 180ms ease; }
+      .instagram-switch button[aria-selected="true"] { background: #0b2348; color: #f7e3ae; }
+      .instagram-switch button:not([aria-selected="true"]):hover { background: var(--surface-soft); color: var(--ink); }
+      .instagram-switch button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+      .instagram-panel[hidden] { display: none !important; }
+      .instagram-preview { display: grid; grid-template-rows: minmax(275px, 1fr) auto; min-height: 505px; }
+      .instagram-feature { position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 24px; min-width: 0; overflow: hidden; background: #0b2348; padding: clamp(28px, 4vw, 52px); color: #f5f8fc; }
+      .instagram-feature-top { display: flex; align-items: center; gap: 12px; color: #f0cf83; font-size: .72rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+      .instagram-feature-top img { width: 30px; height: 30px; border-radius: 8px 2px 8px 2px; background: #fff; }
+      .instagram-feature h3 { position: relative; z-index: 1; max-width: 16ch; margin: 0; font-family: var(--display); font-size: clamp(2rem, 3.6vw, 3.25rem); font-weight: 600; line-height: 1.12; letter-spacing: -.04em; }
+      .instagram-feature-bottom { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; gap: 20px; width: 100%; border-top: 1px solid rgba(240, 207, 131, .35); padding-top: 16px; font-size: .84rem; }
+      .instagram-feature-bottom span:last-child { color: #f0cf83; font-size: 1.5rem; line-height: 1; transition: transform 200ms ease; }
+      .instagram-feature:hover .instagram-feature-bottom span:last-child { transform: translate(4px, -4px); }
+      .instagram-post-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .instagram-post-list a { display: flex; flex-direction: column; justify-content: space-between; gap: 25px; min-width: 0; min-height: 180px; border-right: 1px solid var(--line); padding: 23px clamp(21px, 2.8vw, 34px); transition: background-color 180ms ease; }
+      .instagram-post-list a:last-child { border-right: 0; }
+      .instagram-post-list a:hover { background: var(--surface-soft); }
+      .instagram-post-list time { color: var(--gold); font-size: .72rem; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+      .instagram-post-list strong { display: block; max-width: 21ch; color: var(--ink); font-family: var(--display); font-size: clamp(1.15rem, 1.7vw, 1.48rem); line-height: 1.22; }
+      .instagram-post-list .post-arrow { align-self: flex-end; color: var(--gold); font-size: 1.35rem; line-height: 1; }
+      .instagram-feed-panel { padding: 10px 10px 0; }
+      .instagram-feed-panel iframe { display: block; width: 100%; height: 500px; border: 0; border-radius: 25px 2px 24px 2px; background: #fff; }
+      .instagram-feed-note { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 13px 10px 15px; color: var(--ink-soft); font-size: .78rem; }
+      .instagram-feed-note a { color: var(--gold); font-weight: 800; white-space: nowrap; }
+      .instagram-feed-note a:hover { color: var(--ink); }
       @media (max-width: 900px) {
         .identity-layout { grid-template-columns: 1fr; gap: 35px; }
         .identity-intro h2 { max-width: 22ch; }
         .facility-showcase { grid-template-columns: 1fr; }
         .pondok-program-grid { grid-template-columns: 1fr; gap: 30px; }
         .pondok-program-intro h2 { max-width: none; }
+        .instagram-layout { grid-template-columns: 1fr; gap: 32px; }
+        .instagram-copy h2 { max-width: 20ch; }
       }
       @media (max-width: 760px) {
         .section, .section-tight { padding-block: 64px; }
@@ -167,6 +206,13 @@
         .facility-thumb { height: 142px; }
         .faq-refined summary { min-height: 76px; padding: 18px 12px; }
         .faq-refined .faq-answer { padding: 0 54px 22px 43px; }
+        .instagram-copy h2 { font-size: clamp(2.1rem, 8vw, 2.9rem); }
+        .instagram-frame { border-radius: 26px 3px 26px 3px; }
+        .instagram-preview { min-height: 0; grid-template-rows: minmax(250px, auto) auto; }
+        .instagram-feature { padding: 28px; }
+        .instagram-feature h3 { font-size: clamp(1.9rem, 7vw, 2.6rem); }
+        .instagram-post-list a { min-height: 155px; padding: 20px; }
+        .instagram-feed-panel iframe { height: 455px; border-radius: 19px 2px 19px 2px; }
       }
       @media (max-width: 440px) {
         .nav .brand { gap: 8px; }
@@ -181,6 +227,10 @@
         .mobile-menu .mobile-menu-links a { font-size: .81rem; }
         .pondok-program-list li { grid-template-columns: 34px minmax(0, 1fr); gap: 12px; }
         .facility-thumb { height: 126px; }
+        .instagram-post-list { grid-template-columns: 1fr; }
+        .instagram-post-list a { min-height: 118px; gap: 14px; border-right: 0; border-bottom: 1px solid var(--line); }
+        .instagram-post-list a:last-child { border-bottom: 0; }
+        .instagram-feed-note { align-items: flex-start; flex-direction: column; }
       }
       @media (max-width: 360px) {
         .nav { gap: 4px; }
@@ -195,7 +245,7 @@
         .mobile-menu-footer { justify-content: flex-end; }
       }
       @media (prefers-reduced-motion: reduce) {
-        .facility-thumb img, .faq-refined details, .faq-refined .faq-indicator, .identity-list .feature-icon, .mobile-menu .mobile-menu-links a { transition: none; }
+        .facility-thumb img, .faq-refined details, .faq-refined .faq-indicator, .identity-list .feature-icon, .mobile-menu .mobile-menu-links a, .instagram-switch button, .instagram-feature-bottom span:last-child, .instagram-post-list a { transition: none; }
         .mobile-menu { animation: none; }
       }
     </style>
@@ -1191,6 +1241,66 @@
           </div>
         </section>
 
+        <section class="instagram-section section !py-16 lg:!py-20" id="instagram" aria-labelledby="instagram-title">
+          <div class="shell instagram-layout">
+            <div class="instagram-copy reveal">
+              <p class="eyebrow">Dari Instagram</p>
+              <h2 id="instagram-title">Kabar terbaru dari ma'ahad.</h2>
+              <p>
+                Pengumuman, kegiatan santriwati, dan catatan dari pondok dapat
+                dilihat langsung melalui unggahan @ppannajahbatam.
+              </p>
+              <div class="instagram-handle">
+                <img src="assets/logo-annajah.webp" width="45" height="45" alt="" loading="lazy" />
+                <span><strong>PP An Najah Batam</strong><small>@ppannajahbatam</small></span>
+              </div>
+              <a class="text-link" href="https://www.instagram.com/ppannajahbatam/" target="_blank" rel="noopener noreferrer">
+                Buka Instagram <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <div class="instagram-frame reveal">
+              <div class="instagram-switch" role="tablist" aria-label="Tampilan unggahan Instagram">
+                <button id="instagramTabHighlights" type="button" role="tab" aria-selected="true" aria-controls="instagramHighlights">Sorotan unggahan</button>
+                <button id="instagramTabFeed" type="button" role="tab" aria-selected="false" aria-controls="instagramLiveFeed" tabindex="-1">Feed langsung</button>
+              </div>
+              <div class="instagram-panel instagram-preview" id="instagramHighlights" role="tabpanel" aria-labelledby="instagramTabHighlights">
+                <a class="instagram-feature" href="https://www.instagram.com/ppannajahbatam/p/DcziR0ZS9Rc/" target="_blank" rel="noopener noreferrer" aria-label="Baca unggahan 2 September 2026: kesempatan berkhidmat sebagai pengajar">
+                  <span class="instagram-feature-top"><img src="assets/logo-annajah.webp" width="30" height="30" alt="" loading="lazy" />Unggahan PP An Najah Batam</span>
+                  <h3>Kesempatan berkhidmat sebagai pengajar.</h3>
+                  <span class="instagram-feature-bottom"><span>02 September 2026 · Informasi</span><span aria-hidden="true">↗</span></span>
+                </a>
+                <div class="instagram-post-list">
+                  <a href="https://www.instagram.com/ppannajahbatam/p/DbnxNDhEiEY/" target="_blank" rel="noopener noreferrer">
+                    <time datetime="2026-08-04">04 Agustus 2026</time>
+                    <strong>Peresmian Organisasi Santriwati An Najah.</strong>
+                    <span class="post-arrow" aria-hidden="true">↗</span>
+                  </a>
+                  <a href="https://www.instagram.com/ppannajahbatam/p/DZ69IE_yWmN/" target="_blank" rel="noopener noreferrer">
+                    <time datetime="2026-06-23">23 Juni 2026</time>
+                    <strong>Pengingat tentang puasa ‘Asyura.</strong>
+                    <span class="post-arrow" aria-hidden="true">↗</span>
+                  </a>
+                </div>
+              </div>
+              <div class="instagram-panel instagram-feed-panel" id="instagramLiveFeed" role="tabpanel" aria-labelledby="instagramTabFeed" hidden>
+                <iframe
+                  id="instagramFeed"
+                  data-src="https://www.instagram.com/ppannajahbatam/embed/"
+                  title="Unggahan terbaru Instagram PP An Najah Batam"
+                  width="700"
+                  height="500"
+                  loading="lazy"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                ></iframe>
+                <div class="instagram-feed-note">
+                  <span>Jika pratinjau tidak tampil, lihat langsung di Instagram.</span>
+                  <a href="https://www.instagram.com/ppannajahbatam/" target="_blank" rel="noopener noreferrer">Buka profil ↗</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section class="life-section section !py-16 lg:!py-20" id="kehidupan">
           <div class="shell life-grid">
             <div class="life-copy reveal">
@@ -1399,7 +1509,7 @@
           </div>
           <div>
             <strong>Informasi</strong><a href="#kegiatan">Kegiatan Terbaru</a
-            ><a href="#faq">FAQ</a><a href="#media-sosial">Media Sosial</a
+            ><a href="#instagram">Instagram</a><a href="#faq">FAQ</a><a href="#media-sosial">Media Sosial</a
             ><a href="#kontak">Hubungi Kami</a>
           </div>
         </div>
@@ -1583,6 +1693,30 @@
             const category = button.closest("article")?.querySelector(".news-meta span")?.textContent.trim();
             document.getElementById("storyDialogDate").textContent = category || "Kehidupan Ma'ahad";
             document.getElementById("storyDialogBody").textContent = storyText[button.dataset.storyOpen] || "";
+          });
+        });
+        const instagramTabs = [document.getElementById("instagramTabHighlights"), document.getElementById("instagramTabFeed")];
+        const instagramPanels = [document.getElementById("instagramHighlights"), document.getElementById("instagramLiveFeed")];
+        const showInstagramTab = (index, focus = false) => {
+          instagramTabs.forEach((tab, position) => {
+            const selected = position === index;
+            tab.setAttribute("aria-selected", String(selected));
+            tab.tabIndex = selected ? 0 : -1;
+            instagramPanels[position].hidden = !selected;
+          });
+          if (index === 1) {
+            const feed = document.getElementById("instagramFeed");
+            if (!feed.hasAttribute("src")) feed.src = feed.dataset.src;
+          }
+          if (focus) instagramTabs[index].focus();
+        };
+        instagramTabs.forEach((tab, index) => {
+          tab.addEventListener("click", () => showInstagramTab(index));
+          tab.addEventListener("keydown", (event) => {
+            const next = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+            if (!next) return;
+            event.preventDefault();
+            showInstagramTab((index + next + instagramTabs.length) % instagramTabs.length, true);
           });
         });
       });
