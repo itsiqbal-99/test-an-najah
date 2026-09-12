@@ -251,24 +251,123 @@ const galleryDialog = document.getElementById('galleryDialog');
 const galleryImage = document.getElementById('galleryDialogImage');
 const galleryCaption = document.getElementById('galleryDialogCaption');
 const galleryCount = document.getElementById('galleryCount');
-const galleryItems = [...document.querySelectorAll('.gallery-item')];
+const galleryStage = document.getElementById('galleryStage');
+const galleryStageImage = document.getElementById('galleryStageImage');
+const galleryPanel = document.getElementById('gallery-panel');
+const galleryActiveTitle = document.getElementById('galleryActiveTitle');
+const galleryInlineCount = document.getElementById('galleryInlineCount');
+const galleryThumbnails = document.getElementById('galleryThumbnails');
+const galleryTabs = [...document.querySelectorAll('.gallery-category')];
+
+// Add more images to any category here; its counter, thumbnails, and lightbox update automatically.
+const galleryCollections = {
+  halaqah: {
+    label: "Halaqah Al-Qur'an",
+    photos: [
+      { src: 'assets/maahad-putri-halaqah-niqab.webp', alt: "Ilustrasi halaqah Al-Qur'an bersama santriwati dan asatidzah bercadar" },
+      { src: 'assets/maahad-putri-hero-niqab.webp', alt: "Ilustrasi santriwati bercadar membaca Al-Qur'an bersama di area terbuka" }
+    ]
+  },
+  ekstrakurikuler: {
+    label: 'Ekstrakurikuler',
+    photos: [
+      { src: 'assets/maahad-putri-lab-niqab.webp', alt: 'Ilustrasi santriwati bercadar melakukan pengamatan dengan mikroskop' },
+      { src: 'assets/images/ANNAJAH-2.png', alt: 'Ilustrasi santriwati bercadar menunjukkan sertifikat kegiatan' }
+    ]
+  },
+  ukhuwah: {
+    label: 'Ukhuwah & Kemandirian',
+    photos: [
+      { src: 'assets/images/ANNAJAH-1.png', alt: 'Ilustrasi kebersamaan santriwati bercadar dalam kelompok' },
+      { src: 'assets/maahad-putri-campus-niqab.webp', alt: 'Ilustrasi santriwati bercadar berjalan bersama' }
+    ]
+  },
+  belajar: {
+    label: 'Belajar di Setiap Ruang',
+    photos: [
+      { src: 'assets/images/ANNAJAH-3.png', alt: 'Ilustrasi santriwati bercadar belajar bersama di ruang kelas' },
+      { src: 'assets/maahad-putri-halaqah-niqab.webp', alt: 'Ilustrasi santriwati bercadar belajar Al-Qur\'an dalam halaqah' }
+    ]
+  }
+};
 let galleryReturnFocus;
+let activeGalleryGroup = 'halaqah';
 let galleryIndex = 0;
 
-function showGalleryImage(index) {
-  galleryIndex = (index + galleryItems.length) % galleryItems.length;
-  const item = galleryItems[galleryIndex];
-  galleryImage.src = item.dataset.gallerySrc;
-  galleryImage.alt = item.dataset.galleryAlt;
-  galleryCaption.textContent = item.dataset.galleryAlt;
-  galleryCount.textContent = `${galleryIndex + 1} / ${galleryItems.length}`;
+function renderGalleryPhoto() {
+  const collection = galleryCollections[activeGalleryGroup];
+  const photo = collection.photos[galleryIndex];
+  const position = `${String(galleryIndex + 1).padStart(2, '0')} / ${String(collection.photos.length).padStart(2, '0')}`;
+  galleryStageImage.src = photo.src;
+  galleryStageImage.alt = photo.alt;
+  galleryStage.setAttribute('aria-label', `Perbesar foto ${collection.label}, ${galleryIndex + 1} dari ${collection.photos.length}`);
+  galleryActiveTitle.textContent = collection.label;
+  galleryInlineCount.textContent = position;
+  galleryThumbnails.querySelectorAll('button').forEach((button, index) => {
+    button.setAttribute('aria-pressed', String(index === galleryIndex));
+  });
+  if (galleryDialog.open) {
+    galleryImage.src = photo.src;
+    galleryImage.alt = photo.alt;
+    galleryCaption.textContent = `${collection.label} · Foto ${galleryIndex + 1}`;
+    galleryCount.textContent = position;
+  }
 }
 
+function selectGalleryPhoto(index) {
+  const photos = galleryCollections[activeGalleryGroup].photos;
+  galleryIndex = (index + photos.length) % photos.length;
+  renderGalleryPhoto();
+}
+
+function selectGalleryGroup(tab, focus = false) {
+  activeGalleryGroup = tab.dataset.galleryGroup;
+  galleryIndex = 0;
+  galleryTabs.forEach((item) => {
+    const selected = item === tab;
+    item.setAttribute('aria-selected', String(selected));
+    item.tabIndex = selected ? 0 : -1;
+  });
+  galleryPanel.setAttribute('aria-labelledby', tab.id);
+  const collection = galleryCollections[activeGalleryGroup];
+  galleryThumbnails.replaceChildren();
+  collection.photos.forEach((photo, index) => {
+    const button = document.createElement('button');
+    const image = document.createElement('img');
+    button.type = 'button';
+    button.className = 'gallery-thumbnail';
+    button.setAttribute('aria-label', `Tampilkan foto ${index + 1} dari ${collection.label}`);
+    image.src = photo.src;
+    image.alt = '';
+    image.loading = 'lazy';
+    button.append(image);
+    button.addEventListener('click', () => selectGalleryPhoto(index));
+    galleryThumbnails.append(button);
+  });
+  renderGalleryPhoto();
+  if (focus) tab.focus();
+}
+
+galleryTabs.forEach((tab, index) => {
+  const collection = galleryCollections[tab.dataset.galleryGroup];
+  tab.querySelector('.gallery-category-count').textContent = `${String(collection.photos.length).padStart(2, '0')} foto`;
+  tab.addEventListener('click', () => selectGalleryGroup(tab));
+  tab.addEventListener('keydown', (event) => {
+    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    const next = event.key === 'Home' ? 0 : event.key === 'End' ? galleryTabs.length - 1
+      : (index + (['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : -1) + galleryTabs.length) % galleryTabs.length;
+    selectGalleryGroup(galleryTabs[next], true);
+  });
+});
+selectGalleryGroup(galleryTabs[0]);
+document.getElementById('galleryInlinePrev').addEventListener('click', () => selectGalleryPhoto(galleryIndex - 1));
+document.getElementById('galleryInlineNext').addEventListener('click', () => selectGalleryPhoto(galleryIndex + 1));
+
 function openGallery(event) {
-  const button = event.currentTarget;
-  galleryReturnFocus = button;
-  showGalleryImage(galleryItems.indexOf(button));
+  galleryReturnFocus = event.currentTarget;
   galleryDialog.showModal();
+  renderGalleryPhoto();
 }
 
 function closeGallery() {
@@ -276,13 +375,15 @@ function closeGallery() {
   galleryReturnFocus?.focus();
 }
 
-galleryItems.forEach((button) => button.addEventListener('click', openGallery));
-document.querySelector('[data-gallery-prev]').addEventListener('click', () => showGalleryImage(galleryIndex - 1));
-document.querySelector('[data-gallery-next]').addEventListener('click', () => showGalleryImage(galleryIndex + 1));
+galleryStage.addEventListener('click', openGallery);
+document.querySelector('[data-gallery-prev]').addEventListener('click', () => selectGalleryPhoto(galleryIndex - 1));
+document.querySelector('[data-gallery-next]').addEventListener('click', () => selectGalleryPhoto(galleryIndex + 1));
 galleryDialog.addEventListener('keydown', (event) => {
-  if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+  if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
   event.preventDefault();
-  showGalleryImage(galleryIndex + (event.key === 'ArrowRight' ? 1 : -1));
+  if (event.key === 'Home') selectGalleryPhoto(0);
+  else if (event.key === 'End') selectGalleryPhoto(galleryCollections[activeGalleryGroup].photos.length - 1);
+  else selectGalleryPhoto(galleryIndex + (event.key === 'ArrowRight' ? 1 : -1));
 });
 document.querySelector('[data-gallery-close]').addEventListener('click', closeGallery);
 galleryDialog.addEventListener('click', (event) => { if (event.target === galleryDialog) closeGallery(); });

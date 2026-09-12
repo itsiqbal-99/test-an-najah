@@ -116,7 +116,7 @@ test('header follows the top sentinel and resets when returning to the top', () 
   const state = bootHeader();
   assert.equal(state.target, state.sentinel);
   assert.equal(state.options.threshold, 0);
-  assert.match(html, /id="headerSentinel" aria-hidden="true"/);
+  assert.match(html, /id="headerSentinel"\s+aria-hidden="true"/);
   state.update([{ isIntersecting: true }]);
   assert.equal(state.classes.has('is-scrolled'), false);
   state.update([{ isIntersecting: false }]);
@@ -201,7 +201,8 @@ test('a stalled image still releases the page after the bounded intro', async ()
 });
 
 test('official location, caretaker, and social channels are present', () => {
-  assert.match(html, /Halaman SDN 019, Tembesi, Kec\. Sagulung, Kota Batam, Kepulauan Riau 29424/);
+  assert.match(html, /Pondok Pesantren An Najah Batam, Tembesi, Kec\. Sagulung,\s+Kota Batam, Kepulauan Riau 29424/);
+  assert.match(html, /Halaman%20SDN%20019/);
   assert.match(html, /Ust\. Said Salamah, S\.Pd\. M\.Pd/);
   assert.match(html, /google\.com\/maps\/embed\?pb=/);
   assert.match(html, /instagram\.com\/ppannajahbatam\//);
@@ -242,4 +243,15 @@ test('enabling reduced motion during the splash releases the page immediately', 
   await state.advance(4000);
   assert.equal(state.content.inert, false);
   assert.equal(state.classes.has('splash-leaving'), false);
+});
+
+test('gallery offers four photo collections with category-specific navigation', () => {
+  for (const category of ['halaqah', 'ekstrakurikuler', 'ukhuwah', 'belajar']) {
+    assert.match(html, new RegExp(`data-gallery-group="${category}"`));
+    assert.match(script, new RegExp(`${category}:\\s*\\{[\\s\\S]*?photos:\\s*\\[`));
+  }
+  assert.match(html, /Ekstrakurikuler/);
+  assert.doesNotMatch(html, /Sains dan Eksplorasi/);
+  assert.match(html, /id="galleryThumbnails"/);
+  assert.match(script, /galleryCollections\[activeGalleryGroup\]\.photos/);
 });
