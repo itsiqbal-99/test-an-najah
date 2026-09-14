@@ -80,8 +80,9 @@ test('internal links resolve and local visual assets exist', () => {
   }
 });
 
-test('dummy activities are disclosed and all new windows are protected', () => {
-  assert.match(html, /dummy untuk pratinjau desain/);
+test('activities use editable, undated copy and all new windows are protected', () => {
+  assert.match(html, /data-editor-text="activity\.halaqah\.detail"/);
+  assert.doesNotMatch(html, /dummy untuk pratinjau desain/);
   assert.doesNotMatch(html, /bukan akun resmi maahad/);
   for (const [link] of html.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)) {
     assert.match(link, /rel="noopener noreferrer"/);
@@ -246,12 +247,34 @@ test('enabling reduced motion during the splash releases the page immediately', 
 });
 
 test('gallery offers four photo collections with category-specific navigation', () => {
+  const gallery = JSON.parse(html.match(/<script type="application\/json" id="galleryData">([\s\S]*?)<\/script>/)[1]);
   for (const category of ['halaqah', 'ekstrakurikuler', 'ukhuwah', 'belajar']) {
     assert.match(html, new RegExp(`data-gallery-group="${category}"`));
-    assert.match(script, new RegExp(`${category}:\\s*\\{[\\s\\S]*?photos:\\s*\\[`));
+    assert.ok(gallery[category].photos.length >= 2);
   }
   assert.match(html, /Ekstrakurikuler/);
   assert.doesNotMatch(html, /Sains dan Eksplorasi/);
   assert.match(html, /id="galleryThumbnails"/);
   assert.match(script, /galleryCollections\[activeGalleryGroup\]\.photos/);
+  assert.match(script, /JSON\.parse\(document\.getElementById\('galleryData'\)\.textContent\)/);
+  assert.match(html, /id="galleryPhotoCaption"/);
+  assert.match(script, /galleryPhotoCaption\.textContent = photo\.caption/);
+});
+
+test('facilities show independent multi-photo collections and visible captions', () => {
+  const facilities = JSON.parse(html.match(/<script type="application\/json" id="facilityData">([\s\S]*?)<\/script>/)[1]);
+  assert.deepEqual(Object.keys(facilities), ['dorm', 'class', 'library', 'worship']);
+  assert.ok(facilities.library.photos.length >= 2);
+  for (const [key, collection] of Object.entries(facilities)) {
+    assert.match(html, new RegExp(`data-facility-group="${key}"`));
+    assert.ok(collection.photos.every((photo) => photo.caption && photo.alt));
+  }
+  assert.match(html, /id="facilityPhotoCaption"/);
+  assert.match(html, /id="facility-tab-dorm"[^>]*aria-selected="true"/);
+  assert.match(html, /id="facilityDialog"/);
+  assert.match(html, /id="facilityZoomIn"/);
+  assert.match(script, /facilityPhotoSelector\.replaceChildren\(\)/);
+  assert.match(script, /selectFacility\(document\.getElementById\('facility-tab-dorm'\)\)/);
+  assert.match(css, /\.facility-image-open img\s*\{[^}]*object-fit:\s*contain/);
+  assert.match(css, /\.facility-photo-choice img\s*\{[^}]*object-fit:\s*contain/);
 });

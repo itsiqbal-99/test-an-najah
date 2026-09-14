@@ -21,7 +21,7 @@
       content="Teguh di atas Sunnah. Mulia dalam adab. Pendidikan Islam khusus santriwati."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="assets/images/ANNAJAH-3.png" />
+    <meta property="og:image" content="assets/uploads/d99b1162011ae098.png" />
     <link rel="icon" href="assets/logo-annajah.webp" type="image/webp" />
     <title>Ma'had An-Najah Putri Batam | Pendidikan Berlandaskan Sunnah</title>
     <script>
@@ -58,11 +58,12 @@
     <link
       rel="preload"
       as="image"
-      href="assets/images/ANNAJAH-3.png"
-      type="image/webp"
+      data-editor-preload="hero"
+      href="assets/uploads/d99b1162011ae098.png"
+      type="image/png"
     />
     <!-- Existing motion, splash, and dialog rules remain while page layout moves to Tailwind utilities. -->
-    <link rel="stylesheet" href="assets/an-najah-v2.css?v=gallery-20260912-1" />
+    <link rel="stylesheet" href="assets/an-najah-v2.css?v=facility-fit-20260914-2" />
     <!-- Compiled Tailwind v3 utilities used by this single-file page; no runtime CDN required. -->
     <style id="tailwind-utilities">
       .\!m-0 {
@@ -619,44 +620,6 @@
         font-weight: 650;
         line-height: 1.25;
       }
-      .facility-showcase {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        column-gap: clamp(28px, 5vw, 70px);
-      }
-      .facility-entry {
-        display: grid;
-        grid-template-columns: minmax(132px, 0.78fr) minmax(0, 1fr);
-        gap: 24px;
-        align-items: center;
-        border-top: 1px solid var(--line-gold);
-        padding: 23px 0;
-      }
-      .facility-thumb {
-        position: relative;
-        min-width: 0;
-        height: 165px;
-        overflow: hidden;
-        border-radius: 28px 2px 28px 2px;
-        background: var(--page-deep);
-      }
-      .facility-thumb img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 550ms cubic-bezier(0.2, 0.7, 0.2, 1);
-      }
-      .facility-entry:hover .facility-thumb img {
-        transform: scale(1.045);
-      }
-      .facility-entry h3 {
-        font-size: clamp(1.3rem, 2vw, 1.8rem);
-      }
-      .facility-entry p {
-        margin: 0;
-        color: var(--ink-soft);
-        font-size: 0.9rem;
-      }
       .faq-refined details {
         border-bottom: 1px solid var(--line);
         transition:
@@ -878,9 +841,6 @@
         .identity-intro h2 {
           max-width: 22ch;
         }
-        .facility-showcase {
-          grid-template-columns: 1fr;
-        }
         .pondok-program-grid {
           grid-template-columns: 1fr;
           gap: 30px;
@@ -912,13 +872,6 @@
         }
         .pondok-program-list li {
           padding: 17px 0;
-        }
-        .facility-entry {
-          grid-template-columns: minmax(115px, 0.7fr) minmax(0, 1fr);
-          gap: 16px;
-        }
-        .facility-thumb {
-          height: 142px;
         }
         .faq-refined summary {
           min-height: 76px;
@@ -982,9 +935,6 @@
         .pondok-program-list li {
           grid-template-columns: 34px minmax(0, 1fr);
           gap: 12px;
-        }
-        .facility-thumb {
-          height: 126px;
         }
         .instagram-feed-note {
           align-items: flex-start;
@@ -1510,7 +1460,8 @@
           ></span>
           <div class="hero-media" aria-hidden="true">
             <img
-              src="assets/images/ANNAJAH-3.png"
+              data-editor-image="hero"
+              src="assets/uploads/d99b1162011ae098.png"
               alt=""
               width="1672"
               height="941"
@@ -1523,10 +1474,8 @@
             <div class="hero-copy">
               <p class="eyebrow">Ma'had Sunnah Khusus Putri</p>
               <h1>Teguh di atas Sunnah.<br /><span>Mulia dalam adab.</span></h1>
-              <p class="hero-lede">
-                Di Ma'had An-Najah Putri Batam, santriwati mempelajari ilmu
-                agama dan pelajaran umum, serta dibimbing menjaga adab dalam
-                keseharian berlandaskan Al-Qur'an dan Sunnah.
+              <p class="hero-lede" data-editor-text="hero.intro">
+                Ma'had An-Najah Putri Batam menyelenggarakan pendidikan SMP dan SMA khusus putri. Di pondok, santriwati belajar Al-Qur'an, ilmu agama, dan pelajaran sekolah dengan bimbingan dalam ibadah serta adab sehari-hari.
               </p>
               <div class="hero-actions">
                 <a class="button button-gold" href="#tentang"
@@ -1550,8 +1499,8 @@
           <div class="shell identity-layout">
             <div class="identity-intro reveal">
               <p class="eyebrow">Keunggulan Utama</p>
-              <h2 id="identity-title">
-                Ilmu, adab, dan lingkungan yang terjaga.
+              <h2 id="identity-title" data-editor-text="strength.title">
+                Pendidikan khusus putri di lingkungan pondok.
               </h2>
             </div>
             <div class="identity-list reveal">
@@ -1564,7 +1513,7 @@
                     <path d="m11.5 16 3 3 6-7" /></svg
                 ></span>
                 <h3>Khusus Putri</h3>
-                <p>Ruang belajar yang diperuntukkan bagi santriwati.</p>
+                <p data-editor-text="strength.girls">Kegiatan belajar dan tinggal berlangsung di lingkungan khusus santriwati.</p>
               </article>
               <article>
                 <span class="feature-icon" aria-hidden="true"
@@ -1577,7 +1526,7 @@
                     /></svg
                 ></span>
                 <h3>Diniyah dan Umum</h3>
-                <p>Ilmu agama dipelajari bersama pelajaran umum.</p>
+                <p data-editor-text="strength.subjects">Tahfidz dan diniyah dipelajari tanpa meninggalkan mata pelajaran sekolah.</p>
               </article>
               <article>
                 <span class="feature-icon" aria-hidden="true"
@@ -1588,7 +1537,7 @@
                     <path d="M16 3v3" /></svg
                 ></span>
                 <h3>Al-Qur'an dan Sunnah</h3>
-                <p>Menjadi landasan belajar dan pembinaan adab.</p>
+                <p data-editor-text="strength.sunnah">Pembinaan akidah, ibadah, dan adab merujuk kepada Al-Qur'an dan Sunnah.</p>
               </article>
               <article>
                 <span class="feature-icon" aria-hidden="true"
@@ -1598,7 +1547,7 @@
                     /></svg
                 ></span>
                 <h3>Jenjang SMP &amp; SMA</h3>
-                <p>Pendidikan putri pada dua jenjang belajar.</p>
+                <p data-editor-text="strength.levels">Santriwati dapat menempuh pendidikan tingkat SMP atau SMA.</p>
               </article>
             </div>
           </div>
@@ -1609,8 +1558,9 @@
             <div class="intro-visual reveal">
               <div class="intro-frame parallax-view">
                 <img
+                  data-editor-image="introduction"
                   src="assets/images/ANNAJAH-2.png"
-                  alt="Ilustrasi santriwati bercadar berjalan bersama di lingkungan ma'had"
+                  alt="Santriwati bercadar berfoto bersama sambil membawa sertifikat kegiatan"
                   width="1635"
                   height="962"
                   loading="lazy"
@@ -1618,39 +1568,27 @@
               </div>
             </div>
             <div class="intro-copy reveal">
-              <h2>Ilmu sebagai bekal. Sunnah sebagai tuntunan.</h2>
-              <p>
-                Ma'had An-Najah Putri Batam mendampingi santriwati pada jenjang
-                SMP dan SMA. Mereka mempelajari ilmu agama dan pelajaran umum
-                dalam lingkungan khusus putri, dengan pembiasaan ibadah dan adab
-                yang berlandaskan Al-Qur'an dan Sunnah.
+              <h2 data-editor-text="introduction.title">Ilmu sebagai bekal. Sunnah sebagai tuntunan.</h2>
+              <p data-editor-text="introduction.body">
+                Belajar di pondok tidak berhenti saat pelajaran selesai. Santriwati mengulang hafalan, hidup bersama teman-temannya, dan belajar mengurus keperluan sehari-hari dengan pendampingan asatidzah.
               </p>
               <div class="principles">
                 <article>
                   <div>
                     <h3>Berpegang pada Al-Qur'an dan Sunnah</h3>
-                    <p>
-                      Akidah, ibadah, dan ilmu menjadi fondasi setiap langkah
-                      pendidikan.
-                    </p>
+                    <p data-editor-text="introduction.principle1">Pelajaran agama diarahkan agar dipahami dan diamalkan dalam keseharian.</p>
                   </div>
                 </article>
                 <article>
                   <div>
                     <h3>Menjaga aurat, memuliakan adab</h3>
-                    <p>
-                      Kesantunan dibiasakan melalui keteladanan dalam ibadah dan
-                      keseharian.
-                    </p>
+                    <p data-editor-text="introduction.principle2">Santriwati dibimbing menjaga pakaian, tutur kata, dan sikap terhadap orang lain.</p>
                   </div>
                 </article>
                 <article>
                   <div>
                     <h3>Ruang tumbuh khusus muslimah</h3>
-                    <p>
-                      Santriwati belajar dan bertumbuh bersama dalam
-                      pendampingan asatidzah.
-                    </p>
+                    <p data-editor-text="introduction.principle3">Asatidzah mendampingi santriwati belajar dan menjalani kehidupan asrama.</p>
                   </div>
                 </article>
               </div>
@@ -1679,10 +1617,8 @@
                   >
                 </h2>
               </div>
-              <p class="reveal !mb-0 max-w-[54ch] text-[var(--ink-soft)]">
-                Jenjang SMP dan SMA memberi ruang bagi santriwati untuk belajar
-                sesuai tahapnya. Arah pendidikan ma'had menyatukan ilmu, ibadah,
-                dan pembinaan adab dalam keseharian.
+              <p class="reveal !mb-0 max-w-[54ch] text-[var(--ink-soft)]" data-editor-text="vision.intro">
+                Visi dan misi ini menjadi pegangan dalam menyusun pelajaran, pengasuhan, dan kegiatan pondok.
               </p>
             </div>
             <div
@@ -1690,7 +1626,7 @@
             >
               <div class="vision-rule pt-6 reveal">
                 <p class="eyebrow !mb-5">01 / Visi</p>
-                <p
+                <p data-editor-text="vision.statement"
                   class="!mb-0 max-w-[26ch] text-[clamp(1.5rem,2.5vw,2.35rem)] font-semibold leading-[1.25] text-[var(--ink)]"
                 >
                   Menjadi Pondok Pesantren Tahfidz Al-Qur'an dan hadist yang
@@ -1706,13 +1642,13 @@
                     <span
                       class="shrink-0 text-sm font-semibold text-[var(--gold)]"
                       >01</span
-                    ><span>Mencetak para huffadz yang berakidah shohihah.</span>
+                    ><span data-editor-text="vision.mission1">Mencetak para huffadz yang berakidah shohihah.</span>
                   </li>
                   <li class="flex gap-5 border-b border-[var(--line)] py-4">
                     <span
                       class="shrink-0 text-sm font-semibold text-[var(--gold)]"
                       >02</span
-                    ><span
+                    ><span data-editor-text="vision.mission2"
                       >Mewujudkan para huffadz yang faham bahasa Arab
                       dasar.</span
                     >
@@ -1721,19 +1657,19 @@
                     <span
                       class="shrink-0 text-sm font-semibold text-[var(--gold)]"
                       >03</span
-                    ><span>Menyiapkan kader imam dan dai.</span>
+                    ><span data-editor-text="vision.mission3">Menyiapkan kader imam dan dai.</span>
                   </li>
                   <li class="flex gap-5 border-b border-[var(--line)] py-4">
                     <span
                       class="shrink-0 text-sm font-semibold text-[var(--gold)]"
                       >04</span
-                    ><span>Membekali para huffadz dengan ijazah formal.</span>
+                    ><span data-editor-text="vision.mission4">Membekali para huffadz dengan ijazah formal.</span>
                   </li>
                   <li class="flex gap-5 py-4">
                     <span
                       class="shrink-0 text-sm font-semibold text-[var(--gold)]"
                       >05</span
-                    ><span
+                    ><span data-editor-text="vision.mission5"
                       >Membekali para huffadz untuk melanjutkan ke tingkat
                       pendidikan yang lebih tinggi.</span
                     >
@@ -1753,20 +1689,19 @@
             <div class="pondok-program-intro reveal">
               <p class="eyebrow">Pokok Pembelajaran</p>
               <h2 id="pondok-program-title">Program Pondok</h2>
-              <p>
-                Tahfidz, bahasa Arab, adab, dan pelajaran umum menjadi bagian
-                dari program pondok.
+              <p data-editor-text="pondok.intro">
+                Tahfidz Al-Qur'an dan hadits menjadi inti pembelajaran, didampingi bahasa Arab dasar, adab, dan mata pelajaran umum.
               </p>
             </div>
             <ol
               class="pondok-program-list reveal"
               aria-label="Program Pondok Pesantren An-Najah"
             >
-              <li><span>01</span><strong>Tahfidzul Qur'an</strong></li>
-              <li><span>02</span><strong>Tahfidzul Hadits</strong></li>
-              <li><span>03</span><strong>Bahasa Arab Dasar</strong></li>
-              <li><span>04</span><strong>Adab &amp; Akhlaq</strong></li>
-              <li><span>05</span><strong>Mapel UN</strong></li>
+              <li><span>01</span><strong data-editor-text="pondok.program1">Tahfidzul Qur'an</strong></li>
+              <li><span>02</span><strong data-editor-text="pondok.program2">Tahfidzul Hadits</strong></li>
+              <li><span>03</span><strong data-editor-text="pondok.program3">Bahasa Arab Dasar</strong></li>
+              <li><span>04</span><strong data-editor-text="pondok.program4">Adab &amp; Akhlaq</strong></li>
+              <li><span>05</span><strong data-editor-text="pondok.program5">Mapel UN</strong></li>
             </ol>
           </div>
         </section>
@@ -1775,11 +1710,9 @@
           <div class="shell">
             <div class="section-heading reveal !mb-8 lg:!mb-10">
               <p class="eyebrow">Pendidikan SMP &amp; SMA</p>
-              <h2>Ilmu agama yang mengakar. Wawasan yang luas.</h2>
-              <p>
-                Pada jenjang SMP dan SMA, santriwati mempelajari diniyah,
-                Al-Qur'an, dan mata pelajaran umum. Kegiatan harian juga menjadi
-                tempat berlatih adab, tanggung jawab, dan kemandirian.
+              <h2 data-editor-text="education.title">Pelajaran agama dan sekolah, sesuai jenjang.</h2>
+              <p data-editor-text="education.intro">
+                Pembelajaran terbagi dalam tiga bagian. Pilih salah satu untuk melihat materi yang dipelajari santriwati.
               </p>
             </div>
             <div
@@ -1790,9 +1723,8 @@
                   class="text-sm font-extrabold tracking-[.16em] text-[var(--gold)]"
                   >SMP</span
                 >
-                <p class="!mb-0 text-sm text-[var(--ink-soft)]">
-                  Pendidikan tingkat menengah pertama dalam lingkungan khusus
-                  putri.
+                <p class="!mb-0 text-sm text-[var(--ink-soft)]" data-editor-text="education.smp">
+                  Pendidikan tingkat menengah pertama dengan pendampingan sesuai usia.
                 </p>
               </div>
               <div class="flex items-start gap-4">
@@ -1800,9 +1732,8 @@
                   class="text-sm font-extrabold tracking-[.16em] text-[var(--gold)]"
                   >SMA</span
                 >
-                <p class="!mb-0 text-sm text-[var(--ink-soft)]">
-                  Pendidikan tingkat menengah atas dengan pembelajaran sesuai
-                  jenjang.
+                <p class="!mb-0 text-sm text-[var(--ink-soft)]" data-editor-text="education.sma">
+                  Pembelajaran tingkat menengah atas sebagai bekal untuk melanjutkan studi.
                 </p>
               </div>
             </div>
@@ -1879,7 +1810,7 @@
                 >
                   <div>
                     <p>Diniyah &amp; Al-Qur'an</p>
-                    <h3>Mengenal agama. Mengamalkan ilmunya.</h3>
+                    <h3 data-editor-text="education.diniyah">Memperbaiki bacaan, menjaga hafalan, memahami agama.</h3>
                   </div>
                   <ul>
                     <li>Tahsin, tahfidz, dan murajaah</li>
@@ -1897,7 +1828,7 @@
                 >
                   <div>
                     <p>Pelajaran Umum</p>
-                    <h3>Berpikir jernih. Memahami dunia.</h3>
+                    <h3 data-editor-text="education.general">Mata pelajaran sekolah sesuai tingkat belajar.</h3>
                   </div>
                   <ul>
                     <li>Matematika dan ilmu pengetahuan alam</li>
@@ -1915,7 +1846,7 @@
                 >
                   <div>
                     <p>Pengembangan Diri</p>
-                    <h3>Mandiri dalam keseharian. Santun dalam pergaulan.</h3>
+                    <h3 data-editor-text="education.self">Belajar mengatur diri dan bekerja sama.</h3>
                   </div>
                   <ul>
                     <li>Keterampilan hidup dan tanggung jawab</li>
@@ -1936,101 +1867,40 @@
           <div class="shell">
             <div class="section-heading reveal !mb-9 lg:!mb-12">
               <p class="eyebrow">Lingkungan Ma'had</p>
-              <h2>Ruang untuk belajar dan bertumbuh.</h2>
-              <p>
-                Asrama, ruang belajar, perpustakaan, serta tempat ibadah dan
-                olahraga mendukung keseharian santriwati di ma'had.
+              <h2 data-editor-text="facilities.title">Fasilitas untuk belajar dan tinggal.</h2>
+              <p data-editor-text="facilities.intro">
+                Kenali tempat santriwati tinggal, belajar, membaca, beribadah, dan berolahraga.
               </p>
             </div>
-            <div class="facility-showcase">
-              <article class="facility-entry group reveal">
-                <figure class="facility-thumb !m-0">
-                  <img
-                    src="assets/maahad-putri-campus-niqab.webp"
-                    alt="Ilustrasi lingkungan putri sebagai visual pendamping asrama"
-                    width="1635"
-                    height="962"
-                    loading="lazy"
-                  />
+            <div class="facility-atlas reveal">
+              <div class="facility-tabs" role="tablist" aria-label="Pilih fasilitas">
+                <button class="facility-tab" type="button" role="tab" id="facility-tab-dorm" aria-controls="facility-panel" aria-selected="true" data-facility-group="dorm"><span>01</span><strong>Asrama putri</strong><small data-facility-count="dorm">2 foto</small></button>
+                <button class="facility-tab" type="button" role="tab" id="facility-tab-class" aria-controls="facility-panel" aria-selected="false" tabindex="-1" data-facility-group="class"><span>02</span><strong>Kelas &amp; laboratorium</strong><small data-facility-count="class">4 foto</small></button>
+                <button class="facility-tab" type="button" role="tab" id="facility-tab-library" aria-controls="facility-panel" aria-selected="false" tabindex="-1" data-facility-group="library"><span>03</span><strong>Perpustakaan</strong><small data-facility-count="library">2 foto</small></button>
+                <button class="facility-tab" type="button" role="tab" id="facility-tab-worship" aria-controls="facility-panel" aria-selected="false" tabindex="-1" data-facility-group="worship"><span>04</span><strong>Ibadah &amp; olahraga</strong><small data-facility-count="worship">2 foto</small></button>
+              </div>
+              <div class="facility-layout" id="facility-panel" role="tabpanel" aria-labelledby="facility-tab-dorm" tabindex="0">
+                <figure class="facility-main">
+                  <div class="facility-image-frame">
+                    <img class="facility-image-backdrop" id="facilityBackdropImage" src="assets/uploads/28fc73686be7aaf1.png" alt="" aria-hidden="true" loading="lazy" />
+                    <button class="facility-image-open" id="facilityImageOpen" type="button" aria-label="Perbesar foto fasilitas">
+                      <img id="facilityMainImage" src="assets/uploads/28fc73686be7aaf1.png" alt="Foto Asrama putri" loading="lazy" />
+                      <span class="facility-zoom-hint" aria-hidden="true">Lihat lebih besar ↗</span>
+                    </button>
+                  </div>
+                  <figcaption><span id="facilityPhotoPosition">01 / 02</span><span id="facilityPhotoCaption" aria-live="polite">Foto Asrama putri.</span></figcaption>
                 </figure>
-                <div class="min-w-0">
-                  <span
-                    class="mb-2 block text-xs font-bold tracking-[.16em] text-[var(--gold)]"
-                    >01 / TINGGAL</span
-                  >
-                  <h3 class="!mb-2">Asrama putri</h3>
-                  <p>
-                    Ruang tinggal untuk membiasakan hidup tertib, mandiri, dan
-                    saling menjaga.
-                  </p>
+                <div class="facility-side">
+                  <div class="facility-side-head"><span class="facility-side-eyebrow">Jelajahi fasilitas</span><h3 id="facilityActiveTitle">Asrama putri</h3><p id="facilityActiveDescription" data-editor-text="facility.dorm">Di asrama, santriwati belajar menjaga kebersihan, waktu, dan barang milik bersama.</p></div>
+                  <div class="facility-photo-selector" id="facilityPhotoSelector" aria-label="Foto fasilitas"></div>
+                  <div class="facility-controls"><button type="button" id="facilityPrev" aria-label="Foto fasilitas sebelumnya">←</button><span id="facilityInlineCount" aria-live="polite">01 / 02</span><button type="button" id="facilityNext" aria-label="Foto fasilitas berikutnya">→</button></div>
                 </div>
-              </article>
-              <article class="facility-entry group reveal">
-                <figure class="facility-thumb !m-0">
-                  <img
-                    src="assets/maahad-putri-lab-niqab.webp"
-                    alt="Ilustrasi santriwati belajar sains di laboratorium"
-                    width="1024"
-                    height="1536"
-                    loading="lazy"
-                  />
-                </figure>
-                <div class="min-w-0">
-                  <span
-                    class="mb-2 block text-xs font-bold tracking-[.16em] text-[var(--gold)]"
-                    >02 / BELAJAR</span
-                  >
-                  <h3 class="!mb-2">Kelas &amp; laboratorium</h3>
-                  <p>
-                    Tempat mempelajari pelajaran umum, berdiskusi, dan melakukan
-                    pengamatan.
-                  </p>
-                </div>
-              </article>
-              <article class="facility-entry group reveal">
-                <figure class="facility-thumb !m-0">
-                  <img
-                    src="assets/maahad-putri-halaqah-niqab.webp"
-                    alt="Ilustrasi santriwati membaca di ruang dengan rak buku"
-                    width="1538"
-                    height="1022"
-                    loading="lazy"
-                  />
-                </figure>
-                <div class="min-w-0">
-                  <span
-                    class="mb-2 block text-xs font-bold tracking-[.16em] text-[var(--gold)]"
-                    >03 / MEMBACA</span
-                  >
-                  <h3 class="!mb-2">Perpustakaan</h3>
-                  <p>
-                    Bacaan agama dan pengetahuan umum menjadi teman belajar
-                    santriwati.
-                  </p>
-                </div>
-              </article>
-              <article class="facility-entry group reveal">
-                <figure class="facility-thumb !m-0">
-                  <img
-                    src="assets/maahad-putri-hero-niqab.webp"
-                    alt="Ilustrasi santriwati membaca Al-Qur'an di area terbuka"
-                    width="1672"
-                    height="941"
-                    loading="lazy"
-                  />
-                </figure>
-                <div class="min-w-0">
-                  <span
-                    class="mb-2 block text-xs font-bold tracking-[.16em] text-[var(--gold)]"
-                    >04 / KESEHARIAN</span
-                  >
-                  <h3 class="!mb-2">Ibadah &amp; olahraga</h3>
-                  <p>
-                    Ruang untuk menjaga ibadah, bergerak, dan merawat kebiasaan
-                    hidup yang baik.
-                  </p>
-                </div>
-              </article>
+              </div>
+              <div class="facility-editor-descriptions" hidden aria-hidden="true">
+                <p data-editor-text="facility.class">Ruang kelas digunakan untuk pelajaran sekolah; laboratorium untuk praktik dan pengamatan.</p>
+                <p data-editor-text="facility.library">Tempat mencari rujukan dan membaca di luar jam pelajaran.</p>
+                <p data-editor-text="facility.worship">Ruang ibadah dan area olahraga memberi tempat bagi santriwati untuk shalat serta bergerak.</p>
+              </div>
             </div>
           </div>
         </section>
@@ -2041,6 +1911,7 @@
         >
           <div class="video-backdrop parallax-view" aria-hidden="true">
             <img
+              data-editor-image="video"
               src="assets/maahad-putri-halaqah-niqab.webp"
               alt=""
               width="1538"
@@ -2051,7 +1922,7 @@
           <div class="video-overlay" aria-hidden="true"></div>
           <div class="video-content shell reveal">
             <p class="eyebrow">Video Profil</p>
-            <h2 id="video-title">Sejenak mengenal keseharian santriwati.</h2>
+            <h2 id="video-title" data-editor-text="video.title">Melihat suasana pondok dari dekat.</h2>
             <button
               class="video-play"
               type="button"
@@ -2067,10 +1938,9 @@
         <section class="gallery-section section !py-16 lg:!py-20" id="galeri">
           <div class="shell">
             <div class="section-heading reveal">
-              <h2>Belajar dan tumbuh bersama.</h2>
-              <p>
-                Jelajahi suasana halaqah, ekstrakurikuler, kebersamaan, dan
-                belajar di berbagai ruang.
+              <h2 data-editor-text="gallery.title">Belajar dan tumbuh bersama.</h2>
+              <p data-editor-text="gallery.intro">
+                Pilih kegiatan untuk melihat koleksi gambarnya.
               </p>
             </div>
             <div class="gallery-experience reveal">
@@ -2090,7 +1960,7 @@
               </div>
               <div class="gallery-panel" id="gallery-panel" role="tabpanel" aria-labelledby="gallery-tab-halaqah" tabindex="0">
                 <button class="gallery-stage" id="galleryStage" type="button" aria-label="Perbesar foto Halaqah Al-Qur'an">
-                  <img id="galleryStageImage" src="assets/maahad-putri-halaqah-niqab.webp" alt="Ilustrasi halaqah Al-Qur'an bersama santriwati dan asatidzah bercadar" width="1538" height="1022" loading="lazy" />
+                  <img id="galleryStageImage" src="assets/uploads/8c73dae9c93ff1bc.png" alt="Foto Halaqah Al-Qur&#39;an" width="1538" height="1022" loading="lazy" />
                   <span class="gallery-stage-action">Lihat foto <span aria-hidden="true">↗</span></span>
                 </button>
                 <div class="gallery-panel-meta">
@@ -2101,6 +1971,7 @@
                     <button type="button" id="galleryInlineNext" aria-label="Foto berikutnya">→</button>
                   </div>
                 </div>
+                <p class="gallery-photo-caption" id="galleryPhotoCaption" aria-live="polite">Foto Halaqah Al-Qur&#39;an.</p>
                 <div class="gallery-thumbnails" id="galleryThumbnails" aria-label="Pilih foto dalam koleksi"></div>
               </div>
             </div>
@@ -2110,33 +1981,32 @@
         <section class="news-section section !py-16 lg:!py-20" id="kegiatan">
           <div class="shell">
             <div class="section-heading reveal">
-              <p class="eyebrow">Catatan Kegiatan</p>
-              <h2>Cerita kecil. Bekal yang berarti.</h2>
-              <p>
-                Catatan belajar, kebersamaan, dan kegiatan santriwati dari
-                keseharian di ma'had.
+              <p class="eyebrow">Kegiatan Santriwati</p>
+              <h2 data-editor-text="activities.title">Cerita kecil. Bekal yang berarti.</h2>
+              <p data-editor-text="activities.intro">
+                Bagian ini mengenalkan halaqah, praktik kelas, dan kehidupan asrama.
               </p>
             </div>
             <div class="news-grid">
               <article class="news-feature reveal">
                 <div class="news-image">
                   <img
+                    data-editor-image="activity.halaqah"
                     src="assets/maahad-putri-halaqah-niqab.webp"
                     alt="Ilustrasi halaqah Al-Qur'an santriwati bercadar"
                     width="1538"
                     height="1022"
                     loading="lazy"
                   />
+                  <span class="news-image-caption" data-editor-text="activity.halaqah.caption">Gambaran suasana halaqah Al-Qur'an.</span>
                 </div>
                 <div class="news-body">
                   <div class="news-meta">
                     <span>Al-Qur'an</span><time hidden>Catatan Ma'had</time>
                   </div>
-                  <h3>Menjaga hafalan, menguatkan kebersamaan.</h3>
-                  <p>
-                    Halaqah dan murajaah menjadi ruang saling menyemangati dalam
-                    mempelajari Al-Qur'an.
-                  </p>
+                  <h3 data-editor-text="activity.halaqah.title">Membaca dan mengulang hafalan bersama.</h3>
+                  <p data-editor-text="activity.halaqah.summary">Dalam halaqah, santriwati menyimak bacaan teman dan mengulang hafalan secara bergiliran.</p>
+                  <p class="news-detail" data-editor-text="activity.halaqah.detail" hidden>Halaqah menjadi waktu untuk memperbaiki bacaan Al-Qur'an dan mengulang ayat yang telah dihafal. Santriwati belajar mendengarkan dengan saksama sebelum tiba gilirannya.</p>
                   <button
                     class="text-link"
                     type="button"
@@ -2151,19 +2021,22 @@
                 <article class="news-compact reveal">
                   <div class="news-image">
                     <img
+                      data-editor-image="activity.science"
                       src="assets/maahad-putri-lab-niqab.webp"
                       alt="Ilustrasi praktik sains santriwati bercadar"
                       width="1024"
                       height="1536"
                       loading="lazy"
                     />
+                    <span class="news-image-caption" data-editor-text="activity.science.caption">Gambaran kegiatan pengamatan di kelas.</span>
                   </div>
                   <div class="news-body">
                     <div class="news-meta">
                       <span>Pembelajaran</span
                       ><time hidden>Catatan Ma'had</time>
                     </div>
-                    <h3>Sains yang dekat dengan keseharian.</h3>
+                    <h3 data-editor-text="activity.science.title">Mengamati dan mencatat di kelas.</h3>
+                    <p class="news-detail" data-editor-text="activity.science.detail" hidden>Dalam praktik sains, santriwati belajar mengamati, mencatat hasil, dan membicarakan apa yang mereka temukan bersama asatidzah.</p>
                     <button
                       class="text-link"
                       type="button"
@@ -2177,19 +2050,22 @@
                 <article class="news-compact reveal">
                   <div class="news-image">
                     <img
+                      data-editor-image="activity.community"
                       src="assets/images/ANNAJAH-2.png"
-                      alt="Ilustrasi kebersamaan santriwati bercadar"
+                      alt="Santriwati bercadar berfoto bersama sambil membawa sertifikat kegiatan"
                       width="1635"
                       height="962"
                       loading="lazy"
                     />
+                    <span class="news-image-caption" data-editor-text="activity.community.caption">Santriwati bersama sertifikat kegiatan.</span>
                   </div>
                   <div class="news-body">
                     <div class="news-meta">
                       <span>Kehidupan Putri</span
                       ><time hidden>Catatan Ma'had</time>
                     </div>
-                    <h3>Belajar adab melalui kebersamaan.</h3>
+                    <h3 data-editor-text="activity.community.title">Belajar hidup bersama di asrama.</h3>
+                    <p class="news-detail" data-editor-text="activity.community.detail" hidden>Hidup bersama memberi kesempatan untuk belajar menjaga kebersihan, menghargai hak teman, dan menunaikan tugas sehari-hari.</p>
                     <button
                       class="text-link"
                       type="button"
@@ -2202,41 +2078,38 @@
                 </article>
               </div>
             </div>
-            <!-- Catatan pengembang: gambar dan cerita kegiatan masih dummy untuk pratinjau desain. Tanggal tidak ditampilkan sebelum data resmi tersedia. -->
+            <!-- Materi kegiatan dapat diperbarui melalui editor lokal. Tanggal tidak ditampilkan tanpa data yang terverifikasi. -->
           </div>
         </section>
 
         <section class="life-section section !py-16 lg:!py-20" id="kehidupan">
           <div class="shell life-grid">
             <div class="life-copy reveal">
-              <h2>Hari-hari yang dijalani dengan tujuan.</h2>
-              <p>
-                Setiap waktu memiliki tujuan: mendekat kepada Allah, menuntut
-                ilmu, menjaga tubuh, dan belajar bertanggung jawab.
+              <h2 data-editor-text="rhythm.title">Dari fajar hingga waktu istirahat.</h2>
+              <p data-editor-text="rhythm.intro">
+                Ibadah, pelajaran, dan urusan asrama mendapat tempat dalam keseharian santriwati.
               </p>
             </div>
             <div class="life-steps">
               <article class="reveal">
                 <span>Fajar</span>
                 <h3>Ibadah dan Al-Qur'an</h3>
-                <p>Hari dimulai dengan ketenangan, dzikir, dan murajaah.</p>
+                <p data-editor-text="rhythm.dawn">Waktu untuk ibadah pagi dan mengulang hafalan.</p>
               </article>
               <article class="reveal">
                 <span>Pagi</span>
-                <h3>Ilmu dan Eksplorasi</h3>
-                <p>
-                  Kelas diniyah serta akademik berlangsung aktif dan terarah.
-                </p>
+                <h3>Pelajaran di Kelas</h3>
+                <p data-editor-text="rhythm.morning">Santriwati mengikuti pelajaran agama dan mata pelajaran sekolah.</p>
               </article>
               <article class="reveal">
                 <span>Sore</span>
                 <h3>Keterampilan dan Gerak</h3>
-                <p>Olahraga, organisasi, bahasa, dan kecakapan hidup.</p>
+                <p data-editor-text="rhythm.afternoon">Waktu untuk bergerak, berlatih keterampilan, dan menyelesaikan tugas.</p>
               </article>
               <article class="reveal">
                 <span>Malam</span>
-                <h3>Refleksi dan Kemandirian</h3>
-                <p>Belajar mandiri, evaluasi, dan istirahat yang teratur.</p>
+                <h3>Belajar dan Beristirahat</h3>
+                <p data-editor-text="rhythm.night">Menyiapkan keperluan esok hari dan beristirahat.</p>
               </article>
             </div>
           </div>
@@ -2247,9 +2120,8 @@
             <div class="faq-copy reveal">
               <p class="eyebrow">Pertanyaan yang Sering Diajukan</p>
               <h2>Mengenal ma'had lebih dekat.</h2>
-              <p>
-                Beberapa jawaban singkat tentang jenjang pendidikan dan
-                keseharian santriwati di Ma'had An-Najah Putri Batam.
+              <p data-editor-text="faq.intro">
+                Jawaban singkat atas pertanyaan yang sering disampaikan keluarga.
               </p>
               <a class="text-link" href="#kontak"
                 >Tanyakan langsung <span aria-hidden="true">↗</span></a
@@ -2263,16 +2135,15 @@
                   <span
                     class="w-7 shrink-0 text-xs font-bold text-[var(--gold)]"
                     >01</span
-                  ><span class="min-w-0 flex-1"
+                  ><span class="min-w-0 flex-1" data-editor-text="faq.q1"
                     >Apakah ma'had ini khusus putri?</span
                   ><span class="faq-indicator" aria-hidden="true"
                     ><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg
                   ></span>
                 </summary>
                 <div class="faq-answer">
-                  <p>
-                    Ya. Ma'had An-Najah Putri Batam menyediakan lingkungan
-                    belajar dan pembinaan khusus santriwati.
+                  <p data-editor-text="faq.a1">
+                    Ya. Lingkungan belajar dan asrama diperuntukkan bagi santriwati.
                   </p>
                 </div>
               </details>
@@ -2281,16 +2152,15 @@
                   <span
                     class="w-7 shrink-0 text-xs font-bold text-[var(--gold)]"
                     >02</span
-                  ><span class="min-w-0 flex-1"
+                  ><span class="min-w-0 flex-1" data-editor-text="faq.q2"
                     >Jenjang pendidikan apa yang tersedia?</span
                   ><span class="faq-indicator" aria-hidden="true"
                     ><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg
                   ></span>
                 </summary>
                 <div class="faq-answer">
-                  <p>
-                    Ma'had menyelenggarakan pendidikan untuk jenjang SMP dan SMA
-                    khusus putri.
+                  <p data-editor-text="faq.a2">
+                    Tersedia jenjang SMP dan SMA khusus putri.
                   </p>
                 </div>
               </details>
@@ -2299,17 +2169,15 @@
                   <span
                     class="w-7 shrink-0 text-xs font-bold text-[var(--gold)]"
                     >03</span
-                  ><span class="min-w-0 flex-1"
+                  ><span class="min-w-0 flex-1" data-editor-text="faq.q3"
                     >Apa landasan pendidikan di ma'had?</span
                   ><span class="faq-indicator" aria-hidden="true"
                     ><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg
                   ></span>
                 </summary>
                 <div class="faq-answer">
-                  <p>
-                    Pembelajaran dan pembinaan berlandaskan Al-Qur'an dan
-                    Sunnah, dengan perhatian pada akidah, ibadah, ilmu, dan adab
-                    sehari-hari.
+                  <p data-editor-text="faq.a3">
+                    Al-Qur'an dan Sunnah menjadi rujukan dalam pelajaran agama, pembinaan ibadah, dan adab sehari-hari.
                   </p>
                 </div>
               </details>
@@ -2318,17 +2186,15 @@
                   <span
                     class="w-7 shrink-0 text-xs font-bold text-[var(--gold)]"
                     >04</span
-                  ><span class="min-w-0 flex-1"
+                  ><span class="min-w-0 flex-1" data-editor-text="faq.q4"
                     >Apakah santriwati juga belajar mata pelajaran umum?</span
                   ><span class="faq-indicator" aria-hidden="true"
                     ><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg
                   ></span>
                 </summary>
                 <div class="faq-answer">
-                  <p>
-                    Ya. Selain diniyah dan Al-Qur'an, santriwati mempelajari
-                    mata pelajaran umum sesuai jenjang dan kurikulum yang
-                    berlaku di ma'had.
+                  <p data-editor-text="faq.a4">
+                    Ya. Pelajaran umum diajarkan sesuai jenjang SMP atau SMA, bersama pelajaran diniyah dan Al-Qur'an.
                   </p>
                 </div>
               </details>
@@ -2337,17 +2203,15 @@
                   <span
                     class="w-7 shrink-0 text-xs font-bold text-[var(--gold)]"
                     >05</span
-                  ><span class="min-w-0 flex-1"
+                  ><span class="min-w-0 flex-1" data-editor-text="faq.q5"
                     >Bagaimana keseharian santriwati?</span
                   ><span class="faq-indicator" aria-hidden="true"
                     ><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg
                   ></span>
                 </summary>
                 <div class="faq-answer">
-                  <p>
-                    Hari-hari santriwati diisi dengan ibadah, belajar, murajaah,
-                    kegiatan fisik, dan latihan bertanggung jawab dalam
-                    kehidupan bersama.
+                  <p data-editor-text="faq.a5">
+                    Ada waktu untuk ibadah, pelajaran, murajaah, kegiatan fisik, dan urusan asrama.
                   </p>
                 </div>
               </details>
@@ -2356,17 +2220,15 @@
                   <span
                     class="w-7 shrink-0 text-xs font-bold text-[var(--gold)]"
                     >06</span
-                  ><span class="min-w-0 flex-1"
+                  ><span class="min-w-0 flex-1" data-editor-text="faq.q6"
                     >Bagaimana jika keluarga ingin berkunjung?</span
                   ><span class="faq-indicator" aria-hidden="true"
                     ><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg
                   ></span>
                 </summary>
                 <div class="faq-answer">
-                  <p>
-                    Silakan menghubungi pengelola terlebih dahulu untuk
-                    menanyakan jadwal dan ketentuan kunjungan demi kenyamanan
-                    santriwati.
+                  <p data-editor-text="faq.a6">
+                    Silakan hubungi pengelola lebih dulu untuk menanyakan jadwal dan ketentuan kunjungan.
                   </p>
                 </div>
               </details>
@@ -2382,10 +2244,9 @@
           <div class="shell instagram-layout">
             <div class="instagram-copy reveal">
               <p class="eyebrow">Dari Instagram</p>
-              <h2 id="instagram-title">Kabar terbaru dari ma'had.</h2>
-              <p>
-                Pengumuman, kegiatan santriwati, dan catatan dari pondok dapat
-                dilihat langsung melalui unggahan @ppannajahbatam.
+              <h2 id="instagram-title" data-editor-text="instagram.title">Kabar dari pondok.</h2>
+              <p data-editor-text="instagram.intro">
+                Pengelola membagikan pengumuman dan dokumentasi kegiatan melalui @ppannajahbatam.
               </p>
               <div class="instagram-handle">
                 <img
@@ -2468,10 +2329,9 @@
         >
           <div class="shell">
             <div class="social-heading reveal">
-              <h2>Tetap dekat, di mana pun.</h2>
-              <p>
-                Ikuti cerita keseharian, informasi, dan kegiatan terbaru melalui
-                kanal resmi pondok.
+              <h2 data-editor-text="social.title">Tetap terhubung dengan pondok.</h2>
+              <p data-editor-text="social.intro">
+                Temukan kanal resmi untuk mengikuti informasi dari pengelola.
               </p>
             </div>
             <div class="social-links reveal">
@@ -2516,10 +2376,9 @@
           <div class="shell contact-grid">
             <div class="contact-copy reveal">
               <p class="eyebrow">Silaturahmi dan Kunjungan</p>
-              <h2>Mari berkenalan lebih dekat.</h2>
-              <p>
-                Terbuka untuk pertanyaan tentang ma'had, agenda kunjungan, dan
-                peluang kolaborasi dalam pendidikan.
+              <h2 data-editor-text="contact.title">Mari berkenalan lebih dekat.</h2>
+              <p data-editor-text="contact.intro">
+                Untuk bertanya tentang pendidikan, kehidupan asrama, atau rencana kunjungan, silakan hubungi kami melalui email atau telepon.
               </p>
               <a class="button button-gold" href="mailto:annajahbtm@gmail.com"
                 >Kirim Email <span aria-hidden="true">↗</span></a
@@ -2601,7 +2460,7 @@
             ><a href="#kehidupan">Kehidupan Ma'had</a>
           </div>
           <div>
-            <strong>Informasi</strong><a href="#kegiatan">Kegiatan Terbaru</a
+            <strong>Informasi</strong><a href="#kegiatan">Kegiatan</a
             ><a href="#faq">FAQ</a><a href="#instagram">Instagram</a
             ><a href="#media-sosial">Media Sosial</a
             ><a href="#kontak">Hubungi Kami</a>
@@ -2701,6 +2560,25 @@
       </div>
     </dialog>
 
+    <dialog class="facility-dialog" id="facilityDialog" aria-labelledby="facilityDialogCaption">
+      <div class="facility-dialog-shell">
+        <button class="facility-dialog-close" id="facilityDialogClose" type="button" aria-label="Tutup foto fasilitas">Tutup ×</button>
+        <div class="facility-dialog-viewport" id="facilityDialogViewport">
+          <button class="facility-dialog-image-button" id="facilityDialogImageButton" type="button" aria-label="Perbesar foto">
+            <img id="facilityDialogImage" src="assets/maahad-putri-campus-niqab.webp" alt="" />
+          </button>
+        </div>
+        <div class="facility-dialog-footer">
+          <p id="facilityDialogCaption">Foto fasilitas</p>
+          <div class="facility-dialog-zoom">
+            <button type="button" id="facilityZoomOut" aria-label="Perkecil foto">−</button>
+            <span id="facilityZoomLevel" aria-live="polite">100%</span>
+            <button type="button" id="facilityZoomIn" aria-label="Perbesar foto">+</button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
     <dialog
       class="gallery-dialog"
       id="galleryDialog"
@@ -2746,7 +2624,145 @@
       </div>
     </dialog>
 
-    <script src="assets/an-najah-v2.js?v=gallery-20260912-1" defer></script>
+    <script type="application/json" id="facilityData">
+{
+  "dorm": {
+    "label": "Asrama putri",
+    "photos": [
+      {
+        "src": "assets/uploads/28fc73686be7aaf1.png",
+        "alt": "Foto Asrama putri",
+        "caption": "Foto Asrama putri."
+      },
+      {
+        "src": "assets/uploads/2972514693137407.png",
+        "alt": "Foto Asrama putri",
+        "caption": "Foto Asrama putri."
+      }
+    ]
+  },
+  "class": {
+    "label": "Kelas & laboratorium",
+    "photos": [
+      {
+        "src": "assets/uploads/86fa620a33c230d0.png",
+        "alt": "Foto Kelas & laboratorium",
+        "caption": "Ruangan Kelas Kegiatan Pembelajaran"
+      },
+      {
+        "src": "assets/uploads/9839788f58e985a2.png",
+        "alt": "Foto Kelas & laboratorium",
+        "caption": "Ruangan Kelas Kegiatan Pembelajaran"
+      },
+      {
+        "src": "assets/uploads/33b74e5471845fce.png",
+        "alt": "Foto Kelas & laboratorium",
+        "caption": "Foto Kelas & laboratorium."
+      },
+      {
+        "src": "assets/uploads/f77902b22cee9562.png",
+        "alt": "Foto Kelas & laboratorium",
+        "caption": "Laboratorium Komputer"
+      }
+    ]
+  },
+  "library": {
+    "label": "Perpustakaan",
+    "photos": [
+      {
+        "src": "assets/images/fasilitas/PERPUS-1.jpeg",
+        "alt": "Rak dan lemari buku di perpustakaan pondok",
+        "caption": "Rak buku dan bahan bacaan di perpustakaan pondok."
+      },
+      {
+        "src": "assets/images/fasilitas/PERPUS-3.jpeg",
+        "alt": "Rak buku dan koleksi bacaan di perpustakaan pondok",
+        "caption": "Koleksi bacaan yang tertata di rak perpustakaan."
+      }
+    ]
+  },
+  "worship": {
+    "label": "Ibadah & olahraga",
+    "photos": [
+      {
+        "src": "assets/uploads/1de6f0c222acbd49.png",
+        "alt": "Foto Ibadah & olahraga",
+        "caption": "Kegiatan Ibadah"
+      },
+      {
+        "src": "assets/uploads/0ef5b994cad0a5e4.png",
+        "alt": "Foto Ibadah & olahraga",
+        "caption": "Kegiatan Ibadah"
+      }
+    ]
+  }
+}
+    </script>
+    <script type="application/json" id="galleryData">
+{
+  "halaqah": {
+    "label": "Halaqah Al-Qur'an",
+    "photos": [
+      {
+        "src": "assets/uploads/8c73dae9c93ff1bc.png",
+        "alt": "Foto Halaqah Al-Qur'an",
+        "caption": "Foto Halaqah Al-Qur'an."
+      },
+      {
+        "src": "assets/uploads/0c45beeb3bbc4673.png",
+        "alt": "Foto Halaqah Al-Qur'an",
+        "caption": "Foto Halaqah Al-Qur'an."
+      }
+    ]
+  },
+  "ekstrakurikuler": {
+    "label": "Ekstrakurikuler",
+    "photos": [
+      {
+        "src": "assets/maahad-putri-lab-niqab.webp",
+        "alt": "Ilustrasi santriwati bercadar melakukan pengamatan dengan mikroskop",
+        "caption": "Gambaran pengamatan sains di laboratorium."
+      },
+      {
+        "src": "assets/images/ANNAJAH-2.png",
+        "alt": "Santriwati bercadar berfoto bersama sambil membawa sertifikat kegiatan",
+        "caption": "Santriwati menunjukkan sertifikat kegiatan."
+      }
+    ]
+  },
+  "ukhuwah": {
+    "label": "Ukhuwah & Kemandirian",
+    "photos": [
+      {
+        "src": "assets/images/ANNAJAH-1.png",
+        "alt": "Ilustrasi kebersamaan santriwati bercadar dalam kelompok",
+        "caption": "Gambaran kebersamaan santriwati."
+      },
+      {
+        "src": "assets/maahad-putri-campus-niqab.webp",
+        "alt": "Ilustrasi santriwati bercadar berjalan bersama",
+        "caption": "Gambaran santriwati berjalan bersama."
+      }
+    ]
+  },
+  "belajar": {
+    "label": "Belajar di Setiap Ruang",
+    "photos": [
+      {
+        "src": "assets/images/ANNAJAH-3.png",
+        "alt": "Ilustrasi santriwati bercadar belajar bersama di ruang kelas",
+        "caption": "Gambaran kegiatan belajar di kelas."
+      },
+      {
+        "src": "assets/maahad-putri-halaqah-niqab.webp",
+        "alt": "Ilustrasi santriwati bercadar belajar Al-Qur'an dalam halaqah",
+        "caption": "Gambaran pembelajaran Al-Qur'an dalam halaqah."
+      }
+    ]
+  }
+}
+    </script>
+    <script src="assets/an-najah-v2.js?v=facility-fit-20260914-2" defer></script>
     <script>
       // Keep the existing dialog behavior while using natural, undated copy in this HTML-only revision.
       document.addEventListener("DOMContentLoaded", () => {
@@ -2796,13 +2812,6 @@
             }
           });
         }
-        const storyText = {
-          halaqah:
-            "Halaqah menjadi waktu bagi santriwati untuk memperbaiki bacaan, mengulang hafalan, dan menyimak dengan adab. Mereka belajar saling menguatkan dalam mempelajari Al-Qur'an.",
-          sains:
-            "Dalam pelajaran sains, santriwati berlatih mengamati, mencatat, dan mendiskusikan hasil bersama. Rasa ingin tahu berjalan seiring dengan ketelitian dan adab di kelas.",
-          adab: "Kebersamaan memberi kesempatan untuk belajar menghormati orang lain, menjaga kebersihan, dan menunaikan tanggung jawab sehari-hari.",
-        };
         document.querySelectorAll("[data-story-open]").forEach((button) => {
           button.addEventListener("click", () => {
             const category = button
@@ -2812,7 +2821,7 @@
             document.getElementById("storyDialogDate").textContent =
               category || "Kehidupan Ma'had";
             document.getElementById("storyDialogBody").textContent =
-              storyText[button.dataset.storyOpen] || "";
+              button.closest("article")?.querySelector(".news-detail")?.textContent.trim() || "";
           });
         });
         const instagramFrame = document.getElementById("instagramFrame");

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="editor-token" content="__EDITOR_TOKEN__" />
+  <title>Editor Konten · Ma'had An-Najah</title>
+  <style>
+    :root { color-scheme: light; --navy:#0b254b; --navy-soft:#17375f; --gold:#a47a38; --ivory:#f7f5ef; --line:#ded9cb; --ink:#26303a; --muted:#68717a; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--ivory); color:var(--ink); font:15px/1.5 "Segoe UI",Arial,sans-serif; }
+    button,input,textarea { font:inherit; }
+    button { cursor:pointer; }
+    button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
+    .top { display:flex; align-items:center; justify-content:space-between; gap:20px; border-bottom:1px solid var(--line); background:#fffcf7; padding:17px clamp(20px,3vw,44px); }
+    .brand { display:flex; align-items:center; gap:12px; color:var(--navy); text-decoration:none; }
+    .brand img { width:42px; height:42px; object-fit:contain; }
+    .brand strong { display:block; font-family:Georgia,serif; font-size:1.1rem; line-height:1.2; }
+    .brand small { color:var(--muted); font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; }
+    .top-actions { display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-end; gap:9px; }
+    .button { border:1px solid var(--line); border-radius:3px 12px 3px 12px; background:#fff; padding:9px 15px; color:var(--navy); font-weight:650; text-decoration:none; transition:background .2s,border-color .2s; }
+    .button:hover { background:#f3eee2; border-color:#c6ad76; }
+    .button.primary { border-color:var(--navy); background:var(--navy); color:#fff; }
+    .button.primary:hover { background:var(--navy-soft); }
+    .button.quiet { background:transparent; }
+    .button:disabled { cursor:not-allowed; opacity:.5; }
+    .layout { display:grid; grid-template-columns:240px minmax(0,1fr); min-height:calc(100dvh - 82px); }
+    .sidebar { border-right:1px solid var(--line); background:#f0eee7; padding:31px 16px; }
+    .sidebar-label,.eyebrow { color:var(--gold); font-size:.69rem; font-weight:800; letter-spacing:.15em; text-transform:uppercase; }
+    .sidebar-label { padding:0 14px 12px; }
+    .section-nav { display:grid; gap:3px; }
+    .section-nav button { width:100%; border:0; border-left:2px solid transparent; background:transparent; padding:11px 13px; color:var(--ink); text-align:left; }
+    .section-nav button:hover { background:#e8e3d8; }
+    .section-nav button[aria-current="page"] { border-color:var(--gold); background:#fffcf7; color:var(--navy); font-weight:750; }
+    .section-picker { display:none; width:100%; border:1px solid var(--line); border-radius:3px 10px 3px 10px; background:#fffcf7; padding:10px 12px; color:var(--navy); font-weight:700; }
+    .sidebar-help { margin:26px 12px 0; border-top:1px solid var(--line); padding-top:18px; color:var(--muted); font-size:.79rem; }
+    main { width:min(100%,1000px); padding:clamp(27px,4vw,56px); }
+    .intro { display:flex; justify-content:space-between; align-items:end; gap:20px; border-bottom:1px solid var(--line); padding-bottom:25px; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { margin:5px 0 6px; color:var(--navy); font:normal clamp(2rem,3vw,2.7rem)/1.12 Georgia,serif; }
+    h2 { color:var(--navy); font:normal 1.55rem/1.2 Georgia,serif; }
+    .intro p { max-width:62ch; margin:0; color:var(--muted); }
+    .status { flex-shrink:0; border:1px solid var(--line); border-radius:999px; padding:6px 11px; color:var(--muted); font-size:.76rem; }
+    .status.dirty { border-color:#c9a45c; color:#886322; }
+    .status.success { border-color:#9bb8a7; color:#2f664d; }
+    .status.error { border-color:#ce9c9c; color:#9c3434; }
+    .panel { margin-top:30px; }
+    .panel-head { margin-bottom:23px; }
+    .panel-head p { max-width:62ch; color:var(--muted); }
+    .field-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+    .field { min-width:0; }
+    .field.wide { grid-column:1/-1; }
+    .field label,.photo-info label { display:block; margin-bottom:7px; color:var(--navy); font-size:.82rem; font-weight:700; }
+    .field textarea,.photo-info input { display:block; width:100%; border:1px solid #d6d1c5; border-radius:3px 10px 3px 10px; background:#fffefa; padding:11px 12px; color:var(--ink); }
+    .field textarea { min-height:76px; resize:vertical; }
+    .field textarea:focus,.photo-info input:focus { border-color:var(--gold); }
+    .subheading { margin:32px 0 15px; border-top:1px solid var(--line); padding-top:27px; }
+    .subheading p { margin:5px 0 0; color:var(--muted); font-size:.86rem; }
+    .photo-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:17px; }
+    .photo-item { overflow:hidden; border:1px solid var(--line); border-radius:16px 3px 16px 3px; background:#fffefa; }
+    .photo-item img { display:block; width:100%; height:185px; background:#e7e2d6; object-fit:cover; }
+    .photo-info { padding:14px; }
+    .photo-info strong { display:block; margin-bottom:10px; color:var(--navy); }
+    .photo-info input { font-size:.84rem; }
+    .photo-info .button { margin-top:11px; font-size:.82rem; }
+    .photo-info small { display:block; margin-top:7px; color:var(--muted); overflow-wrap:anywhere; }
+    .gallery-select { display:flex; flex-wrap:wrap; gap:8px; margin:27px 0 17px; }
+    .gallery-select button { border:1px solid var(--line); border-radius:3px 10px 3px 10px; background:transparent; padding:8px 12px; color:var(--navy); }
+    .gallery-select button[aria-selected="true"] { border-color:var(--navy); background:var(--navy); color:#fff; }
+    .gallery-list { display:grid; gap:12px; }
+    .gallery-list .photo-item { display:grid; grid-template-columns:190px minmax(0,1fr); }
+    .gallery-list .photo-item img { height:100%; min-height:160px; }
+    .photo-tools { display:flex; flex-wrap:wrap; gap:7px; margin-top:10px; }
+    .photo-tools button { border:1px solid var(--line); background:#fff; padding:6px 10px; color:var(--navy); }
+    .photo-tools button:hover { border-color:var(--gold); }
+    .photo-tools button:disabled { opacity:.35; cursor:not-allowed; }
+    .photo-tools .danger { color:#9a4540; }
+    .gallery-add { margin-top:15px; }
+    .note { margin-top:28px; border-left:2px solid var(--gold); background:#f1ebdd; padding:13px 17px; color:#625c50; font-size:.85rem; }
+    .preview-dialog { width:min(96vw,1240px); height:min(94dvh,900px); max-width:none; max-height:none; border:1px solid var(--line); border-radius:18px 3px 18px 3px; background:#fffefa; padding:0; box-shadow:0 30px 80px #152a4350; }
+    .preview-dialog::backdrop { background:#0b1e3bbd; }
+    .preview-head { display:flex; justify-content:space-between; align-items:center; gap:15px; padding:12px 18px; }
+    .preview-head strong { color:var(--navy); }
+    .preview-dialog iframe { width:100%; height:calc(100% - 58px); border:0; border-top:1px solid var(--line); background:#fff; }
+    .loading { padding:30px 0; color:var(--muted); }
+    [hidden] { display:none!important; }
+    @media(max-width:780px) { .top { align-items:flex-start; flex-direction:column; } .top-actions { justify-content:flex-start; } .layout { grid-template-columns:1fr; } .sidebar { position:sticky; top:0; z-index:3; border-right:0; border-bottom:1px solid var(--line); padding:10px 14px; } .sidebar-label,.sidebar-help,.section-nav { display:none; } .section-picker { display:block; } main { padding:25px 18px 50px; } }
+    @media(max-width:560px) { .intro { display:block; } .status { display:inline-block; margin-top:15px; } .field-grid,.photo-grid { grid-template-columns:1fr; } .gallery-list .photo-item { grid-template-columns:1fr; } .gallery-list .photo-item img { height:200px; } .top-actions .button { padding:8px 10px; font-size:.81rem; } }
+  </style>
+  <script src="/editor.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><img src="/assets/logo-annajah.webp" alt="" /><span><strong>Ma'had An-Najah</strong><small>Editor konten lokal</small></span></div>
+    <div class="top-actions">
+      <button type="button" class="button quiet" id="reloadButton">Muat ulang</button>
+      <button type="button" class="button" id="previewButton">Pratinjau</button>
+      <a class="button" href="/preview" target="_blank" rel="noopener">Lihat situs</a>
+      <button type="button" class="button primary" id="saveButton">Simpan ke HTML</button>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Bagian konten">
+      <div class="sidebar-label">Bagian halaman</div>
+      <nav class="section-nav" id="sectionNav"></nav>
+      <select class="section-picker" id="sectionPicker" aria-label="Pilih bagian halaman"></select>
+      <p class="sidebar-help">Editor ini hanya berjalan di komputer Anda. Situs publik tetap berupa halaman HTML statis.</p>
+    </aside>
+    <main>
+      <div class="intro"><div><span class="eyebrow">Pengelolaan Konten</span><h1 id="sectionTitle">Memuat konten…</h1><p id="sectionDescription">Foto dan teks yang disimpan akan masuk langsung ke an-najah-4.html.</p></div><span class="status" id="status" role="status">Memuat…</span></div>
+      <div class="panel" id="editorPanel"><p class="loading">Menyiapkan editor…</p></div>
+      <p class="note">Simpan untuk memperbarui <strong>an-najah-4.html</strong>. Editor membuat salinan cadangan sebelum setiap penyimpanan. Untuk menerbitkan situs, unggah HTML bersama folder <strong>assets</strong>.</p>
+    </main>
+  </div>
+  <dialog class="preview-dialog" id="previewDialog" aria-label="Pratinjau halaman"><div class="preview-head"><strong>Pratinjau sebelum disimpan</strong><button type="button" class="button" id="closePreview">Tutup</button></div><iframe id="previewFrame" title="Pratinjau website"></iframe></dialog>
+</body>
+</html>

@@ -247,6 +247,135 @@ videoDialog.addEventListener('cancel', (event) => {
   closeVideo();
 });
 
+const facilityCollections = JSON.parse(document.getElementById('facilityData').textContent);
+const facilityTabs = [...document.querySelectorAll('.facility-tab')];
+const facilityPanel = document.getElementById('facility-panel');
+const facilityMainImage = document.getElementById('facilityMainImage');
+const facilityBackdropImage = document.getElementById('facilityBackdropImage');
+const facilityPhotoSelector = document.getElementById('facilityPhotoSelector');
+let activeFacility = 'dorm';
+let facilityIndex = 0;
+
+function renderFacilityPhoto() {
+  const photos = facilityCollections[activeFacility].photos;
+  const photo = photos[facilityIndex];
+  const position = `${String(facilityIndex + 1).padStart(2, '0')} / ${String(photos.length).padStart(2, '0')}`;
+  facilityMainImage.src = photo.src;
+  facilityMainImage.alt = photo.alt;
+  facilityBackdropImage.src = photo.src;
+  document.getElementById('facilityImageOpen').setAttribute('aria-label', `Perbesar foto ${facilityCollections[activeFacility].label}, ${facilityIndex + 1} dari ${photos.length}: ${photo.caption}`);
+  document.getElementById('facilityPhotoCaption').textContent = photo.caption;
+  document.getElementById('facilityPhotoPosition').textContent = position;
+  document.getElementById('facilityInlineCount').textContent = position;
+  facilityPhotoSelector.querySelectorAll('button').forEach((button, index) => {
+    button.setAttribute('aria-pressed', String(index === facilityIndex));
+  });
+  document.getElementById('facilityPrev').disabled = photos.length === 1;
+  document.getElementById('facilityNext').disabled = photos.length === 1;
+}
+
+function selectFacilityPhoto(index) {
+  const photos = facilityCollections[activeFacility].photos;
+  facilityIndex = (index + photos.length) % photos.length;
+  renderFacilityPhoto();
+}
+
+function selectFacility(tab, focus = false) {
+  activeFacility = tab.dataset.facilityGroup;
+  facilityIndex = 0;
+  facilityTabs.forEach((item) => {
+    const selected = item === tab;
+    item.setAttribute('aria-selected', String(selected));
+    item.tabIndex = selected ? 0 : -1;
+  });
+  facilityPanel.setAttribute('aria-labelledby', tab.id);
+  const collection = facilityCollections[activeFacility];
+  document.getElementById('facilityActiveTitle').textContent = collection.label;
+  document.getElementById('facilityActiveDescription').textContent = document.querySelector(`[data-editor-text="facility.${activeFacility}"]`).textContent.trim();
+  facilityPhotoSelector.replaceChildren();
+  collection.photos.forEach((photo, index) => {
+    const button = document.createElement('button');
+    const image = document.createElement('img');
+    const caption = document.createElement('span');
+    button.type = 'button';
+    button.className = 'facility-photo-choice';
+    button.setAttribute('aria-label', `${collection.label}, foto ${index + 1}: ${photo.caption}`);
+    image.src = photo.src;
+    image.alt = '';
+    image.loading = 'lazy';
+    caption.textContent = photo.caption;
+    button.append(image, caption);
+    button.addEventListener('click', () => selectFacilityPhoto(index));
+    facilityPhotoSelector.append(button);
+  });
+  renderFacilityPhoto();
+  if (focus) tab.focus();
+}
+
+facilityTabs.forEach((tab, index) => {
+  const collection = facilityCollections[tab.dataset.facilityGroup];
+  tab.querySelector('small').textContent = `${collection.photos.length} foto`;
+  tab.addEventListener('click', () => selectFacility(tab));
+  tab.addEventListener('keydown', (event) => {
+    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    const next = event.key === 'Home' ? 0 : event.key === 'End' ? facilityTabs.length - 1
+      : (index + (['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : -1) + facilityTabs.length) % facilityTabs.length;
+    selectFacility(facilityTabs[next], true);
+  });
+});
+selectFacility(document.getElementById('facility-tab-dorm'));
+document.getElementById('facilityPrev').addEventListener('click', () => selectFacilityPhoto(facilityIndex - 1));
+document.getElementById('facilityNext').addEventListener('click', () => selectFacilityPhoto(facilityIndex + 1));
+
+const facilityDialog = document.getElementById('facilityDialog');
+const facilityDialogImage = document.getElementById('facilityDialogImage');
+const facilityDialogViewport = document.getElementById('facilityDialogViewport');
+const facilityDialogImageButton = document.getElementById('facilityDialogImageButton');
+const facilityZoomIn = document.getElementById('facilityZoomIn');
+const facilityZoomOut = document.getElementById('facilityZoomOut');
+let facilityZoom = 1;
+let facilityReturnFocus;
+
+function setFacilityZoom(level) {
+  facilityZoom = Math.max(1, Math.min(2.5, level));
+  if (facilityZoom === 1) {
+    facilityDialog.classList.remove('is-zoomed');
+    facilityDialog.style.removeProperty('--facility-zoom-width');
+    facilityDialogViewport.scrollTo(0, 0);
+  } else {
+    const width = facilityDialogImage.naturalWidth || facilityDialogViewport.clientWidth;
+    const height = facilityDialogImage.naturalHeight || facilityDialogViewport.clientHeight;
+    const fittedWidth = Math.min(width, facilityDialogViewport.clientWidth, facilityDialogViewport.clientHeight * width / height);
+    facilityDialog.style.setProperty('--facility-zoom-width', `${Math.round(fittedWidth * facilityZoom)}px`);
+    facilityDialog.classList.add('is-zoomed');
+    facilityDialogViewport.scrollTo(
+      Math.max(0, (facilityDialogViewport.scrollWidth - facilityDialogViewport.clientWidth) / 2),
+      Math.max(0, (facilityDialogViewport.scrollHeight - facilityDialogViewport.clientHeight) / 2)
+    );
+  }
+  facilityDialogImageButton.setAttribute('aria-label', facilityZoom === 1 ? 'Perbesar foto' : 'Perkecil foto');
+  document.getElementById('facilityZoomLevel').textContent = `${Math.round(facilityZoom * 100)}%`;
+  facilityZoomOut.disabled = facilityZoom === 1;
+  facilityZoomIn.disabled = facilityZoom === 2.5;
+}
+
+document.getElementById('facilityImageOpen').addEventListener('click', (event) => {
+  facilityReturnFocus = event.currentTarget;
+  const photo = facilityCollections[activeFacility].photos[facilityIndex];
+  facilityDialogImage.src = photo.src;
+  facilityDialogImage.alt = photo.alt;
+  document.getElementById('facilityDialogCaption').textContent = `${facilityCollections[activeFacility].label} — ${photo.caption}`;
+  facilityDialog.showModal();
+  setFacilityZoom(1);
+});
+facilityDialogImageButton.addEventListener('click', () => setFacilityZoom(facilityZoom === 1 ? 2 : 1));
+facilityZoomIn.addEventListener('click', () => setFacilityZoom(facilityZoom + 0.5));
+facilityZoomOut.addEventListener('click', () => setFacilityZoom(facilityZoom - 0.5));
+document.getElementById('facilityDialogClose').addEventListener('click', () => facilityDialog.close());
+facilityDialog.addEventListener('close', () => facilityReturnFocus?.focus());
+facilityDialog.addEventListener('click', (event) => { if (event.target === facilityDialog) facilityDialog.close(); });
+
 const galleryDialog = document.getElementById('galleryDialog');
 const galleryImage = document.getElementById('galleryDialogImage');
 const galleryCaption = document.getElementById('galleryDialogCaption');
@@ -256,40 +385,11 @@ const galleryStageImage = document.getElementById('galleryStageImage');
 const galleryPanel = document.getElementById('gallery-panel');
 const galleryActiveTitle = document.getElementById('galleryActiveTitle');
 const galleryInlineCount = document.getElementById('galleryInlineCount');
+const galleryPhotoCaption = document.getElementById('galleryPhotoCaption');
 const galleryThumbnails = document.getElementById('galleryThumbnails');
 const galleryTabs = [...document.querySelectorAll('.gallery-category')];
 
-// Add more images to any category here; its counter, thumbnails, and lightbox update automatically.
-const galleryCollections = {
-  halaqah: {
-    label: "Halaqah Al-Qur'an",
-    photos: [
-      { src: 'assets/maahad-putri-halaqah-niqab.webp', alt: "Ilustrasi halaqah Al-Qur'an bersama santriwati dan asatidzah bercadar" },
-      { src: 'assets/maahad-putri-hero-niqab.webp', alt: "Ilustrasi santriwati bercadar membaca Al-Qur'an bersama di area terbuka" }
-    ]
-  },
-  ekstrakurikuler: {
-    label: 'Ekstrakurikuler',
-    photos: [
-      { src: 'assets/maahad-putri-lab-niqab.webp', alt: 'Ilustrasi santriwati bercadar melakukan pengamatan dengan mikroskop' },
-      { src: 'assets/images/ANNAJAH-2.png', alt: 'Ilustrasi santriwati bercadar menunjukkan sertifikat kegiatan' }
-    ]
-  },
-  ukhuwah: {
-    label: 'Ukhuwah & Kemandirian',
-    photos: [
-      { src: 'assets/images/ANNAJAH-1.png', alt: 'Ilustrasi kebersamaan santriwati bercadar dalam kelompok' },
-      { src: 'assets/maahad-putri-campus-niqab.webp', alt: 'Ilustrasi santriwati bercadar berjalan bersama' }
-    ]
-  },
-  belajar: {
-    label: 'Belajar di Setiap Ruang',
-    photos: [
-      { src: 'assets/images/ANNAJAH-3.png', alt: 'Ilustrasi santriwati bercadar belajar bersama di ruang kelas' },
-      { src: 'assets/maahad-putri-halaqah-niqab.webp', alt: 'Ilustrasi santriwati bercadar belajar Al-Qur\'an dalam halaqah' }
-    ]
-  }
-};
+const galleryCollections = JSON.parse(document.getElementById('galleryData').textContent);
 let galleryReturnFocus;
 let activeGalleryGroup = 'halaqah';
 let galleryIndex = 0;
@@ -303,13 +403,14 @@ function renderGalleryPhoto() {
   galleryStage.setAttribute('aria-label', `Perbesar foto ${collection.label}, ${galleryIndex + 1} dari ${collection.photos.length}`);
   galleryActiveTitle.textContent = collection.label;
   galleryInlineCount.textContent = position;
+  galleryPhotoCaption.textContent = photo.caption || photo.alt;
   galleryThumbnails.querySelectorAll('button').forEach((button, index) => {
     button.setAttribute('aria-pressed', String(index === galleryIndex));
   });
   if (galleryDialog.open) {
     galleryImage.src = photo.src;
     galleryImage.alt = photo.alt;
-    galleryCaption.textContent = `${collection.label} · Foto ${galleryIndex + 1}`;
+    galleryCaption.textContent = photo.caption || photo.alt;
     galleryCount.textContent = position;
   }
 }
@@ -336,7 +437,7 @@ function selectGalleryGroup(tab, focus = false) {
     const image = document.createElement('img');
     button.type = 'button';
     button.className = 'gallery-thumbnail';
-    button.setAttribute('aria-label', `Tampilkan foto ${index + 1} dari ${collection.label}`);
+    button.setAttribute('aria-label', `Tampilkan foto ${index + 1} dari ${collection.label}: ${photo.caption || photo.alt}`);
     image.src = photo.src;
     image.alt = '';
     image.loading = 'lazy';
