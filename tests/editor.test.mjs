@@ -22,6 +22,7 @@ test('editor reads marked text, fixed photos, and facility/gallery collections',
 
 test('editor produces static HTML, escapes text, and updates photo captions', () => {
   const content = readContent(html);
+  const initialGalleryCount = content.gallery.halaqah.photos.length;
   content.texts['hero.intro'] = 'Teks <baru> & lebih jelas.';
   content.images.hero.src = 'assets/maahad-putri-hero-niqab.webp';
   content.gallery.halaqah.photos.unshift({ src: 'assets/images/ANNAJAH-1.png', alt: 'Santriwati bersama', caption: 'Belajar bersama.' });
@@ -37,7 +38,7 @@ test('editor produces static HTML, escapes text, and updates photo captions', ()
   assert.match(output, /<meta property="og:image" content="assets\/maahad-putri-hero-niqab\.webp"/);
   assert.match(output, /data-editor-preload="hero"[\s\S]*?href="assets\/maahad-putri-hero-niqab\.webp"[\s\S]*?type="image\/webp"/);
   assert.equal(readContent(output).texts['hero.intro'], 'Teks <baru> & lebih jelas.');
-  assert.equal(readContent(output).gallery.halaqah.photos.length, 5);
+  assert.equal(readContent(output).gallery.halaqah.photos.length, initialGalleryCount + 1);
   assert.equal(readContent(output).facilities.library.photos.length, 3);
   assert.equal(readContent(output).facilities.dorm.photos[0].caption, 'Buku & piala di lemari.');
 });

@@ -278,3 +278,65 @@ test('facilities show independent multi-photo collections and visible captions',
   assert.match(css, /\.facility-image-open img\s*\{[^}]*object-fit:\s*contain/);
   assert.match(css, /\.facility-photo-choice img\s*\{[^}]*object-fit:\s*contain/);
 });
+
+function bootSwipe(move, pointerSupport = true) {
+  const listeners = new Map();
+  const surface = {
+    addEventListener(name, callback) { listeners.set(name, callback); },
+    setPointerCapture() {}
+  };
+  const swipeSetup = script.match(/function bindSwipeCarousel[\s\S]*?(?=\nconst facilityCollections)/)[0];
+  vm.runInNewContext(`${swipeSetup}\nbindSwipeCarousel(surface, move)`, {
+    surface, move, window: pointerSupport ? { PointerEvent: class {} } : {}, Date
+  });
+  return {
+    fire(name, event) { listeners.get(name)?.(event); },
+    click() {
+      const result = { detail: 1, prevented: false, stopped: false,
+        preventDefault() { this.prevented = true; },
+        stopImmediatePropagation() { this.stopped = true; }
+      };
+      listeners.get('click')(result);
+      return result;
+    }
+  };
+}
+
+test('photo stages advance by horizontal swipe without accidentally opening zoom', () => {
+  const directions = [];
+  const swipe = bootSwipe((direction) => directions.push(direction));
+  swipe.fire('pointerdown', { pointerType: 'touch', pointerId: 1, clientX: 180, clientY: 80 });
+  swipe.fire('pointerup', { pointerId: 1, clientX: 100, clientY: 90 });
+  assert.deepEqual(directions, [1]);
+  assert.equal(swipe.click().prevented, true);
+  swipe.fire('pointerdown', { pointerType: 'touch', pointerId: 2, clientX: 100, clientY: 80 });
+  swipe.fire('pointerup', { pointerId: 2, clientX: 170, clientY: 82 });
+  assert.deepEqual(directions, [1, -1]);
+  swipe.fire('pointerdown', { pointerType: 'touch', pointerId: 3, clientX: 100, clientY: 80 });
+  swipe.fire('pointerup', { pointerId: 3, clientX: 101, clientY: 80 });
+  assert.equal(swipe.click().prevented, false);
+});
+
+test('vertical page scrolling and a one-photo facility remain clickable', () => {
+  const directions = [];
+  const swipe = bootSwipe((direction) => directions.push(direction));
+  swipe.fire('pointerdown', { pointerType: 'touch', pointerId: 1, clientX: 100, clientY: 40 });
+  swipe.fire('pointerup', { pointerId: 1, clientX: 110, clientY: 130 });
+  assert.deepEqual(directions, []);
+  assert.equal(swipe.click().prevented, false);
+  const single = bootSwipe(() => false);
+  single.fire('pointerdown', { pointerType: 'touch', pointerId: 1, clientX: 150, clientY: 40 });
+  single.fire('pointerup', { pointerId: 1, clientX: 60, clientY: 40 });
+  assert.equal(single.click().prevented, false);
+  assert.match(css, /\.gallery-stage\s*\{[^}]*touch-action:\s*pan-y/);
+  assert.match(css, /\.facility-image-open\s*\{[^}]*touch-action:\s*pan-y/);
+});
+
+test('older touch-event browsers can swipe the photo carousel', () => {
+  const directions = [];
+  const swipe = bootSwipe((direction) => directions.push(direction), false);
+  swipe.fire('touchstart', { touches: [{ clientX: 200, clientY: 80 }] });
+  swipe.fire('touchend', { changedTouches: [{ clientX: 100, clientY: 85 }] });
+  assert.deepEqual(directions, [1]);
+  assert.equal(swipe.click().stopped, true);
+});

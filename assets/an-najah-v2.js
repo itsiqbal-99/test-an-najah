@@ -247,6 +247,56 @@ videoDialog.addEventListener('cancel', (event) => {
   closeVideo();
 });
 
+function animateCarouselImage(image, direction) {
+  if (reduceMotion || !direction || typeof image.animate !== 'function') return;
+  image.animate([
+    { opacity: 0.68, transform: `translateX(${direction * 18}px)` },
+    { opacity: 1, transform: 'translateX(0)' }
+  ], { duration: 280, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+}
+
+function bindSwipeCarousel(surface, move) {
+  let start = null;
+  let suppressClickUntil = 0;
+  const finish = (x, y) => {
+    if (!start) return;
+    const dx = x - start.x;
+    const dy = y - start.y;
+    start = null;
+    if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.25) return;
+    if (move(dx < 0 ? 1 : -1) === false) return;
+    suppressClickUntil = Date.now() + 450;
+  };
+  if ('PointerEvent' in window) {
+    surface.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      suppressClickUntil = 0;
+      start = { x: event.clientX, y: event.clientY, id: event.pointerId };
+      if (event.pointerType === 'mouse') surface.setPointerCapture?.(event.pointerId);
+    });
+    surface.addEventListener('pointerup', (event) => {
+      if (start?.id === event.pointerId) finish(event.clientX, event.clientY);
+    });
+    surface.addEventListener('pointercancel', () => { start = null; });
+  } else {
+    surface.addEventListener('touchstart', (event) => {
+      if (event.touches.length !== 1) return;
+      suppressClickUntil = 0;
+      start = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+    }, { passive: true });
+    surface.addEventListener('touchend', (event) => {
+      if (event.changedTouches.length === 1) finish(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
+    }, { passive: true });
+    surface.addEventListener('touchcancel', () => { start = null; });
+  }
+  surface.addEventListener('click', (event) => {
+    if (event.detail === 0 || Date.now() > suppressClickUntil) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    suppressClickUntil = 0;
+  }, true);
+}
+
 const facilityCollections = JSON.parse(document.getElementById('facilityData').textContent);
 const facilityTabs = [...document.querySelectorAll('.facility-tab')];
 const facilityPanel = document.getElementById('facility-panel');
@@ -272,12 +322,16 @@ function renderFacilityPhoto() {
   });
   document.getElementById('facilityPrev').disabled = photos.length === 1;
   document.getElementById('facilityNext').disabled = photos.length === 1;
+  document.getElementById('facilitySwipeHint').hidden = photos.length === 1;
 }
 
-function selectFacilityPhoto(index) {
+function selectFacilityPhoto(index, direction = Math.sign(index - facilityIndex)) {
   const photos = facilityCollections[activeFacility].photos;
-  facilityIndex = (index + photos.length) % photos.length;
+  const next = (index + photos.length) % photos.length;
+  if (next === facilityIndex) return;
+  facilityIndex = next;
   renderFacilityPhoto();
+  animateCarouselImage(facilityMainImage, direction);
 }
 
 function selectFacility(tab, focus = false) {
@@ -327,6 +381,16 @@ facilityTabs.forEach((tab, index) => {
 selectFacility(document.getElementById('facility-tab-dorm'));
 document.getElementById('facilityPrev').addEventListener('click', () => selectFacilityPhoto(facilityIndex - 1));
 document.getElementById('facilityNext').addEventListener('click', () => selectFacilityPhoto(facilityIndex + 1));
+const facilityImageOpen = document.getElementById('facilityImageOpen');
+bindSwipeCarousel(facilityImageOpen, (direction) => {
+  if (facilityCollections[activeFacility].photos.length === 1) return false;
+  selectFacilityPhoto(facilityIndex + direction, direction);
+});
+facilityImageOpen.addEventListener('keydown', (event) => {
+  if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+  event.preventDefault();
+  selectFacilityPhoto(facilityIndex + (event.key === 'ArrowRight' ? 1 : -1));
+});
 
 const facilityDialog = document.getElementById('facilityDialog');
 const facilityDialogImage = document.getElementById('facilityDialogImage');
@@ -415,10 +479,14 @@ function renderGalleryPhoto() {
   }
 }
 
-function selectGalleryPhoto(index) {
+function selectGalleryPhoto(index, direction = Math.sign(index - galleryIndex)) {
   const photos = galleryCollections[activeGalleryGroup].photos;
-  galleryIndex = (index + photos.length) % photos.length;
+  const next = (index + photos.length) % photos.length;
+  if (next === galleryIndex) return;
+  galleryIndex = next;
   renderGalleryPhoto();
+  animateCarouselImage(galleryStageImage, direction);
+  if (galleryDialog.open) animateCarouselImage(galleryImage, direction);
 }
 
 function selectGalleryGroup(tab, focus = false) {
@@ -477,6 +545,13 @@ function closeGallery() {
 }
 
 galleryStage.addEventListener('click', openGallery);
+bindSwipeCarousel(galleryStage, (direction) => selectGalleryPhoto(galleryIndex + direction, direction));
+bindSwipeCarousel(galleryImage, (direction) => selectGalleryPhoto(galleryIndex + direction, direction));
+galleryStage.addEventListener('keydown', (event) => {
+  if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+  event.preventDefault();
+  selectGalleryPhoto(galleryIndex + (event.key === 'ArrowRight' ? 1 : -1));
+});
 document.querySelector('[data-gallery-prev]').addEventListener('click', () => selectGalleryPhoto(galleryIndex - 1));
 document.querySelector('[data-gallery-next]').addEventListener('click', () => selectGalleryPhoto(galleryIndex + 1));
 galleryDialog.addEventListener('keydown', (event) => {

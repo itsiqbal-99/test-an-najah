@@ -63,7 +63,7 @@
       type="image/png"
     />
     <!-- Existing motion, splash, and dialog rules remain while page layout moves to Tailwind utilities. -->
-    <link rel="stylesheet" href="assets/an-najah-v2.css?v=facility-fit-20260914-2" />
+    <link rel="stylesheet" href="assets/an-najah-v2.css?v=carousel-20260915" />
     <!-- Compiled Tailwind v3 utilities used by this single-file page; no runtime CDN required. -->
     <style id="tailwind-utilities">
       .\!m-0 {
@@ -1884,8 +1884,9 @@
                   <div class="facility-image-frame">
                     <img class="facility-image-backdrop" id="facilityBackdropImage" src="assets/uploads/28fc73686be7aaf1.png" alt="" aria-hidden="true" loading="lazy" />
                     <button class="facility-image-open" id="facilityImageOpen" type="button" aria-label="Perbesar foto fasilitas">
-                      <img id="facilityMainImage" src="assets/uploads/28fc73686be7aaf1.png" alt="Foto Asrama putri" loading="lazy" />
+                      <img id="facilityMainImage" src="assets/uploads/28fc73686be7aaf1.png" alt="Foto Asrama putri" loading="lazy" draggable="false" />
                       <span class="facility-zoom-hint" aria-hidden="true">Lihat lebih besar ↗</span>
+                      <span class="carousel-swipe-hint facility-swipe-hint" id="facilitySwipeHint" aria-hidden="true" hidden>Geser foto <span>↔</span></span>
                     </button>
                   </div>
                   <figcaption><span id="facilityPhotoPosition">01 / 02</span><span id="facilityPhotoCaption" aria-live="polite">Foto Asrama putri.</span></figcaption>
@@ -1960,8 +1961,9 @@
               </div>
               <div class="gallery-panel" id="gallery-panel" role="tabpanel" aria-labelledby="gallery-tab-halaqah" tabindex="0">
                 <button class="gallery-stage" id="galleryStage" type="button" aria-label="Perbesar foto Halaqah Al-Qur'an">
-                  <img id="galleryStageImage" src="assets/uploads/8c73dae9c93ff1bc.png" alt="Foto Halaqah Al-Qur&#39;an" width="1538" height="1022" loading="lazy" />
+                  <img id="galleryStageImage" src="assets/uploads/8c73dae9c93ff1bc.png" alt="Foto Halaqah Al-Qur&#39;an" width="1538" height="1022" loading="lazy" draggable="false" />
                   <span class="gallery-stage-action">Lihat foto <span aria-hidden="true">↗</span></span>
+                  <span class="carousel-swipe-hint gallery-swipe-hint" aria-hidden="true">Geser foto <span>↔</span></span>
                 </button>
                 <div class="gallery-panel-meta">
                   <div><span class="gallery-panel-eyebrow">Koleksi galeri</span><h3 id="galleryActiveTitle">Halaqah Al-Qur'an</h3></div>
@@ -2598,6 +2600,7 @@
           id="galleryDialogImage"
           src="assets/maahad-putri-halaqah-niqab.webp"
           alt=""
+          draggable="false"
         />
         <div class="gallery-dialog-footer">
           <p id="galleryDialogCaption">Galeri kehidupan santriwati</p>
@@ -2762,7 +2765,7 @@
   }
 }
     </script>
-    <script src="assets/an-najah-v2.js?v=facility-fit-20260914-2" defer></script>
+    <script src="assets/an-najah-v2.js?v=carousel-20260915" defer></script>
     <script>
       // Keep the existing dialog behavior while using natural, undated copy in this HTML-only revision.
       document.addEventListener("DOMContentLoaded", () => {
