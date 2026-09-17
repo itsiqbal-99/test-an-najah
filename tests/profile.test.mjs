@@ -246,6 +246,12 @@ test('enabling reduced motion during the splash releases the page immediately', 
   assert.equal(state.classes.has('splash-leaving'), false);
 });
 
+test('video profil uses the supplied local MP4 asset', () => {
+  assert.match(html, /id="profileVideo"[\s\S]*data-video-src="assets\/an_najah_batam_profile_video\.mp4"/);
+  assert.ok(existsSync(fileURLToPath(new URL('assets/an_najah_batam_profile_video.mp4', project))));
+  assert.match(html, /id="profileVideo"[\s\S]*preload="metadata"/);
+});
+
 test('gallery offers four photo collections with category-specific navigation', () => {
   const gallery = JSON.parse(html.match(/<script type="application\/json" id="galleryData">([\s\S]*?)<\/script>/)[1]);
   for (const category of ['halaqah', 'ekstrakurikuler', 'ukhuwah', 'belajar']) {
