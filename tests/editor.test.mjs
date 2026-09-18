@@ -16,8 +16,8 @@ test('editor reads marked text, fixed photos, and facility/gallery collections',
   assert.equal(Object.keys(content.images).length, 6);
   assert.deepEqual(Object.keys(content.facilities), ['dorm', 'class', 'library', 'worship']);
   assert.equal(content.facilities.library.photos.length, 2);
-  assert.equal(content.facilities.class.photos.length, 4);
-  assert.deepEqual(Object.keys(content.gallery), ['halaqah', 'ekstrakurikuler', 'ukhuwah', 'belajar']);
+  assert.equal(content.facilities.class.photos.length, 6);
+  assert.deepEqual(Object.keys(content.gallery), ['halaqah', 'ukhuwah', 'belajar']);
 });
 
 test('editor produces static HTML, escapes text, and updates photo captions', () => {

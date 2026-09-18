@@ -4,6 +4,7 @@ const textTag = /<([a-z][\w:-]*)\b([^>]*\bdata-editor-text="([^"]+)"[^>]*)>([\s\
 const imageTag = /<img\b[^>]*\bdata-editor-image="([^"]+)"[^>]*>/gi;
 const facilityTag = /(<script type="application\/json" id="facilityData">)([\s\S]*?)(<\/script>)/i;
 const galleryTag = /(<script type="application\/json" id="galleryData">)([\s\S]*?)(<\/script>)/i;
+const showcaseTag = /(<script type="application\/json" id="showcaseData">)([\s\S]*?)(<\/script>)/i;
 const assetPath = /^assets\/(?!.*(?:^|\/)\.\.\/)[a-zA-Z0-9_./-]+\.(?:png|jpe?g|webp|avif)$/i;
 
 function decodeEntities(value) {
@@ -48,7 +49,10 @@ export function readContent(html) {
   const galleryMatch = html.match(galleryTag);
   if (!galleryMatch) throw new Error('Data galeri tidak ditemukan.');
   const gallery = JSON.parse(galleryMatch[2]);
-  return { revision: revisionOf(html), texts, images, facilities, gallery };
+  const showcaseMatch = html.match(showcaseTag);
+  if (!showcaseMatch) throw new Error('Data karya santriwati tidak ditemukan.');
+  const showcase = JSON.parse(showcaseMatch[2]);
+  return { revision: revisionOf(html), texts, images, facilities, gallery, showcase };
 }
 
 export function isAssetPath(value) {
@@ -56,7 +60,7 @@ export function isAssetPath(value) {
 }
 
 export function validateContent(current, draft) {
-  if (!draft || typeof draft !== 'object' || !draft.texts || !draft.images || !draft.facilities || !draft.gallery) {
+  if (!draft || typeof draft !== 'object' || !draft.texts || !draft.images || !draft.facilities || !draft.gallery || !draft.showcase) {
     throw new Error('Format data editor tidak lengkap.');
   }
   for (const key of Object.keys(current.texts)) {
@@ -68,7 +72,7 @@ export function validateContent(current, draft) {
     if (!image || !isAssetPath(image.src)) throw new Error(`Alamat foto ${key} tidak valid.`);
     if (typeof image.alt !== 'string' || image.alt.length > 240 || (!['hero', 'video'].includes(key) && !image.alt.trim())) throw new Error(`Isi deskripsi foto ${key} sebelum menyimpan.`);
   }
-  for (const type of ['facilities', 'gallery']) {
+  for (const type of ['facilities', 'gallery', 'showcase']) {
     const currentCollections = current[type];
     const draftCollections = draft[type];
     if (Object.keys(draftCollections).length !== Object.keys(currentCollections).length) throw new Error(`Kategori ${type === 'facilities' ? 'fasilitas' : 'galeri'} tidak boleh diubah.`);
@@ -135,6 +139,10 @@ export function renderContent(html, draft) {
       .replace(/\bsrc="[^"]*"/i, `src="${escapeHtml(firstPhoto.src)}"`)
       .replace(/\balt="[^"]*"/i, `alt="${escapeHtml(firstPhoto.alt)}"`));
     result = result.replace(/(<p class="gallery-photo-caption" id="galleryPhotoCaption"[^>]*>)[\s\S]*?(<\/p>)/i, (_full, start, end) => `${start}${escapeHtml(firstPhoto.caption)}${end}`);
+  }
+  if (JSON.stringify(draft.showcase) !== JSON.stringify(current.showcase)) {
+    const showcaseJson = JSON.stringify(draft.showcase, null, 2).replaceAll('<', '\\u003c');
+    result = result.replace(showcaseTag, (_full, start, _body, end) => `${start}\n${showcaseJson}\n    ${end}`);
   }
   return result;
 }

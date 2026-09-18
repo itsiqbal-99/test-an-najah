@@ -64,7 +64,7 @@ test('splash watchdog releases the screen within 4600 ms', () => {
 });
 
 test('company-profile sections exist and registration is absent', () => {
-  for (const id of ['tentang', 'program', 'fasilitas', 'galeri', 'kegiatan', 'kehidupan', 'faq', 'media-sosial', 'kontak']) {
+  for (const id of ['tentang', 'program', 'fasilitas', 'galeri', 'karya-santriwati', 'kegiatan', 'kehidupan', 'faq', 'media-sosial', 'kontak']) {
     assert.ok(html.includes(`id="${id}"`), `Missing section: ${id}`);
   }
   assert.doesNotMatch(html, /pendaftaran|penerimaan santriwati/i);
@@ -252,12 +252,13 @@ test('video profil uses the supplied local MP4 asset', () => {
   assert.match(html, /id="profileVideo"[\s\S]*preload="metadata"/);
 });
 
-test('gallery offers four photo collections with category-specific navigation', () => {
+test('gallery offers three photo collections with category-specific navigation', () => {
   const gallery = JSON.parse(html.match(/<script type="application\/json" id="galleryData">([\s\S]*?)<\/script>/)[1]);
-  for (const category of ['halaqah', 'ekstrakurikuler', 'ukhuwah', 'belajar']) {
+  for (const category of ['halaqah', 'ukhuwah', 'belajar']) {
     assert.match(html, new RegExp(`data-gallery-group="${category}"`));
     assert.ok(gallery[category].photos.length >= 2);
   }
+  assert.doesNotMatch(html, /data-gallery-group="ekstrakurikuler"/);
   assert.match(html, /Ekstrakurikuler/);
   assert.doesNotMatch(html, /Sains dan Eksplorasi/);
   assert.match(html, /id="galleryThumbnails"/);
@@ -265,6 +266,20 @@ test('gallery offers four photo collections with category-specific navigation', 
   assert.match(script, /JSON\.parse\(document\.getElementById\('galleryData'\)\.textContent\)/);
   assert.match(html, /id="galleryPhotoCaption"/);
   assert.match(script, /galleryPhotoCaption\.textContent = photo\.caption/);
+});
+
+test('showcase adds editable extracurricular and karya collections', () => {
+  const showcase = JSON.parse(html.match(/<script type="application\/json" id="showcaseData">([\s\S]*?)<\/script>/)[1]);
+  assert.deepEqual(Object.keys(showcase), ['ekstrakurikuler', 'karya']);
+  assert.match(html, /id="karya-santriwati"/);
+  assert.match(html, /data-showcase-group="ekstrakurikuler"/);
+  assert.match(html, /data-showcase-group="karya"/);
+  assert.match(script, /showcaseCollections/);
+  assert.match(css, /\.showcase-stage/);
+  assert.match(html, /id="showcaseDialog"/);
+  assert.doesNotMatch(html, /showcase-stage-action"[^>]*>Lihat lebih besar/);
+  assert.match(script, /openShowcasePreview/);
+  assert.match(script, /bindPinchZoom/);
 });
 
 test('facilities show independent multi-photo collections and visible captions', () => {

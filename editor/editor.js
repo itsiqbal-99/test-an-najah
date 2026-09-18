@@ -7,6 +7,7 @@ const sections = [
   { id: 'facilities', name: 'Fasilitas', description: 'Atur deskripsi fasilitas serta koleksi foto dan keterangan tiap foto.', text: ['facilities', 'facility'], images: [], facilities: true },
   { id: 'video', name: 'Video Profil', description: 'Teks dan gambar sampul video.', text: ['video'], images: ['video'] },
   { id: 'gallery', name: 'Galeri', description: 'Tambah, urutkan, atau hapus foto kegiatan beserta keterangannya.', text: ['gallery'], images: [], gallery: true },
+  { id: 'showcase', name: 'Karya Santriwati', description: 'Atur koleksi ekstrakurikuler dan hasil karya santriwati.', text: [], images: [], showcase: true },
   { id: 'activities', name: 'Kegiatan', description: 'Tiga cerita kegiatan beserta foto dan isi selengkapnya.', text: ['activities', 'activity'], images: ['activity'] },
   { id: 'rhythm', name: 'Ritme Harian', description: 'Gambaran kegiatan dari pagi hingga malam.', text: ['rhythm'], images: [] },
   { id: 'faq', name: 'FAQ', description: 'Pengantar pertanyaan yang sering diajukan.', text: ['faq'], images: [] },
@@ -290,6 +291,13 @@ function render() {
     const host = element('div');
     editorPanel.append(heading, host);
     renderCollection(host, 'facilities');
+  }
+  if (section.showcase) {
+    const heading = element('div', 'subheading');
+    heading.append(element('h2', '', 'Koleksi ekstrakurikuler & karya'), element('p', '', 'Pilih koleksi, lalu ganti, tambah, urutkan, atau beri keterangan pada tiap foto.'));
+    const host = element('div');
+    editorPanel.append(heading, host);
+    renderCollection(host, 'showcase');
   }
 }
 

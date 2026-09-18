@@ -181,6 +181,44 @@ function bindTabs(tabSelector, panelSelector) {
 
 bindTabs('.program-tab', '.program-panel');
 
+// Some desktop preview shells expose <dialog> without implementing the
+// native showModal()/close() methods. Use a fixed-layer fallback so photo,
+// story, and video previews remain clickable everywhere.
+function dispatchDialogEvent(dialog, type) {
+  const event = document.createEvent('Event');
+  event.initEvent(type, false, false);
+  dialog.dispatchEvent(event);
+}
+
+function openDialog(dialog) {
+  if (typeof dialog.showModal === 'function') {
+    dialog.showModal();
+    return;
+  }
+  dialog.setAttribute('open', '');
+  dialog.classList.add('is-open');
+  document.body.classList.add('dialog-open');
+}
+
+function closeDialog(dialog) {
+  if (typeof dialog.close === 'function') {
+    dialog.close();
+    return;
+  }
+  dialog.removeAttribute('open');
+  dialog.classList.remove('is-open');
+  document.body.classList.remove('dialog-open');
+  dispatchDialogEvent(dialog, 'close');
+}
+
+document.addEventListener('keydown', (event) => {
+  if (event.key !== 'Escape') return;
+  const fallbackDialog = document.querySelector('dialog.is-open');
+  if (!fallbackDialog) return;
+  event.preventDefault();
+  closeDialog(fallbackDialog);
+});
+
 const videoDialog = document.getElementById('videoDialog');
 const profileVideo = document.getElementById('profileVideo');
 const videoStatus = document.getElementById('videoStatus');
@@ -210,7 +248,7 @@ function videoUnavailable() {
 
 function openVideo(event) {
   videoReturnFocus = event.currentTarget;
-  videoDialog.showModal();
+  openDialog(videoDialog);
   const videoSource = profileVideo.dataset.videoSrc.trim();
   if (!videoSource) return;
 
@@ -232,7 +270,7 @@ function openVideo(event) {
 function closeVideo() {
   clearTimeout(videoLoadTimer);
   profileVideo.pause();
-  videoDialog.close();
+  closeDialog(videoDialog);
   videoReturnFocus?.focus();
 }
 
@@ -290,11 +328,35 @@ function bindSwipeCarousel(surface, move) {
     surface.addEventListener('touchcancel', () => { start = null; });
   }
   surface.addEventListener('click', (event) => {
+    // The showcase uses a transparent button over the photo for opening its
+    // preview. Never let swipe click-suppression swallow that intentional
+    // desktop click, even if the pointer moved a few pixels between frames.
+    if (event.target?.closest?.('.showcase-stage-action')) return;
     if (event.detail === 0 || Date.now() > suppressClickUntil) return;
     event.preventDefault();
     event.stopImmediatePropagation();
     suppressClickUntil = 0;
   }, true);
+}
+
+function bindPinchZoom(target, setScale) {
+  let startDistance = 0;
+  let startScale = 1;
+  let currentScale = 1;
+  const distance = (touches) => Math.hypot(touches[0].clientX - touches[1].clientX, touches[0].clientY - touches[1].clientY);
+  target.addEventListener('touchstart', (event) => {
+    if (event.touches.length !== 2) return;
+    startDistance = distance(event.touches);
+    startScale = currentScale;
+  }, { passive: true });
+  target.addEventListener('touchmove', (event) => {
+    if (event.touches.length !== 2 || !startDistance) return;
+    event.preventDefault();
+    currentScale = Math.max(1, Math.min(2.5, startScale * distance(event.touches) / startDistance));
+    setScale(currentScale);
+  }, { passive: false });
+  target.addEventListener('touchend', () => { startDistance = 0; }, { passive: true });
+  target.addEventListener('touchcancel', () => { startDistance = 0; }, { passive: true });
 }
 
 const facilityCollections = JSON.parse(document.getElementById('facilityData').textContent);
@@ -430,15 +492,16 @@ document.getElementById('facilityImageOpen').addEventListener('click', (event) =
   facilityDialogImage.src = photo.src;
   facilityDialogImage.alt = photo.alt;
   document.getElementById('facilityDialogCaption').textContent = `${facilityCollections[activeFacility].label} — ${photo.caption}`;
-  facilityDialog.showModal();
+  openDialog(facilityDialog);
   setFacilityZoom(1);
 });
 facilityDialogImageButton.addEventListener('click', () => setFacilityZoom(facilityZoom === 1 ? 2 : 1));
 facilityZoomIn.addEventListener('click', () => setFacilityZoom(facilityZoom + 0.5));
 facilityZoomOut.addEventListener('click', () => setFacilityZoom(facilityZoom - 0.5));
-document.getElementById('facilityDialogClose').addEventListener('click', () => facilityDialog.close());
+bindPinchZoom(facilityDialogImage, (scale) => setFacilityZoom(scale));
+document.getElementById('facilityDialogClose').addEventListener('click', () => closeDialog(facilityDialog));
 facilityDialog.addEventListener('close', () => facilityReturnFocus?.focus());
-facilityDialog.addEventListener('click', (event) => { if (event.target === facilityDialog) facilityDialog.close(); });
+facilityDialog.addEventListener('click', (event) => { if (event.target === facilityDialog) closeDialog(facilityDialog); });
 
 const galleryDialog = document.getElementById('galleryDialog');
 const galleryImage = document.getElementById('galleryDialogImage');
@@ -457,6 +520,12 @@ const galleryCollections = JSON.parse(document.getElementById('galleryData').tex
 let galleryReturnFocus;
 let activeGalleryGroup = 'halaqah';
 let galleryIndex = 0;
+let galleryModalZoom = 1;
+
+function setGalleryModalZoom(level) {
+  galleryModalZoom = Math.max(1, Math.min(2.5, level));
+  galleryImage.style.setProperty('--gallery-modal-scale', galleryModalZoom);
+}
 
 function renderGalleryPhoto() {
   const collection = galleryCollections[activeGalleryGroup];
@@ -476,6 +545,7 @@ function renderGalleryPhoto() {
     galleryImage.alt = photo.alt;
     galleryCaption.textContent = photo.caption || photo.alt;
     galleryCount.textContent = position;
+    setGalleryModalZoom(1);
   }
 }
 
@@ -535,18 +605,20 @@ document.getElementById('galleryInlineNext').addEventListener('click', () => sel
 
 function openGallery(event) {
   galleryReturnFocus = event.currentTarget;
-  galleryDialog.showModal();
+  openDialog(galleryDialog);
+  setGalleryModalZoom(1);
   renderGalleryPhoto();
 }
 
 function closeGallery() {
-  galleryDialog.close();
+  closeDialog(galleryDialog);
   galleryReturnFocus?.focus();
 }
 
 galleryStage.addEventListener('click', openGallery);
 bindSwipeCarousel(galleryStage, (direction) => selectGalleryPhoto(galleryIndex + direction, direction));
 bindSwipeCarousel(galleryImage, (direction) => selectGalleryPhoto(galleryIndex + direction, direction));
+bindPinchZoom(galleryImage, setGalleryModalZoom);
 galleryStage.addEventListener('keydown', (event) => {
   if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
   event.preventDefault();
@@ -568,6 +640,131 @@ galleryDialog.addEventListener('cancel', (event) => {
   closeGallery();
 });
 
+const showcaseCollections = JSON.parse(document.getElementById('showcaseData').textContent);
+const showcaseTabs = [...document.querySelectorAll('.showcase-tab')];
+const showcaseStage = document.querySelector('.showcase-stage');
+const showcaseStageImage = document.getElementById('showcaseStageImage');
+const showcaseStageLabel = document.getElementById('showcaseStageLabel');
+const showcaseStageCaption = document.getElementById('showcaseStageCaption');
+const showcaseActiveTitle = document.getElementById('showcaseActiveTitle');
+const showcaseActiveDescription = document.getElementById('showcaseActiveDescription');
+const showcaseThumbnails = document.getElementById('showcaseThumbnails');
+const showcaseCount = document.getElementById('showcaseCount');
+const showcaseOpen = document.getElementById('showcaseOpen');
+const showcaseDialog = document.getElementById('showcaseDialog');
+const showcaseDialogImage = document.getElementById('showcaseDialogImage');
+const showcaseDialogViewport = document.getElementById('showcaseDialogViewport');
+const showcaseDialogImageButton = document.getElementById('showcaseDialogImageButton');
+const showcaseZoomIn = document.getElementById('showcaseZoomIn');
+const showcaseZoomOut = document.getElementById('showcaseZoomOut');
+let showcaseZoom = 1;
+let showcaseReturnFocus;
+let activeShowcaseGroup = 'ekstrakurikuler';
+let showcaseIndex = 0;
+
+function renderShowcasePhoto(direction = 0) {
+  const collection = showcaseCollections[activeShowcaseGroup];
+  const photo = collection.photos[showcaseIndex];
+  showcaseStageImage.src = photo.src;
+  showcaseStageImage.alt = photo.alt;
+  showcaseStageLabel.textContent = collection.label;
+  showcaseStageCaption.textContent = photo.caption;
+  showcaseActiveTitle.textContent = collection.label;
+  showcaseActiveDescription.textContent = collection.description;
+  showcaseCount.textContent = `${String(showcaseIndex + 1).padStart(2, '0')} / ${String(collection.photos.length).padStart(2, '0')}`;
+  showcaseThumbnails.querySelectorAll('button').forEach((button, index) => button.setAttribute('aria-pressed', String(index === showcaseIndex)));
+  animateCarouselImage(showcaseStageImage, direction);
+}
+
+function selectShowcasePhoto(index, direction = Math.sign(index - showcaseIndex)) {
+  const photos = showcaseCollections[activeShowcaseGroup].photos;
+  const next = (index + photos.length) % photos.length;
+  if (next === showcaseIndex) return;
+  showcaseIndex = next;
+  renderShowcasePhoto(direction);
+}
+
+function selectShowcaseGroup(tab) {
+  activeShowcaseGroup = tab.dataset.showcaseGroup;
+  showcaseIndex = 0;
+  showcaseTabs.forEach((item) => item.setAttribute('aria-selected', String(item === tab)));
+  showcaseThumbnails.replaceChildren();
+  showcaseCollections[activeShowcaseGroup].photos.forEach((photo, index) => {
+    const button = document.createElement('button');
+    const image = document.createElement('img');
+    button.type = 'button';
+    button.setAttribute('aria-label', `${showcaseCollections[activeShowcaseGroup].label}, foto ${index + 1}: ${photo.caption}`);
+    image.src = photo.src;
+    image.alt = '';
+    image.loading = 'lazy';
+    button.append(image);
+    button.addEventListener('click', () => selectShowcasePhoto(index));
+    showcaseThumbnails.append(button);
+  });
+  renderShowcasePhoto();
+}
+
+function setShowcaseZoom(level) {
+  showcaseZoom = Math.max(1, Math.min(2.5, level));
+  showcaseDialog.classList.toggle('is-zoomed', showcaseZoom > 1);
+  if (showcaseZoom === 1) {
+    showcaseDialog.style.removeProperty('--facility-zoom-width');
+    showcaseDialogViewport.scrollTo(0, 0);
+  } else {
+    const width = showcaseDialogImage.naturalWidth || showcaseDialogViewport.clientWidth;
+    const height = showcaseDialogImage.naturalHeight || showcaseDialogViewport.clientHeight;
+    const fittedWidth = Math.min(width, showcaseDialogViewport.clientWidth, showcaseDialogViewport.clientHeight * width / height);
+    showcaseDialog.style.setProperty('--facility-zoom-width', `${Math.round(fittedWidth * showcaseZoom)}px`);
+  }
+  showcaseDialogImageButton.setAttribute('aria-label', showcaseZoom === 1 ? 'Perbesar foto' : 'Perkecil foto');
+  document.getElementById('showcaseZoomLevel').textContent = `${Math.round(showcaseZoom * 100)}%`;
+  showcaseZoomOut.disabled = showcaseZoom === 1;
+  showcaseZoomIn.disabled = showcaseZoom === 2.5;
+}
+
+bindPinchZoom(showcaseDialogImage, (scale) => setShowcaseZoom(scale));
+
+function openShowcasePreview() {
+  if (showcaseDialog.open) return;
+  const collection = showcaseCollections[activeShowcaseGroup];
+  const photo = collection.photos[showcaseIndex];
+  showcaseReturnFocus = showcaseOpen;
+  showcaseDialogImage.src = photo.src;
+  showcaseDialogImage.alt = photo.alt;
+  document.getElementById('showcaseDialogCaption').textContent = `${collection.label} — ${photo.caption}`;
+  openDialog(showcaseDialog);
+  setShowcaseZoom(1);
+}
+
+showcaseThumbnails.addEventListener('dblclick', openShowcasePreview);
+showcaseDialogImageButton.addEventListener('click', () => setShowcaseZoom(showcaseZoom === 1 ? 2 : 1));
+showcaseZoomIn.addEventListener('click', () => setShowcaseZoom(showcaseZoom + 0.5));
+showcaseZoomOut.addEventListener('click', () => setShowcaseZoom(showcaseZoom - 0.5));
+document.getElementById('showcaseDialogClose').addEventListener('click', () => closeDialog(showcaseDialog));
+showcaseDialog.addEventListener('close', () => showcaseReturnFocus?.focus());
+showcaseDialog.addEventListener('click', (event) => { if (event.target === showcaseDialog) closeDialog(showcaseDialog); });
+showcaseDialog.addEventListener('cancel', (event) => { event.preventDefault(); closeDialog(showcaseDialog); });
+
+showcaseTabs.forEach((tab) => tab.addEventListener('click', () => selectShowcaseGroup(tab)));
+document.getElementById('showcasePrev').addEventListener('click', () => selectShowcasePhoto(showcaseIndex - 1, -1));
+document.getElementById('showcaseNext').addEventListener('click', () => selectShowcasePhoto(showcaseIndex + 1, 1));
+bindSwipeCarousel(showcaseStage, (direction) => selectShowcasePhoto(showcaseIndex + direction, direction));
+let showcasePointerOpened = false;
+showcaseOpen.addEventListener('mousedown', (event) => {
+  if (event.button !== 0) return;
+  showcasePointerOpened = true;
+  openShowcasePreview(event);
+  window.setTimeout(() => { showcasePointerOpened = false; }, 0);
+});
+// Delegate the desktop click from the stage as well as the transparent
+// overlay button. This keeps the preview reachable in embedded browsers that
+// do not consistently dispatch clicks on absolutely positioned buttons.
+showcaseStage.addEventListener('click', (event) => {
+  if (showcasePointerOpened) return;
+  if (event.target?.closest?.('#showcaseOpen')) openShowcasePreview(event);
+});
+selectShowcaseGroup(showcaseTabs[0]);
+
 const storyDialog = document.getElementById('storyDialog');
 const storyCopy = {
   halaqah: 'Dalam contoh kegiatan ini, santriwati mengikuti halaqah bersama asatidzah untuk memperbaiki bacaan dan mengulang hafalan. Kegiatan menekankan ketelitian, adab menyimak, serta semangat saling mendukung dalam mempelajari Al-Quran.',
@@ -586,11 +783,11 @@ document.querySelectorAll('[data-story-open]').forEach((button) => {
     const image = document.getElementById('storyDialogImage');
     image.src = photo.getAttribute('src');
     image.alt = photo.alt;
-    storyDialog.showModal();
+    openDialog(storyDialog);
   });
 });
 function closeStory() {
-  storyDialog.close();
+  closeDialog(storyDialog);
   storyReturnFocus?.focus();
 }
 document.querySelector('[data-story-close]').addEventListener('click', closeStory);
@@ -614,5 +811,4 @@ if (reduceMotion || !('IntersectionObserver' in window)) {
       observer.unobserve(entry.target);
     });
   }, { threshold: 0.13 });
-  revealElements.forEach((element) => revealObserver.observe(element));
-}
+  revealElements.forEach((element) => rev
