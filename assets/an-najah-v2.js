@@ -224,26 +224,44 @@ const profileVideo = document.getElementById('profileVideo');
 const videoStatus = document.getElementById('videoStatus');
 const videoStatusTitle = document.getElementById('videoStatusTitle');
 const videoStatusText = document.getElementById('videoStatusText');
+const videoStatusCopy = document.querySelector('.video-status-copy');
 let videoReturnFocus;
 let videoLoadTimer;
+let videoErrorTimer;
 
 function showVideoMessage(title, message) {
   profileVideo.hidden = true;
   videoStatus.hidden = false;
+  const isError = title === 'Video belum dapat diputar.';
+  videoStatus.classList.toggle('is-error', isError);
+  videoStatusCopy.hidden = !isError;
   videoStatusTitle.textContent = title;
   videoStatusText.textContent = message;
 }
 
 function revealVideo() {
   clearTimeout(videoLoadTimer);
+  clearTimeout(videoErrorTimer);
+  videoStatus.classList.remove('is-error');
+  videoStatusCopy.hidden = true;
   videoStatus.hidden = true;
   profileVideo.hidden = false;
 }
 
 function videoUnavailable() {
   clearTimeout(videoLoadTimer);
+  clearTimeout(videoErrorTimer);
   profileVideo.pause();
   showVideoMessage('Video belum dapat diputar.', 'Periksa koneksi Anda, lalu tutup dan buka kembali pemutar. Program pendidikan tetap dapat Anda jelajahi.');
+}
+
+function scheduleVideoUnavailable() {
+  clearTimeout(videoErrorTimer);
+  videoErrorTimer = window.setTimeout(() => {
+    // A media error can fire while the browser is replacing the source. Give
+    // the local MP4 a moment to recover before showing the error state.
+    if (profileVideo.readyState < 2 && profileVideo.error) videoUnavailable();
+  }, 3500);
 }
 
 function openVideo(event) {
@@ -251,6 +269,9 @@ function openVideo(event) {
   openDialog(videoDialog);
   const videoSource = profileVideo.dataset.videoSrc.trim();
   if (!videoSource) return;
+
+  clearTimeout(videoLoadTimer);
+  clearTimeout(videoErrorTimer);
 
   if (profileVideo.readyState >= 2 && !profileVideo.error) {
     revealVideo();
@@ -263,7 +284,7 @@ function openVideo(event) {
 
   profileVideo.play().catch((error) => {
     if (error.name === 'NotAllowedError') revealVideo();
-    else if (error.name !== 'AbortError') videoUnavailable();
+    else if (error.name !== 'AbortError') scheduleVideoUnavailable();
   });
 }
 
@@ -275,7 +296,7 @@ function closeVideo() {
 }
 
 profileVideo.addEventListener('loadeddata', revealVideo);
-profileVideo.addEventListener('error', videoUnavailable);
+profileVideo.addEventListener('error', scheduleVideoUnavailable);
 document.querySelectorAll('[data-video-open]').forEach((button) => button.addEventListener('click', openVideo));
 document.querySelector('[data-video-close]').addEventListener('click', closeVideo);
 document.querySelector('[data-video-explore]').addEventListener('click', closeVideo);
@@ -835,6 +856,7 @@ storyDialog.addEventListener('cancel', (event) => { event.preventDefault(); clos
 window.addEventListener('pagehide', () => {
   cancelAnimationFrame(pointerFrame);
   clearTimeout(videoLoadTimer);
+  clearTimeout(videoErrorTimer);
   profileVideo.pause();
 });
 

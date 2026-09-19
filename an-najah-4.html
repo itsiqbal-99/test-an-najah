@@ -63,7 +63,7 @@
       type="image/png"
     />
     <!-- Existing motion, splash, and dialog rules remain while page layout moves to Tailwind utilities. -->
-    <link rel="stylesheet" href="assets/an-najah-v2.css?v=carousel-20260915" />
+    <link rel="stylesheet" href="assets/an-najah-v2.css?v=video-loader-20260919" />
     <!-- Compiled Tailwind v3 utilities used by this single-file page; no runtime CDN required. -->
     <style id="tailwind-utilities">
       .\!m-0 {
@@ -2571,18 +2571,10 @@
           role="status"
           aria-live="polite"
         >
-          <img
-            src="assets/maahad-putri-halaqah-niqab.webp"
-            alt="Ilustrasi halaqah santriwati bercadar"
-            width="1538"
-            height="1022"
-          />
-          <div class="video-status-copy">
-            <h3 id="videoStatusTitle">Video profil belum tersedia.</h3>
-            <p id="videoStatusText">
-              Sambil menunggu film profil resmi ma'had, kenali program
-              pendidikan dan keseharian santriwati melalui halaman ini.
-            </p>
+          <span class="video-loading-spinner" aria-hidden="true"></span>
+          <div class="video-status-copy" hidden>
+            <h3 id="videoStatusTitle"></h3>
+            <p id="videoStatusText"></p>
             <a class="button button-gold" href="#program" data-video-explore
               >Kenali Program</a
             >
@@ -2974,7 +2966,7 @@
   }
 }
     </script>
-    <script src="assets/an-najah-v2.js?v=dialog-fallback-mousedown3-20260918" defer></script>
+    <script src="assets/an-najah-v2.js?v=video-loader-20260919" defer></script>
     <script>
       // Keep the existing dialog behavior while using natural, undated copy in this HTML-only revision.
       document.addEventListener("DOMContentLoaded", () => {
