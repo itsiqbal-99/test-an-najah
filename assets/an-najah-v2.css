@@ -356,8 +356,8 @@ html[data-theme="dark"] .theme-moon { display: none; }
 .showcase-side { display: flex; min-width: 0; flex-direction: column; gap: 22px; }
 .showcase-side h3 { margin: 7px 0 11px; font-size: clamp(1.8rem, 2.6vw, 2.55rem); line-height: 1.08; }
 .showcase-side p { max-width: 38ch; margin: 0; color: var(--ink-soft); font-size: .9rem; line-height: 1.65; }
-.showcase-thumbnails { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; border-top: 1px solid var(--line); padding-top: 18px; }
-.showcase-thumbnails button { height: 98px; overflow: hidden; border: 2px solid transparent; border-radius: 15px 3px 15px 3px; background: var(--page-deep); padding: 0; opacity: .62; transition: border-color 200ms ease, opacity 200ms ease, transform 200ms ease; }
+.showcase-thumbnails { display: flex; max-width: 100%; gap: 11px; overflow-x: auto; overscroll-behavior-inline: contain; overscroll-behavior-x: contain; touch-action: pan-x; border-top: 1px solid var(--line); padding: 18px 2px 6px; scroll-snap-type: x proximity; scrollbar-color: var(--line-gold) transparent; }
+.showcase-thumbnails button { flex: 0 0 clamp(88px, 9vw, 118px); height: 84px; overflow: hidden; border: 2px solid transparent; border-radius: 15px 3px 15px 3px; background: var(--page-deep); padding: 0; opacity: .62; scroll-snap-align: start; transition: border-color 200ms ease, opacity 200ms ease, transform 200ms ease; }
 .showcase-thumbnails button:hover { transform: translateY(-2px); }
 .showcase-thumbnails button[aria-pressed="true"] { border-color: var(--gold); opacity: 1; }
 .showcase-thumbnails img { width: 100%; height: 100%; object-fit: cover; }

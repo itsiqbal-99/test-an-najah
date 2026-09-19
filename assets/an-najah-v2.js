@@ -673,6 +673,21 @@ function renderShowcasePhoto(direction = 0) {
   showcaseActiveDescription.textContent = collection.description;
   showcaseCount.textContent = `${String(showcaseIndex + 1).padStart(2, '0')} / ${String(collection.photos.length).padStart(2, '0')}`;
   showcaseThumbnails.querySelectorAll('button').forEach((button, index) => button.setAttribute('aria-pressed', String(index === showcaseIndex)));
+  const activeThumbnail = showcaseThumbnails.querySelectorAll('button')[showcaseIndex];
+  if (activeThumbnail && Number.isFinite(activeThumbnail.offsetLeft)) {
+    const left = activeThumbnail.offsetLeft;
+    const right = left + activeThumbnail.offsetWidth;
+    const viewLeft = showcaseThumbnails.scrollLeft;
+    const viewRight = viewLeft + showcaseThumbnails.clientWidth;
+    if (left < viewLeft) {
+      showcaseThumbnails.scrollTo?.({ left, behavior: reduceMotion ? 'auto' : 'smooth' });
+    } else if (right > viewRight) {
+      showcaseThumbnails.scrollTo?.({
+        left: right - showcaseThumbnails.clientWidth,
+        behavior: reduceMotion ? 'auto' : 'smooth'
+      });
+    }
+  }
   animateCarouselImage(showcaseStageImage, direction);
 }
 
