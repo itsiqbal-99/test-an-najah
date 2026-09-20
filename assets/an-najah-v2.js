@@ -329,9 +329,10 @@ function bindSwipeCarousel(surface, move) {
   if ('PointerEvent' in window) {
     surface.addEventListener('pointerdown', (event) => {
       if (event.pointerType === 'mouse' && event.button !== 0) return;
+      if (event.pointerType === 'touch' && event.isPrimary === false) return;
       suppressClickUntil = 0;
       start = { x: event.clientX, y: event.clientY, id: event.pointerId };
-      if (event.pointerType === 'mouse') surface.setPointerCapture?.(event.pointerId);
+      surface.setPointerCapture?.(event.pointerId);
     });
     surface.addEventListener('pointerup', (event) => {
       if (start?.id === event.pointerId) finish(event.clientX, event.clientY);
@@ -481,6 +482,9 @@ const facilityDialogViewport = document.getElementById('facilityDialogViewport')
 const facilityDialogImageButton = document.getElementById('facilityDialogImageButton');
 const facilityZoomIn = document.getElementById('facilityZoomIn');
 const facilityZoomOut = document.getElementById('facilityZoomOut');
+const facilityDialogPrev = document.getElementById('facilityDialogPrev');
+const facilityDialogNext = document.getElementById('facilityDialogNext');
+const facilityDialogCount = document.getElementById('facilityDialogCount');
 let facilityZoom = 1;
 let facilityReturnFocus;
 
@@ -490,6 +494,9 @@ function syncFacilityDialogPhoto(direction = 0) {
   facilityDialogImage.src = photo.src;
   facilityDialogImage.alt = photo.alt;
   document.getElementById('facilityDialogCaption').textContent = `${facilityCollections[activeFacility].label} — ${photo.caption}`;
+  facilityDialogCount.textContent = `${String(facilityIndex + 1).padStart(2, '0')} / ${String(photos.length).padStart(2, '0')}`;
+  facilityDialogPrev.disabled = photos.length === 1;
+  facilityDialogNext.disabled = photos.length === 1;
   setFacilityZoom(1);
   animateCarouselImage(facilityDialogImage, direction);
 }
@@ -525,6 +532,14 @@ document.getElementById('facilityImageOpen').addEventListener('click', (event) =
 facilityDialogImageButton.addEventListener('click', () => setFacilityZoom(facilityZoom === 1 ? 2 : 1));
 facilityZoomIn.addEventListener('click', () => setFacilityZoom(facilityZoom + 0.5));
 facilityZoomOut.addEventListener('click', () => setFacilityZoom(facilityZoom - 0.5));
+facilityDialogPrev.addEventListener('click', () => {
+  selectFacilityPhoto(facilityIndex - 1, -1);
+  syncFacilityDialogPhoto(-1);
+});
+facilityDialogNext.addEventListener('click', () => {
+  selectFacilityPhoto(facilityIndex + 1, 1);
+  syncFacilityDialogPhoto(1);
+});
 bindPinchZoom(facilityDialogImage, (scale) => setFacilityZoom(scale));
 bindSwipeCarousel(facilityDialogImageButton, (direction) => {
   if (facilityCollections[activeFacility].photos.length === 1) return false;
@@ -690,6 +705,9 @@ const showcaseDialogViewport = document.getElementById('showcaseDialogViewport')
 const showcaseDialogImageButton = document.getElementById('showcaseDialogImageButton');
 const showcaseZoomIn = document.getElementById('showcaseZoomIn');
 const showcaseZoomOut = document.getElementById('showcaseZoomOut');
+const showcaseDialogPrev = document.getElementById('showcaseDialogPrev');
+const showcaseDialogNext = document.getElementById('showcaseDialogNext');
+const showcaseDialogCount = document.getElementById('showcaseDialogCount');
 let showcaseZoom = 1;
 let showcaseReturnFocus;
 let activeShowcaseGroup = 'ekstrakurikuler';
@@ -778,6 +796,9 @@ function syncShowcaseDialogPhoto(direction = 0) {
   showcaseDialogImage.src = photo.src;
   showcaseDialogImage.alt = photo.alt;
   document.getElementById('showcaseDialogCaption').textContent = `${collection.label} — ${photo.caption}`;
+  showcaseDialogCount.textContent = `${String(showcaseIndex + 1).padStart(2, '0')} / ${String(collection.photos.length).padStart(2, '0')}`;
+  showcaseDialogPrev.disabled = collection.photos.length === 1;
+  showcaseDialogNext.disabled = collection.photos.length === 1;
   setShowcaseZoom(1);
   animateCarouselImage(showcaseDialogImage, direction);
 }
@@ -793,6 +814,14 @@ showcaseThumbnails.addEventListener('dblclick', openShowcasePreview);
 showcaseDialogImageButton.addEventListener('click', () => setShowcaseZoom(showcaseZoom === 1 ? 2 : 1));
 showcaseZoomIn.addEventListener('click', () => setShowcaseZoom(showcaseZoom + 0.5));
 showcaseZoomOut.addEventListener('click', () => setShowcaseZoom(showcaseZoom - 0.5));
+showcaseDialogPrev.addEventListener('click', () => {
+  selectShowcasePhoto(showcaseIndex - 1, -1);
+  syncShowcaseDialogPhoto(-1);
+});
+showcaseDialogNext.addEventListener('click', () => {
+  selectShowcasePhoto(showcaseIndex + 1, 1);
+  syncShowcaseDialogPhoto(1);
+});
 bindSwipeCarousel(showcaseDialogImageButton, (direction) => {
   const photos = showcaseCollections[activeShowcaseGroup].photos;
   if (photos.length === 1) return false;
