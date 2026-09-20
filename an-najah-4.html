@@ -65,7 +65,7 @@
     <!-- Existing motion, splash, and dialog rules remain while page layout moves to Tailwind utilities. -->
     <link
       rel="stylesheet"
-      href="assets/an-najah-v2.css?v=modal-swipe-20260920"
+      href="assets/an-najah-v2.css?v=collection-loading-20260920"
     />
     <!-- Compiled Tailwind v3 utilities used by this single-file page; no runtime CDN required. -->
     <style id="tailwind-utilities">
@@ -3120,13 +3120,13 @@
     </dialog>
 
     <dialog
-      class="gallery-dialog"
+      class="gallery-dialog facility-dialog"
       id="galleryDialog"
       aria-labelledby="galleryDialogCaption"
     >
-      <div class="gallery-dialog-shell">
+      <div class="gallery-dialog-shell facility-dialog-shell">
         <button
-          class="gallery-close"
+          class="gallery-close facility-dialog-close"
           type="button"
           data-gallery-close
           aria-label="Tutup galeri"
@@ -3134,32 +3134,24 @@
         >
           Tutup
         </button>
-        <img
-          id="galleryDialogImage"
-          src="assets/maahad-putri-halaqah-niqab.webp"
-          alt=""
-          draggable="false"
-        />
+        <div class="facility-dialog-viewport gallery-dialog-viewport" id="galleryDialogViewport">
+          <button class="facility-dialog-image-button gallery-dialog-image-button" id="galleryDialogImageButton" type="button" aria-label="Perbesar foto">
+            <img id="galleryDialogImage" src="assets/maahad-putri-halaqah-niqab.webp" alt="" draggable="false" />
+          </button>
+        </div>
         <div class="gallery-dialog-footer">
           <p id="galleryDialogCaption">Galeri kehidupan santriwati</p>
-          <div class="gallery-controls">
-            <button
-              type="button"
-              data-gallery-prev
-              aria-label="Foto sebelumnya"
-              onclick="void 0"
-            >
-              ←</button
-            ><span id="galleryCount" aria-label="Posisi foto" aria-live="polite"
-              >1 / 4</span
-            ><button
-              type="button"
-              data-gallery-next
-              aria-label="Foto berikutnya"
-              onclick="void 0"
-            >
-              →
-            </button>
+          <div class="facility-dialog-tools">
+            <div class="gallery-controls">
+              <button type="button" data-gallery-prev aria-label="Foto sebelumnya" onclick="void 0">←</button>
+              <span id="galleryCount" aria-label="Posisi foto" aria-live="polite">1 / 4</span>
+              <button type="button" data-gallery-next aria-label="Foto berikutnya" onclick="void 0">→</button>
+            </div>
+            <div class="facility-dialog-zoom">
+              <button type="button" id="galleryZoomOut" aria-label="Perkecil foto">−</button>
+              <span id="galleryZoomLevel" aria-live="polite">100%</span>
+              <button type="button" id="galleryZoomIn" aria-label="Perbesar foto">+</button>
+            </div>
           </div>
         </div>
       </div>
@@ -3540,7 +3532,7 @@
         }
       }
     </script>
-    <script src="assets/an-najah-v2.js?v=modal-swipe-20260920" defer></script>
+    <script src="assets/an-najah-v2.js?v=collection-loading-20260920" defer></script>
     <script>
       // Keep the existing dialog behavior while using natural, undated copy in this HTML-only revision.
       document.addEventListener("DOMContentLoaded", () => {

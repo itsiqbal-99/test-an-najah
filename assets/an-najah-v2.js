@@ -314,13 +314,21 @@ function animateCarouselImage(image, direction) {
   ], { duration: 280, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
 }
 
-function bindSwipeCarousel(surface, move) {
+function bindSwipeCarousel(surface, move, options = {}) {
   let start = null;
   let suppressClickUntil = 0;
+  let dragged = false;
+  const isZoomed = () => options.isZoomed?.() === true;
   const finish = (x, y) => {
     if (!start) return;
     const dx = x - start.x;
     const dy = y - start.y;
+    if (isZoomed()) {
+      if (dragged) suppressClickUntil = Date.now() + 450;
+      start = null;
+      dragged = false;
+      return;
+    }
     start = null;
     if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.25) return;
     if (move(dx < 0 ? 1 : -1) === false) return;
@@ -331,8 +339,19 @@ function bindSwipeCarousel(surface, move) {
       if (event.pointerType === 'mouse' && event.button !== 0) return;
       if (event.pointerType === 'touch' && event.isPrimary === false) return;
       suppressClickUntil = 0;
-      start = { x: event.clientX, y: event.clientY, id: event.pointerId };
+      dragged = false;
+      start = { x: event.clientX, y: event.clientY, lastX: event.clientX, lastY: event.clientY, id: event.pointerId };
       surface.setPointerCapture?.(event.pointerId);
+    });
+    surface.addEventListener('pointermove', (event) => {
+      if (!start?.id || start.id !== event.pointerId || !isZoomed()) return;
+      const dx = event.clientX - start.lastX;
+      const dy = event.clientY - start.lastY;
+      if (Math.abs(dx) + Math.abs(dy) < 1) return;
+      dragged = true;
+      start.lastX = event.clientX;
+      start.lastY = event.clientY;
+      options.onPan?.(dx, dy);
     });
     surface.addEventListener('pointerup', (event) => {
       if (start?.id === event.pointerId) finish(event.clientX, event.clientY);
@@ -342,7 +361,19 @@ function bindSwipeCarousel(surface, move) {
     surface.addEventListener('touchstart', (event) => {
       if (event.touches.length !== 1) return;
       suppressClickUntil = 0;
-      start = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+      dragged = false;
+      start = { x: event.touches[0].clientX, y: event.touches[0].clientY, lastX: event.touches[0].clientX, lastY: event.touches[0].clientY };
+    }, { passive: true });
+    surface.addEventListener('touchmove', (event) => {
+      if (event.touches.length !== 1 || !start || !isZoomed()) return;
+      const touch = event.touches[0];
+      const dx = touch.clientX - start.lastX;
+      const dy = touch.clientY - start.lastY;
+      if (Math.abs(dx) + Math.abs(dy) < 1) return;
+      dragged = true;
+      start.lastX = touch.clientX;
+      start.lastY = touch.clientY;
+      options.onPan?.(dx, dy);
     }, { passive: true });
     surface.addEventListener('touchend', (event) => {
       if (event.changedTouches.length === 1) finish(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
@@ -381,6 +412,15 @@ function bindPinchZoom(target, setScale) {
   target.addEventListener('touchcancel', () => { startDistance = 0; }, { passive: true });
 }
 
+function preloadCollectionPhoto(src) {
+  return new Promise((resolve) => {
+    const image = new Image();
+    image.onload = () => resolve(true);
+    image.onerror = () => resolve(false);
+    image.src = src;
+  });
+}
+
 const facilityCollections = JSON.parse(document.getElementById('facilityData').textContent);
 const facilityTabs = [...document.querySelectorAll('.facility-tab')];
 const facilityPanel = document.getElementById('facility-panel');
@@ -389,14 +429,27 @@ const facilityBackdropImage = document.getElementById('facilityBackdropImage');
 const facilityPhotoSelector = document.getElementById('facilityPhotoSelector');
 let activeFacility = 'dorm';
 let facilityIndex = 0;
+let facilityPhotoRequest = 0;
 
-function renderFacilityPhoto() {
+function renderFacilityPhoto(direction = 0) {
   const photos = facilityCollections[activeFacility].photos;
   const photo = photos[facilityIndex];
   const position = `${String(facilityIndex + 1).padStart(2, '0')} / ${String(photos.length).padStart(2, '0')}`;
-  facilityMainImage.src = photo.src;
   facilityMainImage.alt = photo.alt;
-  facilityBackdropImage.src = photo.src;
+  const frame = facilityMainImage.closest('.facility-image-frame');
+  const request = ++facilityPhotoRequest;
+  frame.classList.add('is-loading');
+  frame.setAttribute('aria-busy', 'true');
+  facilityMainImage.removeAttribute('src');
+  facilityBackdropImage.removeAttribute('src');
+  preloadCollectionPhoto(photo.src).then(() => {
+    if (request !== facilityPhotoRequest) return;
+    facilityMainImage.src = photo.src;
+    facilityBackdropImage.src = photo.src;
+    frame.classList.remove('is-loading');
+    frame.setAttribute('aria-busy', 'false');
+    animateCarouselImage(facilityMainImage, direction);
+  });
   document.getElementById('facilityImageOpen').setAttribute('aria-label', `Perbesar foto ${facilityCollections[activeFacility].label}, ${facilityIndex + 1} dari ${photos.length}: ${photo.caption}`);
   document.getElementById('facilityPhotoCaption').textContent = photo.caption;
   document.getElementById('facilityPhotoPosition').textContent = position;
@@ -414,8 +467,7 @@ function selectFacilityPhoto(index, direction = Math.sign(index - facilityIndex)
   const next = (index + photos.length) % photos.length;
   if (next === facilityIndex) return;
   facilityIndex = next;
-  renderFacilityPhoto();
-  animateCarouselImage(facilityMainImage, direction);
+  renderFacilityPhoto(direction);
 }
 
 function selectFacility(tab, focus = false) {
@@ -545,6 +597,12 @@ bindSwipeCarousel(facilityDialogImageButton, (direction) => {
   if (facilityCollections[activeFacility].photos.length === 1) return false;
   selectFacilityPhoto(facilityIndex + direction, direction);
   syncFacilityDialogPhoto(direction);
+}, {
+  isZoomed: () => facilityZoom > 1,
+  onPan: (dx, dy) => {
+    facilityDialogViewport.scrollLeft -= dx;
+    facilityDialogViewport.scrollTop -= dy;
+  }
 });
 document.getElementById('facilityDialogClose').addEventListener('click', () => closeDialog(facilityDialog));
 facilityDialog.addEventListener('close', () => facilityReturnFocus?.focus());
@@ -552,8 +610,12 @@ facilityDialog.addEventListener('click', (event) => { if (event.target === facil
 
 const galleryDialog = document.getElementById('galleryDialog');
 const galleryImage = document.getElementById('galleryDialogImage');
+const galleryImageButton = document.getElementById('galleryDialogImageButton');
 const galleryCaption = document.getElementById('galleryDialogCaption');
 const galleryCount = document.getElementById('galleryCount');
+const galleryZoomIn = document.getElementById('galleryZoomIn');
+const galleryZoomOut = document.getElementById('galleryZoomOut');
+const galleryZoomLevel = document.getElementById('galleryZoomLevel');
 const galleryStage = document.getElementById('galleryStage');
 const galleryStageImage = document.getElementById('galleryStageImage');
 const galleryPanel = document.getElementById('gallery-panel');
@@ -568,18 +630,49 @@ let galleryReturnFocus;
 let activeGalleryGroup = 'halaqah';
 let galleryIndex = 0;
 let galleryModalZoom = 1;
+let galleryPanX = 0;
+let galleryPanY = 0;
+let galleryPhotoRequest = 0;
+
+function setGalleryPan(x, y) {
+  const maxX = Math.max(0, galleryImage.clientWidth * (galleryModalZoom - 1) / 2);
+  const maxY = Math.max(0, galleryImage.clientHeight * (galleryModalZoom - 1) / 2);
+  galleryPanX = Math.max(-maxX, Math.min(maxX, x));
+  galleryPanY = Math.max(-maxY, Math.min(maxY, y));
+  galleryImage.style.setProperty('--gallery-modal-x', `${galleryPanX}px`);
+  galleryImage.style.setProperty('--gallery-modal-y', `${galleryPanY}px`);
+}
 
 function setGalleryModalZoom(level) {
   galleryModalZoom = Math.max(1, Math.min(2.5, level));
+  if (galleryModalZoom === 1) {
+    galleryPanX = 0;
+    galleryPanY = 0;
+  }
+  galleryDialog.classList.toggle('is-gallery-zoomed', galleryModalZoom > 1);
   galleryImage.style.setProperty('--gallery-modal-scale', galleryModalZoom);
+  setGalleryPan(galleryPanX, galleryPanY);
+  galleryZoomLevel.textContent = `${Math.round(galleryModalZoom * 100)}%`;
+  galleryZoomOut.disabled = galleryModalZoom === 1;
+  galleryZoomIn.disabled = galleryModalZoom === 2.5;
 }
 
-function renderGalleryPhoto() {
+function renderGalleryPhoto(direction = 0) {
   const collection = galleryCollections[activeGalleryGroup];
   const photo = collection.photos[galleryIndex];
   const position = `${String(galleryIndex + 1).padStart(2, '0')} / ${String(collection.photos.length).padStart(2, '0')}`;
-  galleryStageImage.src = photo.src;
   galleryStageImage.alt = photo.alt;
+  const request = ++galleryPhotoRequest;
+  galleryStage.classList.add('is-loading');
+  galleryStage.setAttribute('aria-busy', 'true');
+  galleryStageImage.removeAttribute('src');
+  preloadCollectionPhoto(photo.src).then(() => {
+    if (request !== galleryPhotoRequest) return;
+    galleryStageImage.src = photo.src;
+    galleryStage.classList.remove('is-loading');
+    galleryStage.setAttribute('aria-busy', 'false');
+    animateCarouselImage(galleryStageImage, direction);
+  });
   galleryStage.setAttribute('aria-label', `Perbesar foto ${collection.label}, ${galleryIndex + 1} dari ${collection.photos.length}`);
   galleryActiveTitle.textContent = collection.label;
   galleryInlineCount.textContent = position;
@@ -601,8 +694,7 @@ function selectGalleryPhoto(index, direction = Math.sign(index - galleryIndex)) 
   const next = (index + photos.length) % photos.length;
   if (next === galleryIndex) return;
   galleryIndex = next;
-  renderGalleryPhoto();
-  animateCarouselImage(galleryStageImage, direction);
+  renderGalleryPhoto(direction);
   if (galleryDialog.open) animateCarouselImage(galleryImage, direction);
 }
 
@@ -664,9 +756,14 @@ function closeGallery() {
 
 galleryStage.addEventListener('click', openGallery);
 bindSwipeCarousel(galleryStage, (direction) => selectGalleryPhoto(galleryIndex + direction, direction));
-bindSwipeCarousel(galleryImage, (direction) => selectGalleryPhoto(galleryIndex + direction, direction));
+bindSwipeCarousel(galleryImageButton, (direction) => selectGalleryPhoto(galleryIndex + direction, direction), {
+  isZoomed: () => galleryModalZoom > 1,
+  onPan: (dx, dy) => setGalleryPan(galleryPanX + dx, galleryPanY + dy)
+});
 bindPinchZoom(galleryImage, setGalleryModalZoom);
-galleryImage.addEventListener('click', () => setGalleryModalZoom(galleryModalZoom === 1 ? 2 : 1));
+galleryImageButton.addEventListener('click', () => setGalleryModalZoom(galleryModalZoom === 1 ? 2 : 1));
+galleryZoomIn.addEventListener('click', () => setGalleryModalZoom(galleryModalZoom + 0.5));
+galleryZoomOut.addEventListener('click', () => setGalleryModalZoom(galleryModalZoom - 0.5));
 galleryStage.addEventListener('keydown', (event) => {
   if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
   event.preventDefault();
@@ -712,12 +809,23 @@ let showcaseZoom = 1;
 let showcaseReturnFocus;
 let activeShowcaseGroup = 'ekstrakurikuler';
 let showcaseIndex = 0;
+let showcasePhotoRequest = 0;
 
 function renderShowcasePhoto(direction = 0) {
   const collection = showcaseCollections[activeShowcaseGroup];
   const photo = collection.photos[showcaseIndex];
-  showcaseStageImage.src = photo.src;
   showcaseStageImage.alt = photo.alt;
+  const request = ++showcasePhotoRequest;
+  showcaseStage.classList.add('is-loading');
+  showcaseStage.setAttribute('aria-busy', 'true');
+  showcaseStageImage.removeAttribute('src');
+  preloadCollectionPhoto(photo.src).then(() => {
+    if (request !== showcasePhotoRequest) return;
+    showcaseStageImage.src = photo.src;
+    showcaseStage.classList.remove('is-loading');
+    showcaseStage.setAttribute('aria-busy', 'false');
+    animateCarouselImage(showcaseStageImage, direction);
+  });
   showcaseStageLabel.textContent = collection.label;
   showcaseStageCaption.textContent = photo.caption;
   showcaseActiveTitle.textContent = collection.label;
@@ -739,7 +847,6 @@ function renderShowcasePhoto(direction = 0) {
       });
     }
   }
-  animateCarouselImage(showcaseStageImage, direction);
 }
 
 function selectShowcasePhoto(index, direction = Math.sign(index - showcaseIndex)) {
@@ -827,6 +934,12 @@ bindSwipeCarousel(showcaseDialogImageButton, (direction) => {
   if (photos.length === 1) return false;
   selectShowcasePhoto(showcaseIndex + direction, direction);
   syncShowcaseDialogPhoto(direction);
+}, {
+  isZoomed: () => showcaseZoom > 1,
+  onPan: (dx, dy) => {
+    showcaseDialogViewport.scrollLeft -= dx;
+    showcaseDialogViewport.scrollTop -= dy;
+  }
 });
 document.getElementById('showcaseDialogClose').addEventListener('click', () => closeDialog(showcaseDialog));
 showcaseDialog.addEventListener('close', () => showcaseReturnFocus?.focus());
