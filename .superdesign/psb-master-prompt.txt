@@ -1,0 +1,51 @@
+Design a static Instagram feed graphic. The canvas is EXACTLY 1080x1350px (4:5) — nothing may overflow or scroll.
+
+PURPOSE: premium admissions campaign poster for Ma'had An-Najah Putri Batam, aimed at Indonesian parents and prospective female SMP/SMA students. The message must read clearly within 2–3 seconds on a mobile feed.
+
+LAYOUT — split, asymmetric editorial 58/42: use a disciplined editorial grid. The left 58% carries logo, institution name, headline, academic year, level, message, program highlights, registration date, and contact information. The right 42% carries the santriwati cutout, allowed to bleed slightly beyond the right and lower edges while remaining fully intentional. Preserve 25–35% calm negative space. Use typography, alignment, thin rules, and whitespace instead of cards. Maximum one main CTA container; the registration date may have one subtle treatment. Do not mechanically copy a generic flyer template.
+
+OFFICIAL LOGO: visibly render the exact supplied logo from this URL once at the upper left with generous breathing room and preserved proportions:
+https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/a88c51c9-3bfb-4863-9718-6d0b1311f30b/brand-assets/brand-an-najah-official-logo/ChatGPT_Image_Sep_17__2026__08_28_22_PM.png
+Do not redraw, crop, recolor, stylize, reinterpret, or replace it. Do not use initials, emoji, a generic symbol, an invented SVG, or text alone as a substitute. This is the only logo position.
+
+KEY VISUAL: embed this exact transparent santriwati image via <img>, using object-fit: contain and never distorting it:
+https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/a88c51c9-3bfb-4863-9718-6d0b1311f30b/content-assets/graphic-psb-2027-santriwati-key-visual/psb-santriwati-key-visual.png
+It depicts three modest santriwati in deep navy, dusty blue, blue-grey, and warm ivory; one primary back/side-facing figure holding a closed Qur'an, with two secondary figures holding books/notebook. Position it on the right so it supports rather than competes with the headline. Do not place the group centered like a school photo.
+
+QR: embed this exact QR image unchanged near the CTA, at a reliably scannable size (roughly 150–175px square), preserving its quiet zone, contrast, square orientation, and aspect ratio:
+https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/a88c51c9-3bfb-4863-9718-6d0b1311f30b/content-assets/graphic-psb-2027-registration-qr/psb-qr-website.png
+
+COPY — reproduce every string below EXACTLY, with no rewording, additions, spelling changes, or invented claims:
+- Brand: "MA'HAD AN-NAJAH PUTRI BATAM"
+- Brand line: "Pendidikan Berlandaskan Sunnah"
+- Main headline, dominant in this order: "PENERIMAAN" / "SANTRIWATI BARU"
+- Academic label: "TAHUN AJARAN"
+- Academic year: "2027/2028"
+- Education level: "SMP & SMA • KHUSUS PUTRI"
+- Core message: "Ilmu • Adab • Sunnah"
+- Supporting copy: "Mendampingi muslimah tumbuh dalam ilmu, adab, dan keteguhan di atas Sunnah."
+- Program 1: "TAHFIDZ" — "Al-Qur'an & Hadits"
+- Program 2: "BAHASA ARAB" — "Bahasa Arab Dasar"
+- Program 3: "ADAB" — "Adab & Akhlaq"
+- Program 4: "PENDIDIKAN" — "SMP & SMA"
+- Registration label: "PENDAFTARAN DIBUKA"
+- Registration date: "21 SEPTEMBER 2026"
+- CTA heading: "INFORMASI & PENDAFTARAN"
+- QR caption: "Scan QR untuk informasi lengkap PSB"
+- WhatsApp: "0812-7567-2286"
+- Website: "itsiqbal-99.github.io/test-an-najah/an-najah-4.html"
+- Location: "Tembesi, Kec. Sagulung, Kota Batam"
+
+VISUAL HIERARCHY, strongest to supporting: 1) PENERIMAAN SANTRIWATI BARU, 2) 2027/2028, 3) MA'HAD AN-NAJAH PUTRI BATAM, 4) SMP & SMA • KHUSUS PUTRI, 5) santriwati visual, 6) PENDAFTARAN DIBUKA / 21 SEPTEMBER 2026, 7) four program highlights, 8) QR and WhatsApp CTA.
+
+STYLE: modern Islamic editorial + premium educational branding + minimalist print design. Quiet confidence, mature femininity, restrained Islamic identity, calm and trustworthy. Dominant background warm ivory #F8F5EE. Primary navy #0B2345 for headline and structure. Institutional blue #183F68 for secondary text. Soft blue #DCE6EF sparingly for labels or one quiet grouping. Muted gold #C5A15A for thin rules and selected emphasis, with dark gold #9E7A39 only if contrast requires it. Gold must remain flat and muted—no metallic gradients, foil, glitter, or shine.
+
+TYPOGRAPHY: maximum two font families. Use DM Serif Display only for selected large editorial headline emphasis and Manrope for all functional information, labels, programs, date, and CTA. Keep the result contemporary and educational, never wedding-invitation-like. No outlined, beveled, glowing, gradient, or 3D text. Use precise optical alignment, tight headline leading, and generous breathing room.
+
+ISLAMIC VISUAL LANGUAGE: restrained only. At most one very subtle thin arch outline or faint eight-point geometric trace at low opacity, plus thin gold rules. No decorative Arabic filler and no fake Arabic quotations.
+
+PROGRAM HIGHLIGHTS: show four concise items in a clean two-column typographic grid. If icons are used, use one consistent navy/gold monoline family only. No colorful, 3D, or emoji icons.
+
+STRICT EXCLUSIONS: no building, campus, mosque architecture, classroom, or school exterior anywhere. No giant crescent, lanterns, stars everywhere, excessive arabesque, ornate borders, glassmorphism, excessive cards, gradient blobs, neon, bokeh, volumetric light, floating Qur'an/books/stationery, sparkles, particles, gold dust, ribbons, starbursts, discount badges, aggressive commercial CTA, registration price, tuition fee, discounts, quota, detailed requirements, deadline, accreditation, statistics, rankings, testimonials, fake achievements, fake hadith, or any unsupported claims.
+
+FINAL CHECK: no clipped content, no overflow, correct spellings and numbers, logo visibly uses the exact supplied asset, santriwati remains natural and modest, QR remains scannable, and the poster feels deliberately art-directed rather than AI-generated.

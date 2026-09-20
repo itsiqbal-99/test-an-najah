@@ -1,0 +1,35 @@
+REPLACE the current draft with a complete correction. The existing draft failed the brief: it used a dark gradient/glassmorphism layout, centered the students behind giant text, wrote "SANTRI BARU" instead of "SANTRIWATI BARU", omitted required information, invented a slogan and domain, and used unapproved fonts. Remove all of those defects. Keep the artifact EXACTLY 1080x1350px with no overflow.
+
+Recompose as a premium asymmetric editorial split 58/42. Warm ivory #F8F5EE is the dominant background. Left 58%: exact official logo and brand, headline, year, education level, message, four programs, registration date, then one restrained CTA/contact block. Right 42%: exact transparent santriwati cutout at natural color, object-fit:contain, slightly bleeding right/bottom but never behind the headline. Maintain 25–35% negative space. Use thin flat muted-gold #C5A15A rules and very faint soft-blue #DCE6EF grouping only. No gradient, dark full-page background, glassmorphism, blur, rounded-card stack, center overlay, glow, filter, or drop-shadow spectacle.
+
+Embed these exact assets and public URLs:
+Logo once, upper-left, preserved and visible: https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/a88c51c9-3bfb-4863-9718-6d0b1311f30b/brand-assets/brand-an-najah-official-logo/ChatGPT_Image_Sep_17__2026__08_28_22_PM.png
+Santriwati right-side cutout: https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/a88c51c9-3bfb-4863-9718-6d0b1311f30b/content-assets/graphic-psb-2027-santriwati-key-visual/psb-santriwati-key-visual.png
+QR near CTA, unchanged and square with quiet zone, 150–175px: https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/a88c51c9-3bfb-4863-9718-6d0b1311f30b/content-assets/graphic-psb-2027-registration-qr/psb-qr-website.png
+Never substitute, recolor, crop, filter, redraw, or distort any asset. The logo must not be replaced by initials, emoji, generic mark, invented SVG, or text alone.
+
+COPY — include every line EXACTLY and do not add any other claim, slogan, CTA, URL, price, quota, or deadline:
+"MA'HAD AN-NAJAH PUTRI BATAM"
+"Pendidikan Berlandaskan Sunnah"
+"PENERIMAAN"
+"SANTRIWATI BARU"
+"TAHUN AJARAN"
+"2027/2028"
+"SMP & SMA • KHUSUS PUTRI"
+"Ilmu • Adab • Sunnah"
+"Mendampingi muslimah tumbuh dalam ilmu, adab, dan keteguhan di atas Sunnah."
+"TAHFIDZ" / "Al-Qur'an & Hadits"
+"BAHASA ARAB" / "Bahasa Arab Dasar"
+"ADAB" / "Adab & Akhlaq"
+"PENDIDIKAN" / "SMP & SMA"
+"PENDAFTARAN DIBUKA"
+"21 SEPTEMBER 2026"
+"INFORMASI & PENDAFTARAN"
+"Scan QR untuk informasi lengkap PSB"
+"0812-7567-2286"
+"itsiqbal-99.github.io/test-an-najah/an-najah-4.html"
+"Tembesi, Kec. Sagulung, Kota Batam"
+
+Hierarchy: PENERIMAAN SANTRIWATI BARU first; 2027/2028 second; brand third; SMP & SMA • KHUSUS PUTRI fourth; santriwati fifth; registration date sixth; programs seventh; QR/contact eighth. Use DM Serif Display only for selective large editorial emphasis and Manrope for every functional label/body line—no other fonts. Use navy #0B2345 for primary type, institutional blue #183F68 for secondary copy, soft blue #DCE6EF sparingly, muted gold #C5A15A for select emphasis, dark gold #9E7A39 only when needed. The four programs form a clean two-column typographic grid; icons may be omitted.
+
+No building, campus, mosque architecture, classroom, crescent, lantern, fake Arabic, ornamental overload, floating objects, sparkles, particles, ribbons, promotional badges, aggressive CTA, outlined/glowing/beveled/3D text, or unsupported institutional claims. The final design must feel professionally art-directed, calm, feminine but mature, Islamic but restrained, and readable at Instagram feed size.

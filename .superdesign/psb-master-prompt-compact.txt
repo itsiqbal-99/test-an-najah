@@ -1,0 +1,38 @@
+Create a static Instagram poster, EXACTLY 1080x1350px (4:5), no overflow. Purpose: PSB campaign for Ma'had An-Najah Putri Batam; readable in 2–3 seconds on mobile.
+
+LAYOUT — split asymmetric editorial 58/42. Left: logo, brand, headline, year, level, message, programs, date, contacts. Right: santriwati cutout, slightly bleeding right/bottom. Keep 25–35% calm negative space. Use alignment, type, thin rules, and whitespace; maximum one CTA container and one subtle date treatment. No generic flyer composition.
+
+ASSETS — embed these exact public images, preserve aspect ratio:
+LOGO once at upper-left, uncropped and unchanged: https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/a88c51c9-3bfb-4863-9718-6d0b1311f30b/brand-assets/brand-an-najah-official-logo/ChatGPT_Image_Sep_17__2026__08_28_22_PM.png
+Never redraw/recolor/restyle it or replace it with initials, emoji, generic mark, invented SVG, or text alone.
+SANTRIWATI on the right using <img> and object-fit:contain: https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/a88c51c9-3bfb-4863-9718-6d0b1311f30b/content-assets/graphic-psb-2027-santriwati-key-visual/psb-santriwati-key-visual.png
+This transparent cutout contains three modest full-body santriwati in navy/dusty blue, with naturally hidden faces and books. Do not center them like a class photo.
+QR near CTA, exact image unchanged, square, 150–175px, quiet zone preserved: https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/a88c51c9-3bfb-4863-9718-6d0b1311f30b/content-assets/graphic-psb-2027-registration-qr/psb-qr-website.png
+
+COPY — reproduce EXACTLY, no rewording or additions:
+"MA'HAD AN-NAJAH PUTRI BATAM"
+"Pendidikan Berlandaskan Sunnah"
+"PENERIMAAN"
+"SANTRIWATI BARU"
+"TAHUN AJARAN"
+"2027/2028"
+"SMP & SMA • KHUSUS PUTRI"
+"Ilmu • Adab • Sunnah"
+"Mendampingi muslimah tumbuh dalam ilmu, adab, dan keteguhan di atas Sunnah."
+"TAHFIDZ" / "Al-Qur'an & Hadits"
+"BAHASA ARAB" / "Bahasa Arab Dasar"
+"ADAB" / "Adab & Akhlaq"
+"PENDIDIKAN" / "SMP & SMA"
+"PENDAFTARAN DIBUKA"
+"21 SEPTEMBER 2026"
+"INFORMASI & PENDAFTARAN"
+"Scan QR untuk informasi lengkap PSB"
+"0812-7567-2286"
+"itsiqbal-99.github.io/test-an-najah/an-najah-4.html"
+"Tembesi, Kec. Sagulung, Kota Batam"
+
+HIERARCHY: 1 PENERIMAAN SANTRIWATI BARU; 2 2027/2028; 3 brand; 4 SMP & SMA • KHUSUS PUTRI; 5 santriwati; 6 registration date; 7 four programs; 8 QR/WhatsApp.
+
+STYLE: quiet-confidence modern Islamic editorial, premium educational, mature feminine, restrained and trustworthy. Warm ivory #F8F5EE dominant background; navy #0B2345 headline/structure; blue #183F68 secondary; soft blue #DCE6EF sparingly; muted gold #C5A15A for thin rules/emphasis; dark gold #9E7A39 only when needed. Flat color only, no metallic/foil/gradient effects. Maximum two fonts: DM Serif Display for selective large editorial emphasis; Manrope for all functional copy. Tight headline leading, excellent optical alignment, generous breathing room. At most one faint arch/eight-point trace and thin gold rules. Programs: clean two-column typographic grid; optional consistent navy/gold monoline icons only.
+
+ABSOLUTELY NO building, campus, mosque architecture, classroom, giant crescent, lanterns, decorative Arabic filler, fake Arabic, excessive arabesque, ornate border, glassmorphism, cards everywhere, blobs, neon, bokeh, volumetric light, floating objects, sparkles, particles, ribbons, promotional badges, aggressive CTA, invented claims, fees, discounts, quota, deadline, accreditation, statistics, testimonials, outlined/glowing/beveled/3D text, clipping, or distorted assets. Final result must look professionally art-directed, not AI-generated. Ensure exact spelling, visible official logo, natural modest santriwati, and scannable QR.
