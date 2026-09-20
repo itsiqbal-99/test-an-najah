@@ -8,7 +8,6 @@ const sections = [
   { id: 'video', name: 'Video Profil', description: 'Teks dan gambar sampul video.', text: ['video'], images: ['video'] },
   { id: 'gallery', name: 'Galeri', description: 'Tambah, urutkan, atau hapus foto kegiatan beserta keterangannya.', text: ['gallery'], images: [], gallery: true },
   { id: 'showcase', name: 'Karya Santriwati', description: 'Atur koleksi ekstrakurikuler dan hasil karya santriwati.', text: [], images: [], showcase: true },
-  { id: 'activities', name: 'Kegiatan', description: 'Tiga cerita kegiatan beserta foto dan isi selengkapnya.', text: ['activities', 'activity'], images: ['activity'] },
   { id: 'rhythm', name: 'Ritme Harian', description: 'Gambaran kegiatan dari pagi hingga malam.', text: ['rhythm'], images: [] },
   { id: 'faq', name: 'FAQ', description: 'Pengantar pertanyaan yang sering diajukan.', text: ['faq'], images: [] },
   { id: 'social', name: 'Instagram & Sosial', description: 'Teks pengantar kanal resmi pondok.', text: ['instagram', 'social'], images: [] },
@@ -21,7 +20,6 @@ const names = {
   statement: 'Visi resmi', mission1: 'Misi 01', mission2: 'Misi 02', mission3: 'Misi 03', mission4: 'Misi 04', mission5: 'Misi 05',
   smp: 'Jenjang SMP', sma: 'Jenjang SMA', diniyah: 'Diniyah & Al-Qur\'an', general: 'Pelajaran Umum', self: 'Pengembangan Diri',
   dorm: 'Asrama putri', class: 'Kelas & laboratorium', library: 'Perpustakaan', worship: 'Ibadah & olahraga',
-  halaqah: 'Halaqah Al-Qur\'an', science: 'Praktik sains', community: 'Kehidupan bersama',
   dawn: 'Fajar', morning: 'Pagi', afternoon: 'Sore', night: 'Malam', detail: 'Cerita lengkap', summary: 'Ringkasan', caption: 'Keterangan pada foto'
 };
 
@@ -40,7 +38,6 @@ let busy = false;
 
 function labelFor(key) {
   const parts = key.split('.');
-  if (parts[0] === 'activity') return parts.length === 2 ? names[parts[1]] || parts[1] : `${names[parts[1]] || parts[1]} — ${names[parts[2]] || parts[2]}`;
   if (parts[0] === 'facility') return `${names[parts[1]] || parts[1]} — Deskripsi`;
   if (parts[0] === 'faq' && /^[qa]\d+$/.test(parts[1])) return `${parts[1][0] === 'q' ? 'Pertanyaan' : 'Jawaban'} ${parts[1].slice(1)}`;
   if (parts[0] === 'pondok' && /^program\d+$/.test(parts[1])) return `Program ${parts[1].slice(7)}`;

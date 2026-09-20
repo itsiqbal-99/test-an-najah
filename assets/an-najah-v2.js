@@ -966,35 +966,6 @@ showcaseStage.addEventListener('click', (event) => {
 });
 selectShowcaseGroup(showcaseTabs[0]);
 
-const storyDialog = document.getElementById('storyDialog');
-const storyCopy = {
-  halaqah: 'Dalam contoh kegiatan ini, santriwati mengikuti halaqah bersama asatidzah untuk memperbaiki bacaan dan mengulang hafalan. Kegiatan menekankan ketelitian, adab menyimak, serta semangat saling mendukung dalam mempelajari Al-Quran.',
-  sains: 'Contoh kegiatan pembelajaran umum ini mengajak santriwati melakukan pengamatan sederhana dan berdiskusi tentang hasilnya. Proses belajar melatih rasa ingin tahu, ketelitian, kemampuan mencatat, dan kerja sama dengan tetap menjaga adab di kelas.',
-  adab: 'Contoh cerita keseharian ini menampilkan pembiasaan saling menghormati, menjaga kebersihan, dan menyelesaikan tanggung jawab bersama. Nilai adab dipelajari melalui praktik kecil yang dilakukan secara konsisten dalam lingkungan khusus putri.'
-};
-let storyReturnFocus;
-document.querySelectorAll('[data-story-open]').forEach((button) => {
-  button.addEventListener('click', () => {
-    const article = button.closest('article');
-    const photo = article.querySelector('img');
-    storyReturnFocus = button;
-    document.getElementById('storyDialogTitle').textContent = article.querySelector('h3').textContent;
-    document.getElementById('storyDialogDate').textContent = `${article.querySelector('time').textContent} | Konten contoh`;
-    document.getElementById('storyDialogBody').textContent = storyCopy[button.dataset.storyOpen];
-    const image = document.getElementById('storyDialogImage');
-    image.src = photo.getAttribute('src');
-    image.alt = photo.alt;
-    openDialog(storyDialog);
-  });
-});
-function closeStory() {
-  closeDialog(storyDialog);
-  storyReturnFocus?.focus();
-}
-document.querySelector('[data-story-close]').addEventListener('click', closeStory);
-storyDialog.addEventListener('click', (event) => { if (event.target === storyDialog) closeStory(); });
-storyDialog.addEventListener('cancel', (event) => { event.preventDefault(); closeStory(); });
-
 window.addEventListener('pagehide', () => {
   cancelAnimationFrame(pointerFrame);
   clearTimeout(videoLoadTimer);
