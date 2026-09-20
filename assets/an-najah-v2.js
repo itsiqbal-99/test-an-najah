@@ -787,6 +787,7 @@ galleryDialog.addEventListener('cancel', (event) => {
 
 const showcaseCollections = JSON.parse(document.getElementById('showcaseData').textContent);
 const showcaseTabs = [...document.querySelectorAll('.showcase-tab')];
+const showcasePanel = document.getElementById('showcase-panel');
 const showcaseStage = document.querySelector('.showcase-stage');
 const showcaseStageImage = document.getElementById('showcaseStageImage');
 const showcaseStageLabel = document.getElementById('showcaseStageLabel');
@@ -857,10 +858,15 @@ function selectShowcasePhoto(index, direction = Math.sign(index - showcaseIndex)
   renderShowcasePhoto(direction);
 }
 
-function selectShowcaseGroup(tab) {
+function selectShowcaseGroup(tab, focus = false) {
   activeShowcaseGroup = tab.dataset.showcaseGroup;
   showcaseIndex = 0;
-  showcaseTabs.forEach((item) => item.setAttribute('aria-selected', String(item === tab)));
+  showcaseTabs.forEach((item) => {
+    const selected = item === tab;
+    item.setAttribute('aria-selected', String(selected));
+    item.tabIndex = selected ? 0 : -1;
+  });
+  showcasePanel.setAttribute('aria-labelledby', tab.id);
   showcaseThumbnails.replaceChildren();
   showcaseCollections[activeShowcaseGroup].photos.forEach((photo, index) => {
     const button = document.createElement('button');
@@ -875,6 +881,7 @@ function selectShowcaseGroup(tab) {
     showcaseThumbnails.append(button);
   });
   renderShowcasePhoto();
+  if (focus) tab.focus();
 }
 
 function setShowcaseZoom(level) {
@@ -946,7 +953,16 @@ showcaseDialog.addEventListener('close', () => showcaseReturnFocus?.focus());
 showcaseDialog.addEventListener('click', (event) => { if (event.target === showcaseDialog) closeDialog(showcaseDialog); });
 showcaseDialog.addEventListener('cancel', (event) => { event.preventDefault(); closeDialog(showcaseDialog); });
 
-showcaseTabs.forEach((tab) => tab.addEventListener('click', () => selectShowcaseGroup(tab)));
+showcaseTabs.forEach((tab, index) => {
+  tab.addEventListener('click', () => selectShowcaseGroup(tab));
+  tab.addEventListener('keydown', (event) => {
+    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    const next = event.key === 'Home' ? 0 : event.key === 'End' ? showcaseTabs.length - 1
+      : (index + (['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : -1) + showcaseTabs.length) % showcaseTabs.length;
+    selectShowcaseGroup(showcaseTabs[next], true);
+  });
+});
 document.getElementById('showcasePrev').addEventListener('click', () => selectShowcasePhoto(showcaseIndex - 1, -1));
 document.getElementById('showcaseNext').addEventListener('click', () => selectShowcasePhoto(showcaseIndex + 1, 1));
 bindSwipeCarousel(showcaseStage, (direction) => selectShowcasePhoto(showcaseIndex + direction, direction));

@@ -6,7 +6,6 @@ import {
   Easing,
   Img,
   Interactive,
-  Sequence,
   interpolate,
   staticFile,
   useCurrentFrame,
@@ -27,7 +26,9 @@ const LogoImage: React.FC<{
   clipPath?: string;
   filter?: string;
   scale?: number;
-}> = ({name, opacity, clipPath, filter, scale = 1}) => {
+  translateY?: number;
+  rotate?: number;
+}> = ({name, opacity, clipPath, filter, scale = 1, translateY = 0, rotate = 0}) => {
   return (
     <Interactive.Div
       name={name}
@@ -37,11 +38,13 @@ const LogoImage: React.FC<{
         top: LOGO_TOP,
         width: LOGO_WIDTH,
         height: LOGO_HEIGHT,
-        translate: "-50% 0px",
+        translate: `-50% ${translateY}px`,
+        rotate: `${rotate}deg`,
         opacity,
         clipPath,
         filter,
         scale,
+        transformOrigin: "50% 42%",
       }}
     >
       <Img
@@ -112,6 +115,173 @@ const GoldParticles: React.FC = () => {
   );
 };
 
+const RadiantBackground: React.FC = () => {
+  const frame = useCurrentFrame();
+
+  return (
+    <>
+      <Interactive.Div
+        name="Soft radiant sunburst"
+        style={{
+          position: "absolute",
+          left: "50%",
+          top: "43%",
+          width: 1320,
+          height: 1320,
+          translate: "-50% -50%",
+          rotate: interpolate(frame, [0, 209], ["-7deg", "7deg"], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          }),
+          opacity: interpolate(frame, [0, 34, 150, 209], [0, 0.16, 0.1, 0.04], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          }),
+          borderRadius: "50%",
+          background:
+            "repeating-conic-gradient(from 0deg, rgba(8,137,120,0.18) 0deg 2deg, transparent 2deg 18deg, rgba(224,170,54,0.13) 18deg 20deg, transparent 20deg 36deg)",
+          maskImage: "radial-gradient(circle, black 0%, rgba(0,0,0,0.65) 34%, transparent 70%)",
+        }}
+      />
+      <Interactive.Div
+        name="Warm logo aura"
+        style={{
+          position: "absolute",
+          left: "50%",
+          top: 444,
+          width: 920,
+          height: 680,
+          translate: "-50% -50%",
+          borderRadius: "50%",
+          scale: interpolate(frame, [0, 70, 155, 180, 209], [0.7, 1, 1, 1.08, 1.03], {
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+            output: "perceptual-scale",
+          }),
+          opacity: interpolate(frame, [0, 42, 150, 180, 209], [0, 0.28, 0.2, 0.34, 0.18], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          }),
+          background:
+            "radial-gradient(ellipse, rgba(255,232,158,0.48) 0%, rgba(210,244,236,0.25) 42%, rgba(255,255,255,0) 72%)",
+          filter: "blur(12px)",
+        }}
+      />
+    </>
+  );
+};
+
+const EnergyRings: React.FC = () => {
+  const frame = useCurrentFrame();
+
+  return (
+    <AbsoluteFill style={{pointerEvents: "none"}}>
+      {Array.from({length: 3}).map((_, index) => {
+        const start = 17 + index * 13;
+        return (
+          <div
+            key={index}
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: 351,
+              width: 230,
+              height: 230,
+              translate: "-50% -50%",
+              borderRadius: "50%",
+              border: `${index === 1 ? 3 : 2}px solid ${index % 2 === 0 ? "rgba(224,168,45,0.72)" : "rgba(0,142,124,0.58)"}`,
+              scale: interpolate(frame, [start, start + 45], [0.35, 2.25], {
+                easing: Easing.bezier(0.16, 1, 0.3, 1),
+                extrapolateLeft: "clamp",
+                extrapolateRight: "clamp",
+              }),
+              opacity: interpolate(frame, [start, start + 8, start + 38, start + 48], [0, 0.62, 0.16, 0], {
+                extrapolateLeft: "clamp",
+                extrapolateRight: "clamp",
+              }),
+              boxShadow: index === 1 ? "0 0 28px rgba(0,142,124,0.18)" : "0 0 24px rgba(224,168,45,0.22)",
+            }}
+          />
+        );
+      })}
+      {Array.from({length: 14}).map((_, index) => {
+        const angle = (index / 14) * Math.PI * 2 + frame * 0.027;
+        const radiusX = 184 + (index % 3) * 13;
+        const radiusY = 128 + (index % 2) * 12;
+        return (
+          <div
+            key={`orbit-${index}`}
+            style={{
+              position: "absolute",
+              left: 960 + Math.cos(angle) * radiusX,
+              top: 351 + Math.sin(angle) * radiusY,
+              width: 5 + (index % 3) * 2,
+              height: 5 + (index % 3) * 2,
+              borderRadius: "50%",
+              opacity: interpolate(frame, [20, 42, 91, 118], [0, 0.8, 0.55, 0], {
+                extrapolateLeft: "clamp",
+                extrapolateRight: "clamp",
+              }),
+              color: index % 2 === 0 ? "#e6b34a" : "#22b6a4",
+              background: index % 2 === 0 ? "#e6b34a" : "#22b6a4",
+              boxShadow: "0 0 13px currentColor",
+            }}
+          />
+        );
+      })}
+    </AbsoluteFill>
+  );
+};
+
+const FinalSparkles: React.FC = () => {
+  const frame = useCurrentFrame();
+  const points = [
+    [684, 205],
+    [1234, 252],
+    [1312, 438],
+    [611, 512],
+    [738, 738],
+    [1190, 785],
+    [836, 908],
+    [1084, 925],
+  ];
+
+  return (
+    <AbsoluteFill style={{pointerEvents: "none"}}>
+      {points.map(([x, y], index) => {
+        const start = 150 + index * 4;
+        return (
+          <div
+            key={`${x}-${y}`}
+            style={{
+              position: "absolute",
+              left: x,
+              top: y,
+              width: 15 + (index % 3) * 5,
+              height: 15 + (index % 3) * 5,
+              translate: "-50% -50%",
+              rotate: `${index * 17 + frame * 0.7}deg`,
+              clipPath: "polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%)",
+              background: index % 2 === 0 ? "#efbf52" : "#8be0cf",
+              opacity: interpolate(frame, [start, start + 7, start + 18, start + 29], [0, 0.95, 0.55, 0], {
+                extrapolateLeft: "clamp",
+                extrapolateRight: "clamp",
+              }),
+              scale: interpolate(frame, [start, start + 8, start + 25], [0.2, 1, 0.55], {
+                easing: Easing.spring({damping: 14, stiffness: 120}),
+                extrapolateLeft: "clamp",
+                extrapolateRight: "clamp",
+              }),
+              filter: "drop-shadow(0 0 8px rgba(230,178,68,0.72))",
+            }}
+          />
+        );
+      })}
+    </AbsoluteFill>
+  );
+};
+
 const DomeTrace: React.FC = () => {
   const frame = useCurrentFrame();
 
@@ -148,11 +318,23 @@ const DomeTrace: React.FC = () => {
         </defs>
         <g fill="none" stroke="url(#traceGold)" strokeLinecap="round" filter="url(#traceGlow)">
           <path
-            d="M154 515 L154 357 C154 206 261 95 410 35 C559 95 666 206 666 357 L666 515"
+            d="M410 35 C261 95 154 206 154 357 L154 515"
             strokeWidth="8"
             style={{
-              strokeDasharray: 1500,
-              strokeDashoffset: interpolate(frame, [46, 102], [1500, 0], {
+              strokeDasharray: 760,
+              strokeDashoffset: interpolate(frame, [46, 102], [760, 0], {
+                easing: Easing.bezier(0.65, 0, 0.35, 1),
+                extrapolateLeft: "clamp",
+                extrapolateRight: "clamp",
+              }),
+            }}
+          />
+          <path
+            d="M410 35 C559 95 666 206 666 357 L666 515"
+            strokeWidth="8"
+            style={{
+              strokeDasharray: 760,
+              strokeDashoffset: interpolate(frame, [46, 102], [760, 0], {
                 easing: Easing.bezier(0.65, 0, 0.35, 1),
                 extrapolateLeft: "clamp",
                 extrapolateRight: "clamp",
@@ -188,7 +370,7 @@ export const CinematicLogo: React.FC<Props> = () => {
       }}
     >
       <Audio
-        src={staticFile("opening-sfx.wav")}
+        src={staticFile("opening-sfx-nasheed-sunnah.wav")}
         volume={(audioFrame) =>
           interpolate(audioFrame, [0, 12, 188, 209], [0, 0.92, 0.92, 0], {
             extrapolateLeft: "clamp",
@@ -196,10 +378,9 @@ export const CinematicLogo: React.FC<Props> = () => {
           })
         }
       />
-      <Sequence from={156}>
-        <Audio src={staticFile("whoosh.wav")} volume={0.44} playbackRate={0.78} />
-      </Sequence>
 
+      <RadiantBackground />
+      <EnergyRings />
       <GoldParticles />
 
       <LogoImage
@@ -215,6 +396,16 @@ export const CinematicLogo: React.FC<Props> = () => {
           extrapolateRight: "clamp",
           output: "perceptual-scale",
         })}
+        translateY={interpolate(frame, [18, 52], [18, 0], {
+          easing: Easing.bezier(0.16, 1, 0.3, 1),
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        })}
+        rotate={interpolate(frame, [18, 52], [-3.5, 0], {
+          easing: Easing.spring({damping: 16, stiffness: 100}),
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        })}
         clipPath={`inset(${interpolate(frame, [18, 52], [23, 14.5], {extrapolateLeft: "clamp", extrapolateRight: "clamp"})}% ${interpolate(frame, [18, 52], [47, 31], {extrapolateLeft: "clamp", extrapolateRight: "clamp"})}% ${interpolate(frame, [18, 52], [70, 56], {extrapolateLeft: "clamp", extrapolateRight: "clamp"})}% ${interpolate(frame, [18, 52], [47, 31], {extrapolateLeft: "clamp", extrapolateRight: "clamp"})}%)`}
         filter="drop-shadow(0 12px 24px rgba(0,83,70,0.12))"
       />
@@ -228,7 +419,18 @@ export const CinematicLogo: React.FC<Props> = () => {
           extrapolateLeft: "clamp",
           extrapolateRight: "clamp",
         })}
-        clipPath={`inset(0 ${interpolate(frame, [55, 112], [49, 8], {easing: Easing.bezier(0.65, 0, 0.35, 1), extrapolateLeft: "clamp", extrapolateRight: "clamp"})}% 39% ${interpolate(frame, [55, 112], [49, 8], {easing: Easing.bezier(0.65, 0, 0.35, 1), extrapolateLeft: "clamp", extrapolateRight: "clamp"})}%)`}
+        scale={interpolate(frame, [55, 112], [0.98, 1], {
+          easing: Easing.bezier(0.16, 1, 0.3, 1),
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+          output: "perceptual-scale",
+        })}
+        translateY={interpolate(frame, [55, 112], [-10, 0], {
+          easing: Easing.bezier(0.16, 1, 0.3, 1),
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        })}
+        clipPath="inset(0 8% 39% 8%)"
       />
 
       <LogoImage
@@ -238,7 +440,12 @@ export const CinematicLogo: React.FC<Props> = () => {
           extrapolateLeft: "clamp",
           extrapolateRight: "clamp",
         })}
-        clipPath={`inset(60% ${interpolate(frame, [100, 148], [50, 7], {easing: Easing.bezier(0.16, 1, 0.3, 1), extrapolateLeft: "clamp", extrapolateRight: "clamp"})}% 9% ${interpolate(frame, [100, 148], [50, 7], {easing: Easing.bezier(0.16, 1, 0.3, 1), extrapolateLeft: "clamp", extrapolateRight: "clamp"})}%)`}
+        translateY={interpolate(frame, [100, 143], [24, 0], {
+          easing: Easing.spring({damping: 18, stiffness: 95}),
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        })}
+        clipPath={`inset(60% ${interpolate(frame, [100, 148], [50, 7], {easing: Easing.bezier(0.16, 1, 0.3, 1), extrapolateLeft: "clamp", extrapolateRight: "clamp"})}% 11% ${interpolate(frame, [100, 148], [50, 7], {easing: Easing.bezier(0.16, 1, 0.3, 1), extrapolateLeft: "clamp", extrapolateRight: "clamp"})}%)`}
         filter="drop-shadow(0 13px 20px rgba(0,30,72,0.12))"
       />
 
@@ -255,6 +462,11 @@ export const CinematicLogo: React.FC<Props> = () => {
           extrapolateRight: "clamp",
           output: "perceptual-scale",
         })}
+        translateY={interpolate(frame, [132, 162], [22, 0], {
+          easing: Easing.spring({damping: 16, stiffness: 110}),
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        })}
         clipPath="inset(88% 10% 0 10%)"
       />
 
@@ -264,7 +476,20 @@ export const CinematicLogo: React.FC<Props> = () => {
           extrapolateLeft: "clamp",
           extrapolateRight: "clamp",
         })}
+        scale={interpolate(frame, [150, 168, 184], [0.985, 1.014, 1], {
+          easing: Easing.spring({damping: 17, stiffness: 105}),
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+          output: "perceptual-scale",
+        })}
+        translateY={interpolate(frame, [150, 170], [7, 0], {
+          easing: Easing.bezier(0.16, 1, 0.3, 1),
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        })}
       />
+
+      <FinalSparkles />
 
       <Interactive.Div
         name="Premium golden light sweep"

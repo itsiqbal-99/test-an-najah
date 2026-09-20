@@ -65,7 +65,7 @@
     <!-- Existing motion, splash, and dialog rules remain while page layout moves to Tailwind utilities. -->
     <link
       rel="stylesheet"
-      href="assets/an-najah-v2.css?v=remove-kegiatan-20260920"
+      href="assets/an-najah-v2.css?v=tab-affordance-20260920"
     />
     <!-- Compiled Tailwind v3 utilities used by this single-file page; no runtime CDN required. -->
     <style id="tailwind-utilities">
@@ -1959,6 +1959,10 @@
               </p>
             </div>
             <div class="facility-atlas reveal">
+              <div class="collection-tab-intro">
+                <span class="collection-tab-label">Jelajahi koleksi</span>
+                <span class="collection-tab-help">Pilih area untuk menampilkan foto</span>
+              </div>
               <div
                 class="facility-tabs"
                 role="tablist"
@@ -1974,7 +1978,8 @@
                   data-facility-group="dorm"
                 >
                   <span>01</span><strong>Asrama putri</strong
-                  ><small data-facility-count="dorm">3 foto</small>
+                  ><small data-facility-count="dorm">3 foto</small
+                  ><span class="collection-tab-action" aria-hidden="true"><span>↗</span></span>
                 </button>
                 <button
                   class="facility-tab"
@@ -1987,7 +1992,8 @@
                   data-facility-group="class"
                 >
                   <span>02</span><strong>Kelas &amp; laboratorium</strong
-                  ><small data-facility-count="class">6 foto</small>
+                  ><small data-facility-count="class">6 foto</small
+                  ><span class="collection-tab-action" aria-hidden="true"><span>↗</span></span>
                 </button>
                 <button
                   class="facility-tab"
@@ -2000,7 +2006,8 @@
                   data-facility-group="library"
                 >
                   <span>03</span><strong>Perpustakaan</strong
-                  ><small data-facility-count="library">2 foto</small>
+                  ><small data-facility-count="library">2 foto</small
+                  ><span class="collection-tab-action" aria-hidden="true"><span>↗</span></span>
                 </button>
                 <button
                   class="facility-tab"
@@ -2013,7 +2020,8 @@
                   data-facility-group="worship"
                 >
                   <span>04</span><strong>Ibadah &amp; olahraga</strong
-                  ><small data-facility-count="worship">6 foto</small>
+                  ><small data-facility-count="worship">6 foto</small
+                  ><span class="collection-tab-action" aria-hidden="true"><span>↗</span></span>
                 </button>
               </div>
               <div
@@ -2165,6 +2173,10 @@
               </p>
             </div>
             <div class="gallery-experience reveal">
+              <div class="collection-tab-intro">
+                <span class="collection-tab-label">Jelajahi koleksi</span>
+                <span class="collection-tab-help">Klik kegiatan untuk membuka koleksi</span>
+              </div>
               <div
                 class="gallery-categories"
                 role="tablist"
@@ -2181,7 +2193,8 @@
                 >
                   <span class="gallery-category-number">01</span
                   ><span class="gallery-category-name">Halaqah Al-Qur'an</span
-                  ><span class="gallery-category-count">02 foto</span>
+                  ><span class="gallery-category-count">02 foto</span
+                  ><span class="collection-tab-action" aria-hidden="true"><span>↗</span></span>
                 </button>
                 <button
                   class="gallery-category"
@@ -2196,7 +2209,8 @@
                   <span class="gallery-category-number">02</span
                   ><span class="gallery-category-name"
                     >Ukhuwah &amp; Kemandirian</span
-                  ><span class="gallery-category-count">02 foto</span>
+                  ><span class="gallery-category-count">02 foto</span
+                  ><span class="collection-tab-action" aria-hidden="true"><span>↗</span></span>
                 </button>
                 <button
                   class="gallery-category"
@@ -2211,7 +2225,8 @@
                   <span class="gallery-category-number">03</span
                   ><span class="gallery-category-name"
                     >Belajar di Setiap Ruang</span
-                  ><span class="gallery-category-count">02 foto</span>
+                  ><span class="gallery-category-count">02 foto</span
+                  ><span class="collection-tab-action" aria-hidden="true"><span>↗</span></span>
                 </button>
               </div>
               <div
@@ -2305,6 +2320,10 @@
               </p>
             </div>
             <div class="showcase-experience reveal">
+              <div class="collection-tab-intro">
+                <span class="collection-tab-label">Jelajahi koleksi</span>
+                <span class="collection-tab-help">Pilih koleksi untuk melihat dokumentasi</span>
+              </div>
               <div
                 class="showcase-tabs"
                 role="tablist"
@@ -2314,24 +2333,37 @@
                   class="showcase-tab"
                   type="button"
                   role="tab"
+                  id="showcase-tab-ekstrakurikuler"
+                  aria-controls="showcase-panel"
                   aria-selected="true"
                   data-showcase-group="ekstrakurikuler"
                 >
                   <span>01</span><strong>Ekstrakurikuler</strong
-                  ><small>Minat &amp; kebersamaan</small>
+                  ><small>Minat &amp; kebersamaan</small
+                  ><span class="collection-tab-action" aria-hidden="true"><span>↗</span></span>
                 </button>
                 <button
                   class="showcase-tab"
                   type="button"
                   role="tab"
+                  id="showcase-tab-karya"
+                  aria-controls="showcase-panel"
                   aria-selected="false"
+                  tabindex="-1"
                   data-showcase-group="karya"
                 >
                   <span>02</span><strong>Hasil karya santriwati</strong
-                  ><small>Menjahit &amp; merajut</small>
+                  ><small>Menjahit &amp; merajut</small
+                  ><span class="collection-tab-action" aria-hidden="true"><span>↗</span></span>
                 </button>
               </div>
-              <div class="showcase-panel" role="tabpanel">
+              <div
+                class="showcase-panel"
+                id="showcase-panel"
+                role="tabpanel"
+                aria-labelledby="showcase-tab-ekstrakurikuler"
+                tabindex="0"
+              >
                 <figure class="showcase-stage">
                   <img
                     id="showcaseStageImage"
@@ -3365,7 +3397,7 @@
         "caption": "Foto Ukhuwah & Kemandirian."
       },
       {
-        "src": "assets/uploads/55f8876ee5a51018.png",
+        "src": "assets/uploads/40d9d117010737a9.png",
         "alt": "Foto Ukhuwah & Kemandirian",
         "caption": "Foto Ukhuwah & Kemandirian."
       },
@@ -3388,6 +3420,16 @@
         "src": "assets/uploads/371450b2b5ef0183.png",
         "alt": "Foto Ukhuwah & Kemandirian",
         "caption": "Foto Ukhuwah & Kemandirian."
+      },
+      {
+        "src": "assets/uploads/6ef065ae5790f80d.png",
+        "alt": "Foto Ukhuwah & Kemandirian",
+        "caption": "Foto Ukhuwah & Kemandirian."
+      },
+      {
+        "src": "assets/uploads/f137231aab710151.png",
+        "alt": "Foto Ukhuwah & Kemandirian",
+        "caption": "Foto Ukhuwah & Kemandirian."
       }
     ]
   },
@@ -3408,7 +3450,7 @@
   }
 }
     </script>
-    <script src="assets/an-najah-v2.js?v=remove-kegiatan-20260920" defer></script>
+    <script src="assets/an-najah-v2.js?v=tab-affordance-20260920" defer></script>
     <script>
       // Keep the existing dialog behavior while using natural, undated copy in this HTML-only revision.
       document.addEventListener("DOMContentLoaded", () => {

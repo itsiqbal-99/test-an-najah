@@ -23,8 +23,16 @@ buffer.writeUInt16LE(bytesPerSample * 8, 34);
 buffer.write("data", 36);
 buffer.writeUInt32LE(dataSize, 40);
 
-let randomState = 0x6d2b79f5;
-let smoothNoise = 0;
+const dumHits = [0.18, 1.28, 2.38, 3.48, 4.58, 5.68, 6.22];
+const takHits = [0.72, 1.82, 2.92, 4.02, 5.12, 6.0];
+const clapHits = [1.82, 3.48, 5.12, 6.22];
+const rollHits = [5.76, 5.91, 6.06, 6.21, 6.36];
+const delayLeft = new Float32Array(Math.round(sampleRate * 0.105));
+const delayRight = new Float32Array(Math.round(sampleRate * 0.145));
+let leftIndex = 0;
+let rightIndex = 0;
+let randomState = 0x91b7d2e5;
+let softNoise = 0;
 
 const random = () => {
   randomState = (Math.imul(randomState, 1664525) + 1013904223) >>> 0;
@@ -36,53 +44,83 @@ const smoothStep = (edge0, edge1, x) => {
   return value * value * (3 - 2 * value);
 };
 
-const bell = (time, start, frequency, gain, decay) => {
-  if (time < start) return 0;
+const dafDum = (time, start, noise) => {
+  if (time < start || time > start + 0.62) return 0;
   const local = time - start;
-  return Math.sin(2 * Math.PI * frequency * local) * Math.exp(-local * decay) * gain;
+  const pitch = 104 - 42 * Math.min(1, local / 0.32);
+  const body = Math.sin(2 * Math.PI * pitch * local) * Math.exp(-local * 8.8);
+  const skin = noise * Math.exp(-local * 34) * 0.28;
+  return (body * 0.9 + skin) * 0.18;
+};
+
+const dafTak = (time, start, noise) => {
+  if (time < start || time > start + 0.23) return 0;
+  const local = time - start;
+  const attack = 1 - Math.exp(-local * 260);
+  const ring =
+    Math.sin(2 * Math.PI * 820 * local) * 0.28 +
+    Math.sin(2 * Math.PI * 1280 * local) * 0.15;
+  return (noise * 0.72 + ring) * attack * Math.exp(-local * 22) * 0.075;
+};
+
+const handClap = (time, start, noise) => {
+  if (time < start || time > start + 0.24) return 0;
+  const local = time - start;
+  const burst1 = Math.exp(-local * 35);
+  const burst2 = local > 0.026 ? Math.exp(-(local - 0.026) * 42) * 0.58 : 0;
+  const burst3 = local > 0.052 ? Math.exp(-(local - 0.052) * 48) * 0.34 : 0;
+  return noise * (burst1 + burst2 + burst3) * 0.047;
+};
+
+const dafRoll = (time, start, noise) => {
+  if (time < start || time > start + 0.14) return 0;
+  const local = time - start;
+  return (
+    (noise * 0.74 + Math.sin(2 * Math.PI * 690 * local) * 0.26) *
+    Math.exp(-local * 28) *
+    0.042
+  );
 };
 
 for (let i = 0; i < samples; i++) {
   const time = i / sampleRate;
-  const fadeIn = smoothStep(0, 0.75, time);
-  const fadeOut = 1 - smoothStep(6.25, 7, time);
-  const swell = Math.sin(Math.PI * Math.min(1, time / duration));
-  const fundamental = 48 + 24 * (time / duration);
+  const fadeIn = smoothStep(0, 0.13, time);
+  const fadeOut = 1 - smoothStep(6.46, 7, time);
+  const noise = random() * 2 - 1;
+  softNoise = softNoise * 0.975 + noise * 0.025;
 
-  const low =
-    Math.sin(2 * Math.PI * fundamental * time) * 0.085 +
-    Math.sin(2 * Math.PI * fundamental * 2.01 * time) * 0.028;
+  let rhythm = 0;
+  for (const hit of dumHits) rhythm += dafDum(time, hit, noise);
+  for (const hit of takHits) rhythm += dafTak(time, hit, noise);
+  for (const hit of clapHits) rhythm += handClap(time, hit, noise);
+  for (const hit of rollHits) rhythm += dafRoll(time, hit, noise);
 
-  const shimmer =
-    bell(time, 0.72, 523.25, 0.07, 1.9) +
-    bell(time, 1.05, 783.99, 0.045, 2.4) +
-    bell(time, 3.82, 659.25, 0.06, 2.1) +
-    bell(time, 4.22, 987.77, 0.042, 2.8) +
-    bell(time, 5.25, 1174.66, 0.055, 2.6);
+  const pulse = Math.floor(time / 0.275);
+  const pulseStart = pulse * 0.275;
+  const pulseLocal = time - pulseStart;
+  const shaker =
+    noise *
+    Math.exp(-pulseLocal * 52) *
+    (pulse % 2 === 0 ? 0.0075 : 0.0045) *
+    smoothStep(0.35, 1.1, time) *
+    (1 - smoothStep(6.2, 6.8, time));
 
-  const impactTime = Math.max(0, time - 4.95);
-  const impact =
-    time >= 4.95
-      ? Math.sin(2 * Math.PI * (82 - 22 * Math.min(1, impactTime)) * impactTime) *
-        Math.exp(-impactTime * 2.8) *
-        0.16
-      : 0;
+  const roomTone = softNoise * 0.0025 * smoothStep(0, 0.5, time) * fadeOut;
+  const dry = (rhythm + shaker + roomTone) * fadeIn * fadeOut;
+  const echoLeft = delayLeft[leftIndex];
+  const echoRight = delayRight[rightIndex];
+  delayLeft[leftIndex] = dry + echoRight * 0.08;
+  delayRight[rightIndex] = dry + echoLeft * 0.07;
+  leftIndex = (leftIndex + 1) % delayLeft.length;
+  rightIndex = (rightIndex + 1) % delayRight.length;
 
-  const noiseEnvelope =
-    smoothStep(0.2, 2.4, time) *
-    (1 - smoothStep(5.15, 6.2, time)) *
-    (0.035 + 0.05 * smoothStep(3.4, 5.05, time));
-  smoothNoise = smoothNoise * 0.94 + (random() * 2 - 1) * 0.06;
-  const air = smoothNoise * noiseEnvelope;
-
-  const mono = (low * (0.35 + swell * 0.65) + shimmer + impact + air) * fadeIn * fadeOut;
-  const left = Math.max(-1, Math.min(1, mono * 0.97));
-  const right = Math.max(-1, Math.min(1, mono * 1.03));
+  const left = Math.max(-1, Math.min(1, dry * 0.96 + echoLeft * 0.13 + echoRight * 0.04));
+  const right = Math.max(-1, Math.min(1, dry * 0.96 + echoRight * 0.13 + echoLeft * 0.04));
   const offset = 44 + i * 4;
   buffer.writeInt16LE(Math.round(left * 32767), offset);
   buffer.writeInt16LE(Math.round(right * 32767), offset + 2);
 }
 
-const output = path.resolve("public", "opening-sfx.wav");
+const output = path.resolve("public", "opening-sfx-nasheed-sunnah.wav");
 fs.writeFileSync(output, buffer);
 console.log(output);
