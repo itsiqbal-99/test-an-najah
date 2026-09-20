@@ -234,6 +234,184 @@ const EnergyRings: React.FC = () => {
   );
 };
 
+const RisingBokeh: React.FC = () => {
+  const frame = useCurrentFrame();
+
+  return (
+    <AbsoluteFill style={{pointerEvents: "none"}}>
+      {Array.from({length: 28}).map((_, index) => {
+        const laneX = 120 + ((index * 257) % 1680);
+        const speed = 0.7 + (index % 5) * 0.17;
+        const travel = (frame * speed + index * 83) % 1220;
+        const y = 1180 - travel;
+        const distanceFromCenter = Math.abs(laneX - 960) / 960;
+        const size = 5 + (index % 4) * 3;
+
+        return (
+          <div
+            key={`bokeh-${index}`}
+            style={{
+              position: "absolute",
+              left: laneX,
+              top: y,
+              width: size,
+              height: size,
+              translate: "-50% -50%",
+              borderRadius: "50%",
+              opacity:
+                interpolate(frame, [0, 28, 176, 209], [0, 0.42, 0.32, 0.05], {
+                  extrapolateLeft: "clamp",
+                  extrapolateRight: "clamp",
+                }) *
+                (1 - distanceFromCenter * 0.42) *
+                (0.55 + (index % 4) * 0.14),
+              background: index % 3 === 0 ? "#eab94e" : index % 3 === 1 ? "#63c9b8" : "#fff4b8",
+              boxShadow: `0 0 ${10 + (index % 4) * 5}px currentColor`,
+              filter: `blur(${index % 5 === 0 ? 1.5 : 0}px)`,
+            }}
+          />
+        );
+      })}
+    </AbsoluteFill>
+  );
+};
+
+const KineticBursts: React.FC = () => {
+  const frame = useCurrentFrame();
+
+  return (
+    <AbsoluteFill style={{pointerEvents: "none"}}>
+      {Array.from({length: 18}).map((_, index) => {
+        const angle = index * 20;
+        const firstRadius = interpolate(frame, [22, 56], [108, 238], {
+          easing: Easing.bezier(0.16, 1, 0.3, 1),
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        });
+        const finalRadius = interpolate(frame, [148, 181], [300, 520], {
+          easing: Easing.bezier(0.16, 1, 0.3, 1),
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        });
+        const firstOpacity = interpolate(frame, [18, 29, 48, 65], [0, 0.7, 0.24, 0], {
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        });
+        const finalOpacity = interpolate(frame, [145, 157, 176, 194], [0, 0.58, 0.2, 0], {
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        });
+
+        return (
+          <React.Fragment key={`burst-${index}`}>
+            <div
+              style={{
+                position: "absolute",
+                left: 960,
+                top: 350,
+                width: index % 3 === 0 ? 4 : 2,
+                height: 34 + (index % 4) * 7,
+                borderRadius: 999,
+                opacity: firstOpacity,
+                transform: `translate(-50%, -50%) rotate(${angle}deg) translateY(-${firstRadius}px)`,
+                background: index % 2 === 0 ? "#e5ac35" : "#19ad99",
+                boxShadow: "0 0 13px currentColor",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                left: 960,
+                top: 536,
+                width: index % 4 === 0 ? 4 : 2,
+                height: 25 + (index % 3) * 8,
+                borderRadius: 999,
+                opacity: finalOpacity,
+                transform: `translate(-50%, -50%) rotate(${angle + 10}deg) translateY(-${finalRadius}px)`,
+                background: index % 2 === 0 ? "#e8b649" : "#39bca9",
+                boxShadow: "0 0 12px currentColor",
+              }}
+            />
+          </React.Fragment>
+        );
+      })}
+    </AbsoluteFill>
+  );
+};
+
+const CalligraphyStreaks: React.FC = () => {
+  const frame = useCurrentFrame();
+  const opacity = interpolate(frame, [96, 108, 137, 151], [0, 0.66, 0.28, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  return (
+    <AbsoluteFill style={{pointerEvents: "none", opacity}}>
+      {Array.from({length: 6}).map((_, index) => {
+        const fromLeft = index % 2 === 0;
+        const progress = interpolate(frame, [98 + index * 2, 142 + index], [0, 1], {
+          easing: Easing.bezier(0.16, 1, 0.3, 1),
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        });
+        const x = fromLeft ? 220 + progress * 570 : 1700 - progress * 570;
+
+        return (
+          <div
+            key={`streak-${index}`}
+            style={{
+              position: "absolute",
+              left: x,
+              top: 688 + (index - 2.5) * 21,
+              width: 190 + (index % 3) * 55,
+              height: index % 3 === 0 ? 4 : 2,
+              translate: fromLeft ? "0 -50%" : "-100% -50%",
+              background: fromLeft
+                ? "linear-gradient(90deg, transparent, rgba(22,164,144,0.75), rgba(235,184,72,0.92))"
+                : "linear-gradient(90deg, rgba(235,184,72,0.92), rgba(22,164,144,0.75), transparent)",
+              filter: "blur(0.5px) drop-shadow(0 0 8px rgba(230,178,68,0.35))",
+              scale: `${0.55 + progress * 0.45} 1`,
+              transformOrigin: fromLeft ? "right center" : "left center",
+            }}
+          />
+        );
+      })}
+    </AbsoluteFill>
+  );
+};
+
+const PlaqueGlow: React.FC = () => {
+  const frame = useCurrentFrame();
+
+  return (
+    <Interactive.Div
+      name="School name rising glow"
+      style={{
+        position: "absolute",
+        left: "50%",
+        top: 945,
+        width: 760,
+        height: 110,
+        translate: "-50% -50%",
+        borderRadius: "50%",
+        opacity: interpolate(frame, [128, 145, 171, 205], [0, 0.38, 0.25, 0.08], {
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        }),
+        scale: interpolate(frame, [128, 165], [0.55, 1.08], {
+          easing: Easing.bezier(0.16, 1, 0.3, 1),
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+          output: "perceptual-scale",
+        }),
+        background: "radial-gradient(ellipse, rgba(233,185,74,0.62), rgba(31,178,157,0.24) 45%, transparent 74%)",
+        filter: "blur(16px)",
+      }}
+    />
+  );
+};
+
 const FinalSparkles: React.FC = () => {
   const frame = useCurrentFrame();
   const points = [
@@ -380,116 +558,140 @@ export const CinematicLogo: React.FC<Props> = () => {
       />
 
       <RadiantBackground />
-      <EnergyRings />
-      <GoldParticles />
+      <RisingBokeh />
 
-      <LogoImage
-        name="Exact central emblem"
-        opacity={interpolate(frame, [18, 48], [0, 1], {
-          easing: Easing.bezier(0.16, 1, 0.3, 1),
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-        })}
-        scale={interpolate(frame, [18, 52], [0.88, 1], {
-          easing: Easing.spring({damping: 18, stiffness: 92}),
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-          output: "perceptual-scale",
-        })}
-        translateY={interpolate(frame, [18, 52], [18, 0], {
-          easing: Easing.bezier(0.16, 1, 0.3, 1),
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-        })}
-        rotate={interpolate(frame, [18, 52], [-3.5, 0], {
-          easing: Easing.spring({damping: 16, stiffness: 100}),
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-        })}
-        clipPath={`inset(${interpolate(frame, [18, 52], [23, 14.5], {extrapolateLeft: "clamp", extrapolateRight: "clamp"})}% ${interpolate(frame, [18, 52], [47, 31], {extrapolateLeft: "clamp", extrapolateRight: "clamp"})}% ${interpolate(frame, [18, 52], [70, 56], {extrapolateLeft: "clamp", extrapolateRight: "clamp"})}% ${interpolate(frame, [18, 52], [47, 31], {extrapolateLeft: "clamp", extrapolateRight: "clamp"})}%)`}
-        filter="drop-shadow(0 12px 24px rgba(0,83,70,0.12))"
-      />
+      <Interactive.Div
+        name="Animated logo camera"
+        style={{
+          position: "absolute",
+          inset: 0,
+          transform: `translateY(${interpolate(frame, [0, 35, 102, 158, 209], [22, 0, -7, 2, 0], {
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          })}px) scale(${interpolate(frame, [0, 30, 82, 126, 163, 184, 209], [1.09, 1.025, 1, 1.028, 0.992, 1.012, 1], {
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+            output: "perceptual-scale",
+          })})`,
+          transformOrigin: "50% 48%",
+        }}
+      >
+        <EnergyRings />
+        <KineticBursts />
+        <GoldParticles />
 
-      <DomeTrace />
+        <LogoImage
+          name="Exact central emblem"
+          opacity={interpolate(frame, [18, 48], [0, 1], {
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          })}
+          scale={interpolate(frame, [18, 52], [0.88, 1], {
+            easing: Easing.spring({damping: 18, stiffness: 92}),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+            output: "perceptual-scale",
+          })}
+          translateY={interpolate(frame, [18, 52], [18, 0], {
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          })}
+          rotate={interpolate(frame, [18, 52], [-3.5, 0], {
+            easing: Easing.spring({damping: 16, stiffness: 100}),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          })}
+          clipPath={`inset(${interpolate(frame, [18, 52], [23, 14.5], {extrapolateLeft: "clamp", extrapolateRight: "clamp"})}% ${interpolate(frame, [18, 52], [47, 31], {extrapolateLeft: "clamp", extrapolateRight: "clamp"})}% ${interpolate(frame, [18, 52], [70, 56], {extrapolateLeft: "clamp", extrapolateRight: "clamp"})}% ${interpolate(frame, [18, 52], [47, 31], {extrapolateLeft: "clamp", extrapolateRight: "clamp"})}%)`}
+          filter="drop-shadow(0 12px 24px rgba(0,83,70,0.12))"
+        />
 
-      <LogoImage
-        name="Exact turquoise dome"
-        opacity={interpolate(frame, [56, 108], [0, 1], {
-          easing: Easing.bezier(0.16, 1, 0.3, 1),
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-        })}
-        scale={interpolate(frame, [55, 112], [0.98, 1], {
-          easing: Easing.bezier(0.16, 1, 0.3, 1),
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-          output: "perceptual-scale",
-        })}
-        translateY={interpolate(frame, [55, 112], [-10, 0], {
-          easing: Easing.bezier(0.16, 1, 0.3, 1),
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-        })}
-        clipPath="inset(0 8% 39% 8%)"
-      />
+        <DomeTrace />
 
-      <LogoImage
-        name="Exact Arabic calligraphy"
-        opacity={interpolate(frame, [102, 138], [0, 1], {
-          easing: Easing.bezier(0.16, 1, 0.3, 1),
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-        })}
-        translateY={interpolate(frame, [100, 143], [24, 0], {
-          easing: Easing.spring({damping: 18, stiffness: 95}),
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-        })}
-        clipPath={`inset(60% ${interpolate(frame, [100, 148], [50, 7], {easing: Easing.bezier(0.16, 1, 0.3, 1), extrapolateLeft: "clamp", extrapolateRight: "clamp"})}% 11% ${interpolate(frame, [100, 148], [50, 7], {easing: Easing.bezier(0.16, 1, 0.3, 1), extrapolateLeft: "clamp", extrapolateRight: "clamp"})}%)`}
-        filter="drop-shadow(0 13px 20px rgba(0,30,72,0.12))"
-      />
+        <LogoImage
+          name="Exact turquoise dome"
+          opacity={interpolate(frame, [56, 108], [0, 1], {
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          })}
+          scale={interpolate(frame, [55, 112], [0.98, 1], {
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+            output: "perceptual-scale",
+          })}
+          translateY={interpolate(frame, [55, 112], [-10, 0], {
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          })}
+          clipPath="inset(0 8% 39% 8%)"
+        />
 
-      <LogoImage
-        name="Exact school name plaque"
-        opacity={interpolate(frame, [132, 160], [0, 1], {
-          easing: Easing.bezier(0.16, 1, 0.3, 1),
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-        })}
-        scale={interpolate(frame, [132, 162], [0.96, 1], {
-          easing: Easing.spring({damping: 22, stiffness: 110}),
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-          output: "perceptual-scale",
-        })}
-        translateY={interpolate(frame, [132, 162], [22, 0], {
-          easing: Easing.spring({damping: 16, stiffness: 110}),
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-        })}
-        clipPath="inset(88% 10% 0 10%)"
-      />
+        <CalligraphyStreaks />
+        <LogoImage
+          name="Exact Arabic calligraphy"
+          opacity={interpolate(frame, [102, 138], [0, 1], {
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          })}
+          translateY={interpolate(frame, [100, 143], [24, 0], {
+            easing: Easing.spring({damping: 18, stiffness: 95}),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          })}
+          clipPath={`inset(60% ${interpolate(frame, [100, 148], [50, 7], {easing: Easing.bezier(0.16, 1, 0.3, 1), extrapolateLeft: "clamp", extrapolateRight: "clamp"})}% 11% ${interpolate(frame, [100, 148], [50, 7], {easing: Easing.bezier(0.16, 1, 0.3, 1), extrapolateLeft: "clamp", extrapolateRight: "clamp"})}%)`}
+          filter="drop-shadow(0 13px 20px rgba(0,30,72,0.12))"
+        />
 
-      <LogoImage
-        name="Exact complete original logo"
-        opacity={interpolate(frame, [150, 166], [0, 1], {
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-        })}
-        scale={interpolate(frame, [150, 168, 184], [0.985, 1.014, 1], {
-          easing: Easing.spring({damping: 17, stiffness: 105}),
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-          output: "perceptual-scale",
-        })}
-        translateY={interpolate(frame, [150, 170], [7, 0], {
-          easing: Easing.bezier(0.16, 1, 0.3, 1),
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-        })}
-      />
+        <PlaqueGlow />
+        <LogoImage
+          name="Exact school name plaque"
+          opacity={interpolate(frame, [132, 160], [0, 1], {
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          })}
+          scale={interpolate(frame, [132, 162], [0.96, 1], {
+            easing: Easing.spring({damping: 22, stiffness: 110}),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+            output: "perceptual-scale",
+          })}
+          translateY={interpolate(frame, [132, 162], [22, 0], {
+            easing: Easing.spring({damping: 16, stiffness: 110}),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          })}
+          clipPath="inset(88% 10% 0 10%)"
+        />
 
-      <FinalSparkles />
+        <LogoImage
+          name="Exact complete original logo"
+          opacity={interpolate(frame, [150, 166], [0, 1], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          })}
+          scale={interpolate(frame, [150, 168, 184], [0.985, 1.014, 1], {
+            easing: Easing.spring({damping: 17, stiffness: 105}),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+            output: "perceptual-scale",
+          })}
+          translateY={interpolate(frame, [150, 170], [7, 0], {
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          })}
+        />
+
+        <FinalSparkles />
+      </Interactive.Div>
 
       <Interactive.Div
         name="Premium golden light sweep"
